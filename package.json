@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:wp": "node scripts/build-wordpress.mjs"
   },
   "devDependencies": {
     "vite": "^7.3.6"

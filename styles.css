@@ -55,7 +55,14 @@ img { display: block; max-width: 100%; }
 a { color: inherit; }
 h1, h2, p, dl, dd, ul { margin: 0; }
 ul { padding: 0; list-style: none; }
-button { font: inherit; color: inherit; }
+/* Tema ve tarayıcı düğme stillerinden bağımsız başla */
+button {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
 
 :focus-visible {
   outline: 2px solid var(--ivory);
@@ -155,7 +162,7 @@ button { font: inherit; color: inherit; }
 .deck {
   --card-w: min(78vw, 400px);
   --card-h: min(70svh, 600px);
-  --body-h: 196px;
+  --body-h: 150px;
   display: flex;
   gap: 14px;
   flex: 1;
@@ -173,7 +180,7 @@ button { font: inherit; color: inherit; }
   .deck {
     --card-w: min(46vw, 420px);
     --card-h: min(70svh, 680px);
-    --body-h: 190px;
+    --body-h: 160px;
     gap: 20px;
   }
 }
@@ -285,14 +292,6 @@ button { font: inherit; color: inherit; }
   gap: 10px;
   white-space: nowrap;
 }
-.card__place::before {
-  content: '';
-  width: 14px;
-  height: 1px;
-  background: var(--accent);
-  transition: width var(--dur) var(--ease);
-}
-.card.is-active .card__place::before { width: 32px; }
 
 /* Tüm kart dokunulabilir; logo altta, açılınca yukarı kayar */
 .card__trigger {
@@ -325,19 +324,8 @@ button { font: inherit; color: inherit; }
 .card__logo--strada { width: clamp(96px, 42cqi, 170px); }
 .card__logo--machi { width: clamp(118px, 58cqi, 230px); }
 .card__logo--sureyya { width: clamp(136px, 76cqi, 290px); }
-.card__logo--family { width: clamp(40px, 15cqi, 56px); border-radius: 6px; filter: none; }
+.card__logo--family { width: clamp(64px, 26cqi, 96px); border-radius: 10px; filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.45)); }
 
-.card__family {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.card__family-name {
-  font-family: var(--display);
-  font-size: clamp(20px, 10cqi, 32px);
-  line-height: 1.05;
-  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.45);
-}
 
 .card__body {
   position: absolute;
@@ -348,7 +336,6 @@ button { font: inherit; color: inherit; }
   display: flex;
   flex-direction: column;
   padding-top: 16px;
-  border-top: 1px solid rgba(243, 238, 230, 0.22);
   opacity: 0;
   visibility: hidden;
   transform: translateY(12px);
@@ -375,6 +362,7 @@ button { font: inherit; color: inherit; }
 }
 
 .card__link {
+  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   gap: 14px;
@@ -384,17 +372,22 @@ button { font: inherit; color: inherit; }
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 6px;
+  transition: text-decoration-color 400ms ease;
 }
-.card__link::after {
-  content: '';
-  width: 36px;
-  height: 1px;
-  background: var(--accent);
-  transition: width 450ms var(--ease-out);
+.card__link:hover,
+.card__link:focus-visible {
+  text-decoration-color: var(--accent);
 }
-.card__link:hover::after,
-.card__link:focus-visible::after { width: 60px; }
+
+/* Uzun açıklamalı kart için daha geniş metin alanı */
+.card--long { --body-h: 200px; }
+@media (min-width: 700px) { .card--long { --body-h: 190px; } }
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .card--long { --body-h: clamp(176px, 22vh, 214px); }
+}
 
 /* Kart göstergeleri (şerit modunda) */
 .deck-nav {
@@ -442,7 +435,7 @@ button { font: inherit; color: inherit; }
 
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
   .deck {
-    --body-h: clamp(160px, 20vh, 200px);
+    --body-h: clamp(136px, 17vh, 170px);
     gap: 14px;
     overflow: visible;
     scroll-snap-type: none;

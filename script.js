@@ -7,6 +7,9 @@ const LEAVE_DELAY_MS = 160;    // alandan çıkınca eşit düzene dönüş
 const AUTOPLAY_MS = 4200;      // şerit modunda kartlar arası süre
 const RESUME_AFTER_MS = 7000;  // kullanıcı dokunduktan sonra otomatik kaydırmanın yeniden başlaması
 
+// Sayfa tek başına çalışırken <html>, WordPress içine gömülüyken sarmalayıcı öğe
+const ROOT = document.querySelector('[data-ccf-root]') || document.documentElement;
+
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const desktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
 
@@ -227,7 +230,7 @@ function resetTilt(card) {
 
 function initReveal() {
   if (reducedMotion.matches || !('IntersectionObserver' in window)) return;
-  document.documentElement.classList.add('reveal-ready');
+  ROOT.classList.add('reveal-ready');
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
@@ -276,9 +279,9 @@ function initSpotlights() {
   });
 
   const scene = document.querySelector('[data-phone]');
-  const tile = scene?.closest('.tile');
+  const tile = scene?.closest('[data-spot]');
   if (!scene || !tile || reducedMotion.matches) return;
-  const phone = scene.querySelector('.phone');
+  const phone = scene.firstElementChild;
   tile.addEventListener('pointermove', (e) => {
     const r = tile.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
