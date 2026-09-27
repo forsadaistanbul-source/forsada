@@ -78,11 +78,13 @@ postcss.parse(cssSource).walkAtRules(/keyframes$/, (at) => keyframeNames.add(at.
 const classRe = /\.(-?[_a-zA-Z][\w-]*)/g;
 const renameClasses = (sel) => sel.replace(classRe, (m, name) => (classNames.has(name) ? `.${P}${name}` : m));
 
+// Kurallar kimlik (#ccf-root) altında: temanın .row .col img gibi sınıf zincirlerinden her zaman güçlü
+const SCOPE = `#${P}root`;
 function scope(sel) {
   const s = sel.trim();
-  if (s === ':root' || s === 'html' || s === 'body') return `.${P}root`;
-  if (s.startsWith(`.${P}reveal-ready`)) return `.${P}root${s}`;
-  return `.${P}root ${s}`;
+  if (s === ':root' || s === 'html' || s === 'body') return SCOPE;
+  if (s.startsWith(`.${P}reveal-ready`)) return `${SCOPE}${s}`;
+  return `${SCOPE} ${s}`;
 }
 
 const scoped = postcss([
@@ -133,10 +135,23 @@ if (fontFiles.length < 6) throw new Error(`Beklenen font dosyaları bulunamadı 
 // Gömülü sürüme özel küçük eklemeler
 const embedCss = `
 /* WordPress içinde: temanın sütunundan bağımsız tam genişlik (JS, kaydırma çubuğu payını da düzeltir) */
-.${P}root { position: relative; display: block; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); }
-.${P}root img { height: auto; }
-.${P}root .${P}card__photo { height: 100%; max-width: none; }
-.${P}root a { box-shadow: none; }
+#${P}root { position: relative; display: block; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); margin-top: 0; margin-bottom: 0 !important; padding: 0 !important; }
+#${P}root img { height: auto; }
+#${P}root .${P}card__photo { height: 100%; max-width: none; }
+#${P}root a { box-shadow: none; }
+#${P}root a:hover, #${P}root a:focus { color: inherit; }
+
+/* Sayfanın altında tema boşluğu ve beyaz zemin kalmasın */
+body:has(#${P}root) { background-color: #0f0e0d !important; }
+.container-wrap:has(#${P}root),
+.main-content:has(#${P}root),
+.row:has(#${P}root),
+.wpb_row:has(#${P}root),
+.wpb_column:has(#${P}root),
+.vc_column-inner:has(#${P}root),
+.wpb_wrapper:has(#${P}root),
+.wpb_content_element:has(#${P}root) { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+.container-wrap:has(#${P}root) { background-color: #0f0e0d !important; }
 `;
 
 /* ------------------------------------------------------------------ */
@@ -155,7 +170,7 @@ js = `(function () {\n'use strict';\n${js.trim()}\n})();`;
 const fragment = [
   '<!-- CafeCadde Family ana giriş — WPBakery Raw HTML -->',
   `<style>\n${fontCss}${scoped}\n${embedCss}</style>`,
-  `<div class="${P}root" data-ccf-root>${body}</div>`,
+  `<div id="${P}root" class="${P}root" data-ccf-root>${body}</div>`,
   `<script>\n${js}\n</script>`,
 ].join('\n');
 

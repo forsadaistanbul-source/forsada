@@ -4,7 +4,7 @@ import '@fontsource-variable/manrope';
 
 const HOVER_INTENT_MS = 80;    // imleç bu kadar durmadan kart açılmaz
 const LEAVE_DELAY_MS = 160;    // alandan çıkınca eşit düzene dönüş
-const AUTOPLAY_MS = 4200;      // şerit modunda kartlar arası süre
+const AUTOPLAY_MS = 4500;      // carousel modunda kartlar arası süre
 const RESUME_AFTER_MS = 7000;  // kullanıcı dokunduktan sonra otomatik kaydırmanın yeniden başlaması
 
 // Sayfa tek başına çalışırken <html>, WordPress içine gömülüyken betikten hemen önceki sarmalayıcı.
@@ -85,43 +85,55 @@ function initDeck(deck) {
     leaveTimer = setTimeout(() => setActive(-1), LEAVE_DELAY_MS);
   });
 
-  /* ---------- Şerit (telefon, tablet): otomatik kayan kartlar ---------- */
+  /* ---------- Carousel (telefon, tablet): sonsuz dönen 3B kartlar ---------- */
+  // Her kartın ortadaki karta göre konumu: -1 sol, 0 orta, 1 sağ, ±2 gizli (arkada).
+  // Uçtan uca geçen kart önce gizli tarafa çekilir, sonra görünmeden diğer yana alınır;
+  // böylece kartlar bir halka gibi döner, ekranı boydan boya kat etmez.
 
+  const n = cards.length;
+  const pos = cards.map((_, i) => i);
+  let current = 0;
   let autoplayTimer = 0;
   let resumeTimer = 0;
-  let programmatic = false;
   let deckVisible = true;
 
-  function scrollToCard(i, smooth = true) {
-    const card = cards[i];
-    const left = card.offsetLeft - (deck.clientWidth - card.offsetWidth) / 2;
-    programmatic = true;
-    deck.scrollTo({ left, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'auto' });
-    setActive(i);
-    clearTimeout(scrollEndTimer);
-    scrollEndTimer = setTimeout(() => (programmatic = false), 900);
+  const canonical = (i, cur) => {
+    let d = (((i - cur) % n) + n) % n;
+    if (d > n / 2) d -= n;
+    return d; // n = 4 → -1, 0, 1, 2
+  };
+
+  function place(card, d, animate = true) {
+    if (!animate) card.style.transition = 'none';
+    card.style.setProperty('--d', d);
+    card.style.setProperty('--ad', Math.abs(d));
+    card.classList.toggle('is-hidden', Math.abs(d) >= 2);
+    if (!animate) {
+      void card.offsetWidth; // konumu uygula, sonra geçişi geri aç
+      card.style.transition = '';
+    }
   }
 
-  function nearestCard() {
-    const center = deck.scrollLeft + deck.clientWidth / 2;
-    let best = 0;
-    let bestDist = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
-      if (d < bestDist) { bestDist = d; best = i; }
+  function go(target) {
+    current = ((target % n) + n) % n;
+    cards.forEach((card, i) => {
+      const from = pos[i];
+      const to = canonical(i, current);
+      if (to === 2 && from < 0) {
+        // Sol taraftan çıkan kart: sola doğru kaybolur, sonra sağ arkaya alınır
+        place(card, -2);
+        setTimeout(() => { if (pos[i] === 2) place(card, 2, false); }, 750);
+      } else if (to < 0 && from === 2) {
+        // Sağ arkadaki kart sola gelecekse önce görünmeden sol arkaya taşınır
+        place(card, -2, false);
+        requestAnimationFrame(() => place(card, to));
+      } else {
+        place(card, to);
+      }
+      pos[i] = to;
     });
-    return best;
+    setActive(current);
   }
-
-  let scrollRaf = 0;
-  let scrollEndTimer = 0;
-  deck.addEventListener('scroll', () => {
-    if (desktop.matches) return;
-    cancelAnimationFrame(scrollRaf);
-    scrollRaf = requestAnimationFrame(() => {
-      if (!programmatic) setActive(nearestCard());
-    });
-  }, { passive: true });
 
   function canAutoplay() {
     return !desktop.matches && !reducedMotion.matches && deckVisible && !document.hidden;
@@ -131,10 +143,10 @@ function initDeck(deck) {
     clearTimeout(autoplayTimer);
     nav?.classList.remove('is-playing');
     if (!canAutoplay()) return;
-    // Animasyonu yeniden başlatmak için sınıfı bir kare sonra ekle
+    // Gösterge animasyonunu yeniden başlatmak için sınıfı bir kare sonra ekle
     requestAnimationFrame(() => nav?.classList.add('is-playing'));
     autoplayTimer = setTimeout(() => {
-      scrollToCard((active + 1) % cards.length);
+      go(current + 1);
       schedule();
     }, AUTOPLAY_MS);
   }
@@ -146,9 +158,30 @@ function initDeck(deck) {
     resumeTimer = setTimeout(schedule, RESUME_AFTER_MS);
   }
 
-  ['pointerdown', 'touchstart', 'wheel'].forEach((type) =>
-    deck.addEventListener(type, () => { if (!desktop.matches) pauseForUser(); }, { passive: true })
-  );
+  // Kaydırma hareketi: yatayda sürükleyince önceki/sonraki kart; dikey sayfa kaydırması serbest
+  let startX = 0;
+  let startY = 0;
+  let tracking = false;
+  deck.addEventListener('pointerdown', (e) => {
+    if (desktop.matches) return;
+    tracking = true;
+    startX = e.clientX;
+    startY = e.clientY;
+  }, { passive: true });
+  deck.addEventListener('pointerup', (e) => {
+    if (!tracking || desktop.matches) return;
+    tracking = false;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      swiped = true;
+      go(current + (dx < 0 ? 1 : -1));
+      pauseForUser();
+      setTimeout(() => (swiped = false), 50);
+    }
+  }, { passive: true });
+  deck.addEventListener('pointercancel', () => (tracking = false));
+  let swiped = false;
 
   new IntersectionObserver(([entry]) => {
     deckVisible = entry.isIntersecting;
@@ -159,7 +192,7 @@ function initDeck(deck) {
 
   dots.forEach((dot, i) =>
     dot.addEventListener('click', () => {
-      scrollToCard(i);
+      go(i);
       pauseForUser();
     })
   );
@@ -170,14 +203,15 @@ function initDeck(deck) {
     // İlk dokunuş yalnızca kartı açar; yönlendirme "Mekanı Keşfet" bağlantısındadır.
     trigger.addEventListener('click', () => {
       clearTimeout(enterTimer);
+      if (swiped) return;
       if (desktop.matches) setActive(i);
-      else if (active !== i) { scrollToCard(i); pauseForUser(); }
+      else if (active !== i) { go(i); pauseForUser(); }
     });
 
     trigger.addEventListener('focus', () => {
       if (!trigger.matches(':focus-visible')) return;
       if (desktop.matches) setActive(i);
-      else if (active !== i) scrollToCard(i);
+      else if (active !== i) go(i);
     });
 
     trigger.addEventListener('keydown', (e) => {
@@ -190,7 +224,7 @@ function initDeck(deck) {
       if (target > -1) {
         e.preventDefault();
         triggers[target].focus({ preventScroll: true });
-        desktop.matches ? setActive(target) : scrollToCard(target);
+        desktop.matches ? setActive(target) : go(target);
         if (!desktop.matches) pauseForUser();
       }
     });
@@ -206,11 +240,14 @@ function initDeck(deck) {
   function setupMode() {
     clearTimeout(autoplayTimer);
     active = -2; // zorla güncelle
+    deck.classList.toggle('is-carousel', !desktop.matches);
     if (desktop.matches) {
+      cards.forEach((c) => { c.style.removeProperty('--d'); c.style.removeProperty('--ad'); c.classList.remove('is-hidden'); });
       setActive(-1);
     } else {
+      cards.forEach((c, i) => { pos[i] = canonical(i, 0); place(c, pos[i], false); });
+      current = 0;
       setActive(0);
-      scrollToCard(0, false);
       schedule();
     }
   }
@@ -219,7 +256,7 @@ function initDeck(deck) {
 
   if (!reducedMotion.matches) {
     deck.classList.add('is-intro');
-    setTimeout(() => deck.classList.remove('is-intro'), 1400);
+    setTimeout(() => deck.classList.remove('is-intro'), desktop.matches ? 1400 : 2900);
   }
 }
 
@@ -313,10 +350,27 @@ function initEmblem(section) {
   let tmy = 0;
   let running = false;
 
+  // Tema bir üst öğeye overflow: hidden verdiyse position: sticky çalışmaz (ör. Salient'te <body>).
+  // O durumda sahneyi kaydırmayla birlikte kendimiz taşırız.
+  const stage = section.querySelector('.world__stage, .ccf-world__stage');
+  const chapters = section.querySelector('.world__chapters, .ccf-world__chapters');
+  let manual = false;
+  for (let el = section.parentElement; el && el !== document.documentElement; el = el.parentElement) {
+    if (/(hidden|auto|scroll)/.test(getComputedStyle(el).overflowY)) { manual = true; break; }
+  }
+  if (manual && stage && chapters) {
+    Object.assign(stage.style, { position: 'absolute', top: '0', left: '0', right: '0', willChange: 'transform' });
+    chapters.style.marginTop = '0';
+  }
+
   function read() {
     const r = section.getBoundingClientRect();
     const total = r.height - window.innerHeight;
     target = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+    if (manual) {
+      const y = Math.min(Math.max(-r.top, 0), Math.max(total, 0));
+      stage.style.transform = `translate3d(0, ${y}px, 0)`;
+    }
     if (!running) { running = true; requestAnimationFrame(tick); }
   }
 
@@ -369,6 +423,10 @@ function fitToViewport() {
 }
 
 if (EMBEDDED) fitToViewport();
+
+// Açılış logosu animasyonu bitince katmanı kaldır
+const intro = ROOT.querySelector('[data-intro]');
+if (intro) setTimeout(() => intro.remove(), 2300);
 
 const deck = ROOT.querySelector('[data-deck]');
 if (deck) initDeck(deck);

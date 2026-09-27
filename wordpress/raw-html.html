@@ -10,7 +10,7 @@
    CafeCadde Family — dört kapı, tek eksen
    ========================================================================== */
 
-.ccf-root {
+#ccf-root {
   --ivory: #f3eee6;
   --ivory-2: #d9d1c4;
   --muted: #a9a195;            /* koyu zeminde ikincil metin, AA */
@@ -30,24 +30,24 @@
 }
 
 @media (min-width: 700px) {
-  .ccf-root { --gutter: 32px; --radius: 22px; }
+  #ccf-root { --gutter: 32px; --radius: 22px; }
 }
 @media (min-width: 1200px) {
-  .ccf-root { --gutter: 48px; }
+  #ccf-root { --gutter: 48px; }
 }
 
-.ccf-root *,
-.ccf-root *::before,
-.ccf-root *::after {
+#ccf-root *,
+#ccf-root *::before,
+#ccf-root *::after {
   box-sizing: border-box;
 }
 
-.ccf-root {
+#ccf-root {
   -webkit-text-size-adjust: 100%;
   background: var(--night);
 }
 
-.ccf-root {
+#ccf-root {
   margin: 0;
   background: var(--night);
   color: var(--ivory);
@@ -59,12 +59,22 @@
   overflow-x: clip;
 }
 
-.ccf-root img { display: block; max-width: 100%; }
-.ccf-root a { color: inherit; }
-.ccf-root h1, .ccf-root h2, .ccf-root p, .ccf-root dl, .ccf-root dd, .ccf-root ul { margin: 0; }
-.ccf-root ul { padding: 0; list-style: none; }
+#ccf-root img { display: block; max-width: 100%; }
+#ccf-root h1, #ccf-root h2, #ccf-root h3 {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+#ccf-root em { font-family: inherit; }
+#ccf-root li { list-style: none; margin: 0; padding: 0; }
+#ccf-root li::before, #ccf-root li::marker { content: none; }
+#ccf-root dt, #ccf-root dd { margin: 0; padding: 0; color: inherit; }
+#ccf-root a { color: inherit; }
+#ccf-root h1, #ccf-root h2, #ccf-root p, #ccf-root dl, #ccf-root dd, #ccf-root ul { margin: 0; }
+#ccf-root ul { padding: 0; list-style: none; }
 /* Tema ve tarayıcı düğme stillerinden bağımsız başla */
-.ccf-root button {
+#ccf-root button {
   all: unset;
   box-sizing: border-box;
   cursor: pointer;
@@ -72,12 +82,12 @@
   color: inherit;
 }
 
-.ccf-root :focus-visible {
+#ccf-root :focus-visible {
   outline: 2px solid var(--ivory);
   outline-offset: 3px;
 }
 
-.ccf-root .ccf-visually-hidden {
+#ccf-root .ccf-visually-hidden {
   position: absolute !important;
   width: 1px;
   height: 1px;
@@ -87,7 +97,7 @@
   white-space: nowrap;
 }
 
-.ccf-root .skip-link {
+#ccf-root .skip-link {
   position: fixed;
   left: 12px;
   top: -80px;
@@ -97,16 +107,16 @@
   color: var(--night);
   text-decoration: none;
 }
-.ccf-root .skip-link:focus { top: 12px; }
+#ccf-root .skip-link:focus { top: 12px; }
 
-.ccf-root .ccf-wrap {
+#ccf-root .ccf-wrap {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--gutter);
 }
 
-.ccf-root .ccf-eyebrow {
+#ccf-root .ccf-eyebrow {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.24em;
@@ -118,7 +128,7 @@
    1. Dört kart
    ========================================================================== */
 
-.ccf-root .ccf-doors {
+#ccf-root .ccf-doors {
   position: relative;
   min-height: 100svh;
   display: flex;
@@ -128,7 +138,7 @@
   isolation: isolate;
 }
 
-.ccf-root .ccf-doors__glow {
+#ccf-root .ccf-doors__glow {
   position: absolute;
   inset: -20% -10% auto;
   height: 90%;
@@ -140,7 +150,7 @@
   pointer-events: none;
 }
 
-.ccf-root .ccf-doors__head {
+#ccf-root .ccf-doors__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -149,51 +159,51 @@
   margin-bottom: clamp(16px, 3vh, 32px);
 }
 
-.ccf-root .ccf-mark {
+#ccf-root .ccf-mark {
   display: inline-flex;
   align-items: center;
   gap: 12px;
 }
-.ccf-root .ccf-mark img {
+#ccf-root .ccf-mark img {
   width: 34px;
   height: 34px;
   border-radius: 6px;
 }
-.ccf-root .ccf-mark span {
+#ccf-root .ccf-mark span {
   font-family: var(--display);
   font-size: 19px;
   white-space: nowrap;
 }
 
-/* ---------- Kartlar: temel (otomatik kayan şerit — telefon, tablet) ---------- */
+/* ---------- Kartlar: temel (telefon, tablet — sonsuz dönen 3B carousel) ---------- */
 
-.ccf-root .ccf-deck {
-  --card-w: min(78vw, 400px);
-  --card-h: min(70svh, 600px);
+#ccf-root .ccf-deck {
+  --card-w: min(84vw, 420px);
+  --card-h: min(74svh, 640px);
   --body-h: 150px;
-  display: flex;
-  gap: 14px;
+  --step: calc(var(--card-w) * 0.62);
+  position: relative;
   flex: 1;
-  align-items: center;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding: 12px calc((100vw - var(--card-w)) / 2);
-  scroll-padding-inline: calc((100vw - var(--card-w)) / 2);
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--card-h) + 24px);
+  perspective: 1400px;
+  touch-action: pan-y;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.ccf-root .ccf-deck::-webkit-scrollbar { display: none; }
 
 @media (min-width: 700px) {
-  .ccf-root .ccf-deck {
-    --card-w: min(46vw, 420px);
-    --card-h: min(70svh, 680px);
+  #ccf-root .ccf-deck {
+    --card-w: min(52vw, 440px);
+    --card-h: min(72svh, 700px);
     --body-h: 160px;
-    gap: 20px;
+    --step: calc(var(--card-w) * 0.7);
   }
 }
 
-.ccf-root .ccf-card {
+#ccf-root .ccf-card {
   --zoom: 1;
   --rx: 0deg;
   --ry: 0deg;
@@ -202,26 +212,37 @@
   --px: 0px;
   --py: 0px;
   --pad: 22px;
+  --d: 0;
+  --ad: 0;
   position: relative;
-  flex: 0 0 var(--card-w);
+  grid-area: 1 / 1;
+  width: var(--card-w);
   height: var(--card-h);
   min-height: 420px;
-  scroll-snap-align: center;
   container-type: inline-size;
-  transform: scale(0.9);
-  opacity: 0.5;
+  z-index: calc(10 - var(--ad) * 3);
+  transform:
+    translateX(calc(var(--d) * var(--step)))
+    translateZ(calc(var(--ad) * -140px))
+    rotateY(calc(var(--d) * -28deg));
+  opacity: calc(1 - var(--ad) * 0.45);
   transition:
-    transform 600ms var(--ease-out),
-    opacity 600ms var(--ease-out);
+    transform 760ms var(--ease),
+    opacity 760ms var(--ease);
+}
+#ccf-root .ccf-card.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+#ccf-root .ccf-card:not(.ccf-is-active) .ccf-card__tilt {
+  filter: brightness(0.6);
 }
 
-.ccf-root .ccf-card.ccf-is-active {
+#ccf-root .ccf-card.ccf-is-active {
   --zoom: 1.04;
-  transform: none;
-  opacity: 1;
 }
 
-.ccf-root .ccf-card__tilt {
+#ccf-root .ccf-card__tilt {
   position: absolute;
   inset: 0;
   border-radius: var(--radius);
@@ -229,20 +250,20 @@
   isolation: isolate;
   background: var(--night-2);
   transform: perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 700ms var(--ease-out), box-shadow 700ms var(--ease-out);
+  transition: transform 700ms var(--ease-out), box-shadow 700ms var(--ease-out), filter 760ms var(--ease);
   box-shadow:
     0 0 0 1px rgba(243, 238, 230, 0.08) inset,
     0 30px 60px -30px rgba(0, 0, 0, 0.8);
 }
 
-.ccf-root .ccf-card.ccf-is-active .ccf-card__tilt {
+#ccf-root .ccf-card.ccf-is-active .ccf-card__tilt {
   box-shadow:
     0 0 0 1px rgba(243, 238, 230, 0.14) inset,
     0 40px 90px -30px rgba(0, 0, 0, 0.9),
     0 0 60px -20px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
-.ccf-root .ccf-card__photo {
+#ccf-root .ccf-card__photo {
   position: absolute;
   top: 0;
   left: 50%;
@@ -256,17 +277,17 @@
 }
 
 @media (max-width: 1023px) {
-  .ccf-root .ccf-card__photo { width: 100%; }
+  #ccf-root .ccf-card__photo { width: 100%; }
 }
 
-.ccf-root .ccf-card__shade {
+#ccf-root .ccf-card__shade {
   position: absolute;
   inset: 0;
   z-index: -2;
   background: linear-gradient(to bottom, rgba(12, 11, 10, 0.55) 0%, rgba(12, 11, 10, 0) 26%, rgba(12, 11, 10, 0.08) 45%, rgba(12, 11, 10, 0.88) 100%);
 }
 
-.ccf-root .ccf-card__glare {
+#ccf-root .ccf-card__glare {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -276,9 +297,9 @@
   transition: opacity 500ms ease;
   pointer-events: none;
 }
-.ccf-root .ccf-card.ccf-is-active .ccf-card__glare { opacity: 1; }
+#ccf-root .ccf-card.ccf-is-active .ccf-card__glare { opacity: 1; }
 
-.ccf-root .ccf-card__top {
+#ccf-root .ccf-card__top {
   position: absolute;
   top: var(--pad);
   left: var(--pad);
@@ -294,7 +315,7 @@
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
-.ccf-root .ccf-card__place {
+#ccf-root .ccf-card__place {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -302,7 +323,7 @@
 }
 
 /* Tüm kart dokunulabilir; logo altta, açılınca yukarı kayar */
-.ccf-root .ccf-card__trigger {
+#ccf-root .ccf-card__trigger {
   position: absolute;
   inset: 0;
   display: flex;
@@ -314,28 +335,30 @@
   text-align: left;
   -webkit-tap-highlight-color: transparent;
 }
-.ccf-root .ccf-card__trigger:focus-visible {
+#ccf-root .ccf-card__trigger:focus-visible {
   outline-offset: -6px;
   border-radius: var(--radius);
 }
-.ccf-root .ccf-card__trigger > * {
+#ccf-root .ccf-card__trigger > * {
   transition: transform var(--dur) var(--ease);
 }
-.ccf-root .ccf-card.ccf-is-active .ccf-card__trigger > * {
+#ccf-root .ccf-card.ccf-is-active .ccf-card__trigger > * {
   transform: translateY(calc(-1 * var(--body-h) - 14px));
 }
 
-.ccf-root .ccf-card__logo {
+#ccf-root .ccf-card__logo {
   height: auto;
   filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.45));
 }
-.ccf-root .ccf-card__logo--strada { width: clamp(96px, 42cqi, 170px); }
-.ccf-root .ccf-card__logo--machi { width: clamp(118px, 58cqi, 230px); }
-.ccf-root .ccf-card__logo--sureyya { width: clamp(136px, 76cqi, 290px); }
-.ccf-root .ccf-card__logo--family { width: clamp(64px, 26cqi, 96px); border-radius: 10px; filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.45)); }
+/* Logolar genişliğe değil yüksekliğe göre: dört marka gözle eşit ağırlıkta */
+#ccf-root .ccf-card__logo { width: auto; max-width: 100%; }
+#ccf-root .ccf-card__logo--strada { height: clamp(24px, 9.5cqi, 34px); }
+#ccf-root .ccf-card__logo--machi { height: clamp(22px, 8.5cqi, 30px); }
+#ccf-root .ccf-card__logo--sureyya { height: clamp(26px, 10.5cqi, 38px); }
+#ccf-root .ccf-card__logo--family { height: clamp(46px, 17cqi, 62px); border-radius: 10px; filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.45)); }
 
 
-.ccf-root .ccf-card__body {
+#ccf-root .ccf-card__body {
   position: absolute;
   left: var(--pad);
   right: var(--pad);
@@ -352,7 +375,7 @@
     transform 200ms ease,
     visibility 0s linear 200ms;
 }
-.ccf-root .ccf-card.ccf-is-active .ccf-card__body {
+#ccf-root .ccf-card.ccf-is-active .ccf-card__body {
   opacity: 1;
   visibility: visible;
   transform: none;
@@ -362,14 +385,14 @@
     visibility 0s;
 }
 
-.ccf-root .ccf-card__desc {
+#ccf-root .ccf-card__desc {
   font-family: var(--display);
   font-size: 15px;
   line-height: 1.5;
   text-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
 }
 
-.ccf-root .ccf-card__link {
+#ccf-root .ccf-card__link {
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
@@ -385,26 +408,26 @@
   text-underline-offset: 6px;
   transition: text-decoration-color 400ms ease;
 }
-.ccf-root .ccf-card__link:hover,
-.ccf-root .ccf-card__link:focus-visible {
+#ccf-root .ccf-card__link:hover,
+#ccf-root .ccf-card__link:focus-visible {
   text-decoration-color: var(--accent);
 }
 
 /* Uzun açıklamalı kart için daha geniş metin alanı */
-.ccf-root .ccf-card--long { --body-h: 200px; }
-@media (min-width: 700px) { .ccf-root .ccf-card--long { --body-h: 190px; } }
+#ccf-root .ccf-card--long { --body-h: 200px; }
+@media (min-width: 700px) { #ccf-root .ccf-card--long { --body-h: 190px; } }
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
-  .ccf-root .ccf-card--long { --body-h: clamp(176px, 22vh, 214px); }
+  #ccf-root .ccf-card--long { --body-h: clamp(176px, 22vh, 214px); }
 }
 
 /* Kart göstergeleri (şerit modunda) */
-.ccf-root .ccf-deck-nav {
+#ccf-root .ccf-deck-nav {
   display: flex;
   justify-content: center;
   gap: 4px;
   padding: 8px 0 0;
 }
-.ccf-root .ccf-deck-nav button {
+#ccf-root .ccf-deck-nav button {
   display: grid;
   place-items: center;
   width: 44px;
@@ -414,7 +437,7 @@
   border: 0;
   cursor: pointer;
 }
-.ccf-root .ccf-deck-nav span {
+#ccf-root .ccf-deck-nav span {
   position: relative;
   width: 28px;
   height: 2px;
@@ -422,7 +445,7 @@
   overflow: hidden;
   border-radius: 2px;
 }
-.ccf-root .ccf-deck-nav span::after {
+#ccf-root .ccf-deck-nav span::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -430,8 +453,8 @@
   transform: scaleX(0);
   transform-origin: left;
 }
-.ccf-root .ccf-deck-nav .ccf-is-current span::after { transform: scaleX(1); }
-.ccf-root .ccf-deck-nav.ccf-is-playing .ccf-is-current span::after {
+#ccf-root .ccf-deck-nav .ccf-is-current span::after { transform: scaleX(1); }
+#ccf-root .ccf-deck-nav.ccf-is-playing .ccf-is-current span::after {
   animation: ccf-dot-fill var(--interval, 4200ms) linear forwards;
 }
 @keyframes ccf-dot-fill {
@@ -442,56 +465,65 @@
 /* ---------- Kartlar: masaüstü — yan yana, üzerine gelince açılan ---------- */
 
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
-  .ccf-root .ccf-deck {
+  #ccf-root .ccf-deck {
     --body-h: clamp(136px, 17vh, 170px);
+    display: flex;
     gap: 14px;
     overflow: visible;
-    scroll-snap-type: none;
+    perspective: none;
+    touch-action: auto;
+    -webkit-user-select: auto;
+    user-select: auto;
     padding: 0 var(--gutter);
     align-items: stretch;
     height: clamp(520px, calc(100svh - 120px), 900px);
+    min-height: 0;
     flex: none;
   }
 
-  .ccf-root .ccf-card {
+  #ccf-root .ccf-card {
     flex: 1 1 0;
+    grid-area: auto;
+    width: auto;
     height: auto;
     min-width: 0;
+    z-index: auto;
     transform: none;
     opacity: 1;
     transition: flex-grow var(--dur) var(--ease);
   }
-  .ccf-root .ccf-deck.ccf-has-active .ccf-card { flex-grow: 1; }
-  .ccf-root .ccf-deck.ccf-has-active .ccf-card.ccf-is-active { flex-grow: 2.3; }
+  #ccf-root .ccf-card:not(.ccf-is-active) .ccf-card__tilt { filter: none; }
+  #ccf-root .ccf-deck.ccf-has-active .ccf-card { flex-grow: 1; }
+  #ccf-root .ccf-deck.ccf-has-active .ccf-card.ccf-is-active { flex-grow: 2.3; }
 
-  .ccf-root .ccf-card:not(.ccf-is-active) .ccf-card__tilt { --rx: 0deg; --ry: 0deg; }
-  .ccf-root .ccf-deck.ccf-has-active .ccf-card:not(.ccf-is-active) .ccf-card__shade {
+  #ccf-root .ccf-card:not(.ccf-is-active) .ccf-card__tilt { --rx: 0deg; --ry: 0deg; }
+  #ccf-root .ccf-deck.ccf-has-active .ccf-card:not(.ccf-is-active) .ccf-card__shade {
     background:
       linear-gradient(rgba(12, 11, 10, 0.35), rgba(12, 11, 10, 0.35)),
       linear-gradient(to bottom, rgba(12, 11, 10, 0.55) 0%, rgba(12, 11, 10, 0) 26%, rgba(12, 11, 10, 0.08) 45%, rgba(12, 11, 10, 0.88) 100%);
   }
 
-  .ccf-root .card__pad,
-  .ccf-root .ccf-card { --pad: clamp(18px, 3vw, 36px); }
+  #ccf-root .card__pad,
+  #ccf-root .ccf-card { --pad: clamp(18px, 3vw, 36px); }
 
-  .ccf-root .ccf-card__desc { font-size: clamp(16px, 1.2vw, 20px); }
+  #ccf-root .ccf-card__desc { font-size: clamp(16px, 1.2vw, 20px); }
 
-  .ccf-root .ccf-card__body {
+  #ccf-root .ccf-card__body {
     right: auto;
     width: min(400px, 30vw);
   }
 
-  .ccf-root .ccf-deck-nav { display: none; }
+  #ccf-root .ccf-deck-nav { display: none; }
 }
 
 /* Açılış: kartlar sırayla yükselir */
 @media (prefers-reduced-motion: no-preference) {
-  .ccf-root .ccf-deck.ccf-is-intro .ccf-card__tilt {
-    animation: ccf-rise 1000ms var(--ease-out) both;
+  #ccf-root .ccf-deck.ccf-is-intro .ccf-card__tilt {
+    animation: ccf-rise 1000ms var(--ease-out) var(--intro-delay, 0ms) both;
   }
-  .ccf-root .ccf-deck.ccf-is-intro .ccf-card:nth-child(2) .ccf-card__tilt { animation-delay: 80ms; }
-  .ccf-root .ccf-deck.ccf-is-intro .ccf-card:nth-child(3) .ccf-card__tilt { animation-delay: 160ms; }
-  .ccf-root .ccf-deck.ccf-is-intro .ccf-card:nth-child(4) .ccf-card__tilt { animation-delay: 240ms; }
+  #ccf-root .ccf-deck.ccf-is-intro .ccf-card:nth-child(2) .ccf-card__tilt { animation-delay: calc(var(--intro-delay, 0ms) + 80ms); }
+  #ccf-root .ccf-deck.ccf-is-intro .ccf-card:nth-child(3) .ccf-card__tilt { animation-delay: calc(var(--intro-delay, 0ms) + 160ms); }
+  #ccf-root .ccf-deck.ccf-is-intro .ccf-card:nth-child(4) .ccf-card__tilt { animation-delay: calc(var(--intro-delay, 0ms) + 240ms); }
 }
 @keyframes ccf-rise {
   from { opacity: 0; transform: translateY(40px) scale(0.97); }
@@ -502,18 +534,18 @@
    3. 3B sahne + hikâye
    ========================================================================== */
 
-.ccf-root .ccf-world {
+#ccf-root .ccf-world {
   position: relative;
 }
 
-.ccf-root .ccf-world__stage {
+#ccf-root .ccf-world__stage {
   position: sticky;
   top: 0;
   height: 100svh;
   overflow: hidden;
 }
 
-.ccf-root .ccf-emblem {
+#ccf-root .ccf-emblem {
   --p: 0;
   --mx: 0;
   --my: 0;
@@ -530,7 +562,7 @@
   will-change: transform;
 }
 
-.ccf-root .ccf-emblem__mark {
+#ccf-root .ccf-emblem__mark {
   position: relative;
   width: 100%;
   height: auto;
@@ -539,21 +571,21 @@
 }
 
 /* Logonun kare formuna ince bir çerçeve; yavaşça döner */
-.ccf-root .ccf-emblem__frame {
+#ccf-root .ccf-emblem__frame {
   position: absolute;
   inset: -16%;
   border: 1px solid rgba(243, 238, 230, 0.12);
   transform: rotate(calc(var(--p) * 45deg));
   transition: border-color 600ms ease;
 }
-.ccf-root .ccf-emblem__frame::before {
+#ccf-root .ccf-emblem__frame::before {
   content: '';
   position: absolute;
   inset: 10px;
   border: 1px solid rgba(180, 173, 122, 0.16);
 }
 
-.ccf-root .ccf-emblem__halo {
+#ccf-root .ccf-emblem__halo {
   position: absolute;
   inset: -60%;
   background: radial-gradient(closest-side, rgba(205, 166, 109, 0.16), rgba(205, 166, 109, 0.05) 55%, transparent 75%);
@@ -571,7 +603,7 @@
 }
 
 @media (max-width: 699px) {
-  .ccf-root .ccf-emblem {
+  #ccf-root .ccf-emblem {
     width: min(52vw, 240px);
     transform:
       translate(-50%, -50%)
@@ -580,12 +612,12 @@
   }
 }
 
-.ccf-root .ccf-world__chapters {
+#ccf-root .ccf-world__chapters {
   position: relative;
   margin-top: -100svh;
 }
 
-.ccf-root .ccf-chapter {
+#ccf-root .ccf-chapter {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -596,24 +628,24 @@
   padding: 80px var(--gutter);
 }
 
-.ccf-root .ccf-chapter > * {
+#ccf-root .ccf-chapter > * {
   max-width: 540px;
 }
-.ccf-root .chapter--right {
+#ccf-root .chapter--right {
   align-items: flex-end;
   text-align: right;
 }
-.ccf-root .ccf-chapter--center {
+#ccf-root .ccf-chapter--center {
   align-items: center;
   text-align: center;
 }
-.ccf-root .ccf-chapter--center > * { max-width: none; }
-.ccf-root .ccf-chapter--center {
+#ccf-root .ccf-chapter--center > * { max-width: none; }
+#ccf-root .ccf-chapter--center {
   justify-content: flex-end;
   padding-bottom: 14svh;
 }
 
-.ccf-root .ccf-chapter__big {
+#ccf-root .ccf-chapter__big {
   font-family: var(--display);
   font-weight: 400;
   font-size: clamp(88px, 16vw, 240px);
@@ -626,14 +658,14 @@
   color: transparent;
 }
 
-.ccf-root .ccf-chapter__text {
+#ccf-root .ccf-chapter__text {
   font-family: var(--display);
   font-size: clamp(20px, 2vw, 28px);
   line-height: 1.45;
   color: var(--ivory-2);
 }
 
-.ccf-root .ccf-chapter__statement {
+#ccf-root .ccf-chapter__statement {
   max-width: 18ch;
   text-shadow: 0 4px 40px rgba(15, 14, 13, 0.8);
   font-family: var(--display);
@@ -641,7 +673,7 @@
   line-height: 1.08;
   letter-spacing: -0.025em;
 }
-.ccf-root .ccf-chapter__statement em {
+#ccf-root .ccf-chapter__statement em {
   font-style: italic;
   background: linear-gradient(90deg, #d55e00, #cda66d 40%, #e5e5cc 70%, #b4ad7a);
   -webkit-background-clip: text;
@@ -650,14 +682,14 @@
 }
 
 @media (max-width: 699px) {
-  .ccf-root .ccf-chapter {
+  #ccf-root .ccf-chapter {
     justify-content: flex-start;
     padding-top: 14svh;
   }
-  .ccf-root .ccf-chapter__text {
+  #ccf-root .ccf-chapter__text {
     text-shadow: 0 2px 18px rgba(15, 14, 13, 0.9);
   }
-  .ccf-root .ccf-chapter--center {
+  #ccf-root .ccf-chapter--center {
     justify-content: flex-end;
     padding-top: 80px;
   }
@@ -667,12 +699,12 @@
    4. Rezervasyon · Uygulama · İletişim
    ========================================================================== */
 
-.ccf-root .ccf-suite {
+#ccf-root .ccf-suite {
   position: relative;
   padding: clamp(80px, 12vw, 160px) 0 clamp(56px, 8vw, 110px);
   isolation: isolate;
 }
-.ccf-root .ccf-suite::before {
+#ccf-root .ccf-suite::before {
   content: '';
   position: absolute;
   inset: 0 0 auto;
@@ -682,34 +714,35 @@
   pointer-events: none;
 }
 
-.ccf-root .ccf-suite__head {
+#ccf-root .ccf-suite__head {
   display: grid;
   gap: 16px;
   margin-bottom: clamp(32px, 5vw, 56px);
 }
 
-.ccf-root .ccf-suite__title {
+#ccf-root .ccf-suite__title {
   font-family: var(--display);
   font-weight: 400;
   font-size: clamp(44px, 7vw, 104px);
   line-height: 1;
   letter-spacing: -0.02em;
 }
-.ccf-root .ccf-suite__title em { font-style: italic; color: var(--ivory-2); }
+#ccf-root .ccf-suite__title { color: var(--ivory); }
+#ccf-root .ccf-suite__title em { font-style: italic; color: var(--ivory); }
 
-.ccf-root .ccf-bento {
+#ccf-root .ccf-bento {
   display: grid;
   gap: 14px;
 }
-.ccf-root .ccf-bento + .ccf-bento { margin-top: 14px; }
+#ccf-root .ccf-bento + .ccf-bento { margin-top: 14px; }
 
 @media (min-width: 800px) {
-  .ccf-root .ccf-bento--reserve { grid-template-columns: repeat(3, 1fr); }
-  .ccf-root .ccf-bento--split { grid-template-columns: 1.35fr 1fr; }
+  #ccf-root .ccf-bento--reserve { grid-template-columns: repeat(3, 1fr); }
+  #ccf-root .ccf-bento--split { grid-template-columns: 1.35fr 1fr; }
 }
 
 /* Karo: ince kenar, ışığı imleci izleyen yüzey */
-.ccf-root .ccf-tile {
+#ccf-root .ccf-tile {
   --mx: 50%;
   --my: 0%;
   --accent: #cda66d;
@@ -725,7 +758,7 @@
   isolation: isolate;
   transition: transform 600ms var(--ease-out), box-shadow 600ms var(--ease-out);
 }
-.ccf-root .ccf-tile::before {
+#ccf-root .ccf-tile::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -734,7 +767,7 @@
   opacity: 0;
   transition: opacity 500ms ease;
 }
-.ccf-root .ccf-tile::after {
+#ccf-root .ccf-tile::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -748,14 +781,14 @@
   transition: opacity 500ms ease;
   pointer-events: none;
 }
-.ccf-root .ccf-tile:hover::before,
-.ccf-root .ccf-tile:hover::after,
-.ccf-root .ccf-tile:focus-visible::before,
-.ccf-root .ccf-tile:focus-visible::after { opacity: 1; }
+#ccf-root .ccf-tile:hover::before,
+#ccf-root .ccf-tile:hover::after,
+#ccf-root .ccf-tile:focus-visible::before,
+#ccf-root .ccf-tile:focus-visible::after { opacity: 1; }
 
-.ccf-root a.ccf-tile:hover { transform: translateY(-4px); }
+#ccf-root a.ccf-tile:hover { transform: translateY(-4px); }
 
-.ccf-root .ccf-tile--reserve {
+#ccf-root .ccf-tile--reserve {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: 1fr auto;
@@ -763,14 +796,14 @@
   min-height: 210px;
   padding: 28px;
 }
-.ccf-root .ccf-tile__logo {
+#ccf-root .ccf-tile__logo {
   align-self: center;
   height: auto;
 }
-.ccf-root .ccf-tile__logo--strada { width: 118px; }
-.ccf-root .ccf-tile__logo--machi { width: 170px; }
-.ccf-root .ccf-tile__logo--sureyya { width: 230px; max-width: 100%; }
-.ccf-root .ccf-tile__how {
+#ccf-root .ccf-tile__logo--strada { width: 118px; }
+#ccf-root .ccf-tile__logo--machi { width: 170px; }
+#ccf-root .ccf-tile__logo--sureyya { width: 230px; max-width: 100%; }
+#ccf-root .ccf-tile__how {
   grid-column: 1;
   font-size: 12px;
   font-weight: 600;
@@ -778,7 +811,7 @@
   text-transform: uppercase;
   color: var(--muted);
 }
-.ccf-root .ccf-tile__arrow {
+#ccf-root .ccf-tile__arrow {
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: start;
@@ -791,52 +824,53 @@
   font-size: 16px;
   transition: transform 500ms var(--ease-out), background-color 400ms ease, color 400ms ease;
 }
-.ccf-root .ccf-tile--reserve:hover .ccf-tile__arrow {
+#ccf-root .ccf-tile--reserve:hover .ccf-tile__arrow {
   transform: rotate(45deg);
   background: var(--ivory);
   color: var(--night);
 }
 
 /* Uygulama */
-.ccf-root .ccf-tile--app {
+#ccf-root .ccf-tile--app {
   display: grid;
   gap: 24px;
   padding: clamp(28px, 4vw, 48px);
   min-height: 380px;
 }
 @media (min-width: 560px) {
-  .ccf-root .ccf-tile--app {
+  #ccf-root .ccf-tile--app {
     grid-template-columns: 1.2fr 1fr;
     align-items: center;
   }
 }
 
-.ccf-root .ccf-app__copy {
+#ccf-root .ccf-app__copy {
   display: grid;
   gap: 16px;
   justify-items: start;
 }
 
-.ccf-root .ccf-tile__title {
+#ccf-root .ccf-tile__title {
   font-family: var(--display);
   font-weight: 400;
   font-size: clamp(32px, 3.6vw, 52px);
   line-height: 1.05;
   letter-spacing: -0.015em;
 }
-.ccf-root .ccf-tile__title em { font-style: italic; color: var(--ivory-2); }
-.ccf-root .ccf-tile__text {
+#ccf-root .ccf-tile__title { color: var(--ivory); }
+#ccf-root .ccf-tile__title em { font-style: italic; color: var(--ivory); }
+#ccf-root .ccf-tile__text {
   color: var(--muted);
   font-size: 16px;
 }
 
-.ccf-root .ccf-stores {
+#ccf-root .ccf-stores {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 6px;
 }
-.ccf-root .ccf-store {
+#ccf-root .ccf-store {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -848,35 +882,35 @@
   text-decoration: none;
   transition: background-color 400ms ease, color 400ms ease, box-shadow 400ms ease;
 }
-.ccf-root .ccf-store:hover {
+#ccf-root .ccf-store:hover {
   background: var(--ivory);
   color: var(--night);
   box-shadow: 0 0 0 1px var(--ivory) inset;
 }
-.ccf-root .ccf-store__icon {
+#ccf-root .ccf-store__icon {
   width: 24px;
   height: 24px;
   flex: none;
 }
-.ccf-root .ccf-store__text {
+#ccf-root .ccf-store__text {
   display: grid;
   gap: 1px;
 }
-.ccf-root .ccf-store__small {
+#ccf-root .ccf-store__small {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   opacity: 0.75;
 }
-.ccf-root .ccf-store__big {
+#ccf-root .ccf-store__big {
   font-family: var(--display);
   font-size: 20px;
   line-height: 1.1;
 }
 
 /* 3B telefon */
-.ccf-root .ccf-phone-scene {
+#ccf-root .ccf-phone-scene {
   --tx: 0deg;
   --ty: 0deg;
   display: grid;
@@ -884,7 +918,7 @@
   perspective: 1100px;
   min-height: 300px;
 }
-.ccf-root .ccf-phone {
+#ccf-root .ccf-phone {
   position: relative;
   width: 170px;
   aspect-ratio: 9 / 19;
@@ -900,7 +934,7 @@
   transition: transform 800ms var(--ease-out);
   animation: ccf-float 7s ease-in-out infinite;
 }
-.ccf-root .ccf-phone::after {
+#ccf-root .ccf-phone::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -908,7 +942,7 @@
   background: linear-gradient(115deg, rgba(255, 255, 255, 0.14) 0%, transparent 32%, transparent 70%, rgba(255, 255, 255, 0.05));
   pointer-events: none;
 }
-.ccf-root .ccf-phone__face {
+#ccf-root .ccf-phone__face {
   position: absolute;
   inset: 10px;
   display: grid;
@@ -918,7 +952,7 @@
   border-radius: 22px;
   background: radial-gradient(120% 80% at 50% 0%, #2a241c, #100f0d 70%);
 }
-.ccf-root .ccf-phone__face img {
+#ccf-root .ccf-phone__face img {
   width: 64px;
   height: 64px;
   align-self: center;
@@ -926,7 +960,7 @@
   border-radius: 12px;
   box-shadow: 0 10px 30px -8px rgba(205, 166, 109, 0.5);
 }
-.ccf-root .ccf-phone__face span {
+#ccf-root .ccf-phone__face span {
   font-family: var(--display);
   font-size: 15px;
 }
@@ -936,31 +970,32 @@
 }
 
 /* İletişim */
-.ccf-root .ccf-tile--contact {
+#ccf-root .ccf-tile--contact {
   padding: clamp(28px, 4vw, 48px);
 }
-.ccf-root .ccf-contact {
+#ccf-root .ccf-contact {
   display: grid;
   gap: 0;
   margin-top: 18px;
 }
-.ccf-root .ccf-contact > div {
+#ccf-root .ccf-contact > div {
   display: grid;
   gap: 2px;
   padding: 16px 0;
   border-bottom: 1px solid var(--line);
 }
-.ccf-root .ccf-contact > div:last-child { border-bottom: 0; }
-.ccf-root .ccf-contact dt {
+#ccf-root .ccf-contact > div:last-child { border-bottom: 0; }
+#ccf-root .ccf-contact dt {
+  color: var(--ivory);
   font-family: var(--display);
   font-size: 20px;
   line-height: 1.3;
 }
-.ccf-root .ccf-contact dd {
+#ccf-root .ccf-contact dd {
   color: var(--muted);
   font-size: 15px;
 }
-.ccf-root .ccf-contact a {
+#ccf-root .ccf-contact a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -970,13 +1005,51 @@
   text-underline-offset: 4px;
   transition: text-decoration-color 300ms ease;
 }
-.ccf-root .ccf-contact a:hover { text-decoration-color: currentColor; }
+#ccf-root .ccf-contact a:hover { text-decoration-color: currentColor; }
+
+/* ==========================================================================
+   Açılış: CafeCadde Family logosu küçükten büyüyerek (telefon, tablet)
+   ========================================================================== */
+
+#ccf-root .ccf-intro { display: none; }
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 1023px),
+       (prefers-reduced-motion: no-preference) and (hover: none) {
+  #ccf-root .ccf-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(40% 30% at 50% 50%, rgba(205, 166, 109, 0.14), transparent 70%), var(--night);
+    pointer-events: none;
+    animation: ccf-intro-out 650ms var(--ease) 1500ms forwards;
+  }
+  #ccf-root .ccf-intro img {
+    width: 88px;
+    height: 88px;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px -20px rgba(205, 166, 109, 0.55);
+    animation: ccf-intro-logo 2150ms var(--ease-out) both;
+  }
+  #ccf-root .ccf-deck { --intro-delay: 1450ms; }
+}
+
+@keyframes ccf-intro-logo {
+  0% { opacity: 0; transform: scale(0.35); filter: blur(10px); }
+  35% { opacity: 1; filter: blur(0); }
+  70% { transform: scale(1.12); }
+  100% { opacity: 0; transform: scale(2.2); }
+}
+@keyframes ccf-intro-out {
+  to { opacity: 0; visibility: hidden; }
+}
 
 /* ==========================================================================
    Görünür olunca beliren öğeler
    ========================================================================== */
 
-.ccf-root.ccf-reveal-ready [data-reveal] {
+#ccf-root.ccf-reveal-ready [data-reveal] {
   opacity: 0;
   filter: blur(10px);
   transform: translateY(36px);
@@ -985,7 +1058,7 @@
     filter 1100ms var(--ease-out) var(--d, 0ms),
     transform 1100ms var(--ease-out) var(--d, 0ms);
 }
-.ccf-root.ccf-reveal-ready [data-reveal].ccf-is-visible {
+#ccf-root.ccf-reveal-ready [data-reveal].ccf-is-visible {
   opacity: 1;
   filter: none;
   transform: none;
@@ -996,25 +1069,42 @@
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  .ccf-root *,
-  .ccf-root *::before,
-  .ccf-root *::after {
+  #ccf-root *,
+  #ccf-root *::before,
+  #ccf-root *::after {
     animation: none !important;
     transition-duration: 1ms !important;
     transition-delay: 0ms !important;
   }
-  .ccf-root .ccf-card.ccf-is-active { --zoom: 1; }
-  .ccf-root .ccf-card__tilt { transform: none !important; }
+  #ccf-root .ccf-card.ccf-is-active { --zoom: 1; }
+  #ccf-root .ccf-card__tilt { transform: none !important; }
 }
 
 
 /* WordPress içinde: temanın sütunundan bağımsız tam genişlik (JS, kaydırma çubuğu payını da düzeltir) */
-.ccf-root { position: relative; display: block; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); }
-.ccf-root img { height: auto; }
-.ccf-root .ccf-card__photo { height: 100%; max-width: none; }
-.ccf-root a { box-shadow: none; }
+#ccf-root { position: relative; display: block; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); margin-top: 0; margin-bottom: 0 !important; padding: 0 !important; }
+#ccf-root img { height: auto; }
+#ccf-root .ccf-card__photo { height: 100%; max-width: none; }
+#ccf-root a { box-shadow: none; }
+#ccf-root a:hover, #ccf-root a:focus { color: inherit; }
+
+/* Sayfanın altında tema boşluğu ve beyaz zemin kalmasın */
+body:has(#ccf-root) { background-color: #0f0e0d !important; }
+.container-wrap:has(#ccf-root),
+.main-content:has(#ccf-root),
+.row:has(#ccf-root),
+.wpb_row:has(#ccf-root),
+.wpb_column:has(#ccf-root),
+.vc_column-inner:has(#ccf-root),
+.wpb_wrapper:has(#ccf-root),
+.wpb_content_element:has(#ccf-root) { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+.container-wrap:has(#ccf-root) { background-color: #0f0e0d !important; }
 </style>
-<div class="ccf-root" data-ccf-root>
+<div id="ccf-root" class="ccf-root" data-ccf-root>
+      <div class="ccf-intro" data-intro aria-hidden="true">
+        <img src="/wp-content/uploads/logo/family.webp" alt="" width="480" height="480" />
+      </div>
+
       <!-- ================================================================
            1. Dört kart
            ================================================================ -->
@@ -1296,7 +1386,7 @@
 'use strict';
 const HOVER_INTENT_MS = 80;    // imleç bu kadar durmadan kart açılmaz
 const LEAVE_DELAY_MS = 160;    // alandan çıkınca eşit düzene dönüş
-const AUTOPLAY_MS = 4200;      // şerit modunda kartlar arası süre
+const AUTOPLAY_MS = 4500;      // carousel modunda kartlar arası süre
 const RESUME_AFTER_MS = 7000;  // kullanıcı dokunduktan sonra otomatik kaydırmanın yeniden başlaması
 
 // Sayfa tek başına çalışırken <html>, WordPress içine gömülüyken betikten hemen önceki sarmalayıcı.
@@ -1377,43 +1467,55 @@ function initDeck(deck) {
     leaveTimer = setTimeout(() => setActive(-1), LEAVE_DELAY_MS);
   });
 
-  /* ---------- Şerit (telefon, tablet): otomatik kayan kartlar ---------- */
+  /* ---------- Carousel (telefon, tablet): sonsuz dönen 3B kartlar ---------- */
+  // Her kartın ortadaki karta göre konumu: -1 sol, 0 orta, 1 sağ, ±2 gizli (arkada).
+  // Uçtan uca geçen kart önce gizli tarafa çekilir, sonra görünmeden diğer yana alınır;
+  // böylece kartlar bir halka gibi döner, ekranı boydan boya kat etmez.
 
+  const n = cards.length;
+  const pos = cards.map((_, i) => i);
+  let current = 0;
   let autoplayTimer = 0;
   let resumeTimer = 0;
-  let programmatic = false;
   let deckVisible = true;
 
-  function scrollToCard(i, smooth = true) {
-    const card = cards[i];
-    const left = card.offsetLeft - (deck.clientWidth - card.offsetWidth) / 2;
-    programmatic = true;
-    deck.scrollTo({ left, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'auto' });
-    setActive(i);
-    clearTimeout(scrollEndTimer);
-    scrollEndTimer = setTimeout(() => (programmatic = false), 900);
+  const canonical = (i, cur) => {
+    let d = (((i - cur) % n) + n) % n;
+    if (d > n / 2) d -= n;
+    return d; // n = 4 → -1, 0, 1, 2
+  };
+
+  function place(card, d, animate = true) {
+    if (!animate) card.style.transition = 'none';
+    card.style.setProperty('--d', d);
+    card.style.setProperty('--ad', Math.abs(d));
+    card.classList.toggle('is-hidden', Math.abs(d) >= 2);
+    if (!animate) {
+      void card.offsetWidth; // konumu uygula, sonra geçişi geri aç
+      card.style.transition = '';
+    }
   }
 
-  function nearestCard() {
-    const center = deck.scrollLeft + deck.clientWidth / 2;
-    let best = 0;
-    let bestDist = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
-      if (d < bestDist) { bestDist = d; best = i; }
+  function go(target) {
+    current = ((target % n) + n) % n;
+    cards.forEach((card, i) => {
+      const from = pos[i];
+      const to = canonical(i, current);
+      if (to === 2 && from < 0) {
+        // Sol taraftan çıkan kart: sola doğru kaybolur, sonra sağ arkaya alınır
+        place(card, -2);
+        setTimeout(() => { if (pos[i] === 2) place(card, 2, false); }, 750);
+      } else if (to < 0 && from === 2) {
+        // Sağ arkadaki kart sola gelecekse önce görünmeden sol arkaya taşınır
+        place(card, -2, false);
+        requestAnimationFrame(() => place(card, to));
+      } else {
+        place(card, to);
+      }
+      pos[i] = to;
     });
-    return best;
+    setActive(current);
   }
-
-  let scrollRaf = 0;
-  let scrollEndTimer = 0;
-  deck.addEventListener('scroll', () => {
-    if (desktop.matches) return;
-    cancelAnimationFrame(scrollRaf);
-    scrollRaf = requestAnimationFrame(() => {
-      if (!programmatic) setActive(nearestCard());
-    });
-  }, { passive: true });
 
   function canAutoplay() {
     return !desktop.matches && !reducedMotion.matches && deckVisible && !document.hidden;
@@ -1423,10 +1525,10 @@ function initDeck(deck) {
     clearTimeout(autoplayTimer);
     nav?.classList.remove('ccf-is-playing');
     if (!canAutoplay()) return;
-    // Animasyonu yeniden başlatmak için sınıfı bir kare sonra ekle
+    // Gösterge animasyonunu yeniden başlatmak için sınıfı bir kare sonra ekle
     requestAnimationFrame(() => nav?.classList.add('ccf-is-playing'));
     autoplayTimer = setTimeout(() => {
-      scrollToCard((active + 1) % cards.length);
+      go(current + 1);
       schedule();
     }, AUTOPLAY_MS);
   }
@@ -1438,9 +1540,30 @@ function initDeck(deck) {
     resumeTimer = setTimeout(schedule, RESUME_AFTER_MS);
   }
 
-  ['pointerdown', 'touchstart', 'wheel'].forEach((type) =>
-    deck.addEventListener(type, () => { if (!desktop.matches) pauseForUser(); }, { passive: true })
-  );
+  // Kaydırma hareketi: yatayda sürükleyince önceki/sonraki kart; dikey sayfa kaydırması serbest
+  let startX = 0;
+  let startY = 0;
+  let tracking = false;
+  deck.addEventListener('pointerdown', (e) => {
+    if (desktop.matches) return;
+    tracking = true;
+    startX = e.clientX;
+    startY = e.clientY;
+  }, { passive: true });
+  deck.addEventListener('pointerup', (e) => {
+    if (!tracking || desktop.matches) return;
+    tracking = false;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      swiped = true;
+      go(current + (dx < 0 ? 1 : -1));
+      pauseForUser();
+      setTimeout(() => (swiped = false), 50);
+    }
+  }, { passive: true });
+  deck.addEventListener('pointercancel', () => (tracking = false));
+  let swiped = false;
 
   new IntersectionObserver(([entry]) => {
     deckVisible = entry.isIntersecting;
@@ -1451,7 +1574,7 @@ function initDeck(deck) {
 
   dots.forEach((dot, i) =>
     dot.addEventListener('click', () => {
-      scrollToCard(i);
+      go(i);
       pauseForUser();
     })
   );
@@ -1462,14 +1585,15 @@ function initDeck(deck) {
     // İlk dokunuş yalnızca kartı açar; yönlendirme "Mekanı Keşfet" bağlantısındadır.
     trigger.addEventListener('click', () => {
       clearTimeout(enterTimer);
+      if (swiped) return;
       if (desktop.matches) setActive(i);
-      else if (active !== i) { scrollToCard(i); pauseForUser(); }
+      else if (active !== i) { go(i); pauseForUser(); }
     });
 
     trigger.addEventListener('focus', () => {
       if (!trigger.matches(':focus-visible')) return;
       if (desktop.matches) setActive(i);
-      else if (active !== i) scrollToCard(i);
+      else if (active !== i) go(i);
     });
 
     trigger.addEventListener('keydown', (e) => {
@@ -1482,7 +1606,7 @@ function initDeck(deck) {
       if (target > -1) {
         e.preventDefault();
         triggers[target].focus({ preventScroll: true });
-        desktop.matches ? setActive(target) : scrollToCard(target);
+        desktop.matches ? setActive(target) : go(target);
         if (!desktop.matches) pauseForUser();
       }
     });
@@ -1498,11 +1622,14 @@ function initDeck(deck) {
   function setupMode() {
     clearTimeout(autoplayTimer);
     active = -2; // zorla güncelle
+    deck.classList.toggle('is-carousel', !desktop.matches);
     if (desktop.matches) {
+      cards.forEach((c) => { c.style.removeProperty('--d'); c.style.removeProperty('--ad'); c.classList.remove('is-hidden'); });
       setActive(-1);
     } else {
+      cards.forEach((c, i) => { pos[i] = canonical(i, 0); place(c, pos[i], false); });
+      current = 0;
       setActive(0);
-      scrollToCard(0, false);
       schedule();
     }
   }
@@ -1511,7 +1638,7 @@ function initDeck(deck) {
 
   if (!reducedMotion.matches) {
     deck.classList.add('ccf-is-intro');
-    setTimeout(() => deck.classList.remove('ccf-is-intro'), 1400);
+    setTimeout(() => deck.classList.remove('ccf-is-intro'), desktop.matches ? 1400 : 2900);
   }
 }
 
@@ -1605,10 +1732,27 @@ function initEmblem(section) {
   let tmy = 0;
   let running = false;
 
+  // Tema bir üst öğeye overflow: hidden verdiyse position: sticky çalışmaz (ör. Salient'te <body>).
+  // O durumda sahneyi kaydırmayla birlikte kendimiz taşırız.
+  const stage = section.querySelector('.world__stage, .ccf-world__stage');
+  const chapters = section.querySelector('.world__chapters, .ccf-world__chapters');
+  let manual = false;
+  for (let el = section.parentElement; el && el !== document.documentElement; el = el.parentElement) {
+    if (/(hidden|auto|scroll)/.test(getComputedStyle(el).overflowY)) { manual = true; break; }
+  }
+  if (manual && stage && chapters) {
+    Object.assign(stage.style, { position: 'absolute', top: '0', left: '0', right: '0', willChange: 'transform' });
+    chapters.style.marginTop = '0';
+  }
+
   function read() {
     const r = section.getBoundingClientRect();
     const total = r.height - window.innerHeight;
     target = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+    if (manual) {
+      const y = Math.min(Math.max(-r.top, 0), Math.max(total, 0));
+      stage.style.transform = `translate3d(0, ${y}px, 0)`;
+    }
     if (!running) { running = true; requestAnimationFrame(tick); }
   }
 
@@ -1661,6 +1805,10 @@ function fitToViewport() {
 }
 
 if (EMBEDDED) fitToViewport();
+
+// Açılış logosu animasyonu bitince katmanı kaldır
+const intro = ROOT.querySelector('[data-intro]');
+if (intro) setTimeout(() => intro.remove(), 2300);
 
 const deck = ROOT.querySelector('[data-deck]');
 if (deck) initDeck(deck);

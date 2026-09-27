@@ -52,6 +52,16 @@ body {
 }
 
 img { display: block; max-width: 100%; }
+h1, h2, h3 {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+em { font-family: inherit; }
+li { list-style: none; margin: 0; padding: 0; }
+li::before, li::marker { content: none; }
+dt, dd { margin: 0; padding: 0; color: inherit; }
 a { color: inherit; }
 h1, h2, p, dl, dd, ul { margin: 0; }
 ul { padding: 0; list-style: none; }
@@ -157,31 +167,31 @@ button {
   white-space: nowrap;
 }
 
-/* ---------- Kartlar: temel (otomatik kayan şerit — telefon, tablet) ---------- */
+/* ---------- Kartlar: temel (telefon, tablet — sonsuz dönen 3B carousel) ---------- */
 
 .deck {
-  --card-w: min(78vw, 400px);
-  --card-h: min(70svh, 600px);
+  --card-w: min(84vw, 420px);
+  --card-h: min(74svh, 640px);
   --body-h: 150px;
-  display: flex;
-  gap: 14px;
+  --step: calc(var(--card-w) * 0.62);
+  position: relative;
   flex: 1;
-  align-items: center;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding: 12px calc((100vw - var(--card-w)) / 2);
-  scroll-padding-inline: calc((100vw - var(--card-w)) / 2);
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--card-h) + 24px);
+  perspective: 1400px;
+  touch-action: pan-y;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.deck::-webkit-scrollbar { display: none; }
 
 @media (min-width: 700px) {
   .deck {
-    --card-w: min(46vw, 420px);
-    --card-h: min(70svh, 680px);
+    --card-w: min(52vw, 440px);
+    --card-h: min(72svh, 700px);
     --body-h: 160px;
-    gap: 20px;
+    --step: calc(var(--card-w) * 0.7);
   }
 }
 
@@ -194,23 +204,34 @@ button {
   --px: 0px;
   --py: 0px;
   --pad: 22px;
+  --d: 0;
+  --ad: 0;
   position: relative;
-  flex: 0 0 var(--card-w);
+  grid-area: 1 / 1;
+  width: var(--card-w);
   height: var(--card-h);
   min-height: 420px;
-  scroll-snap-align: center;
   container-type: inline-size;
-  transform: scale(0.9);
-  opacity: 0.5;
+  z-index: calc(10 - var(--ad) * 3);
+  transform:
+    translateX(calc(var(--d) * var(--step)))
+    translateZ(calc(var(--ad) * -140px))
+    rotateY(calc(var(--d) * -28deg));
+  opacity: calc(1 - var(--ad) * 0.45);
   transition:
-    transform 600ms var(--ease-out),
-    opacity 600ms var(--ease-out);
+    transform 760ms var(--ease),
+    opacity 760ms var(--ease);
+}
+.card.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.card:not(.is-active) .card__tilt {
+  filter: brightness(0.6);
 }
 
 .card.is-active {
   --zoom: 1.04;
-  transform: none;
-  opacity: 1;
 }
 
 .card__tilt {
@@ -221,7 +242,7 @@ button {
   isolation: isolate;
   background: var(--night-2);
   transform: perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 700ms var(--ease-out), box-shadow 700ms var(--ease-out);
+  transition: transform 700ms var(--ease-out), box-shadow 700ms var(--ease-out), filter 760ms var(--ease);
   box-shadow:
     0 0 0 1px rgba(243, 238, 230, 0.08) inset,
     0 30px 60px -30px rgba(0, 0, 0, 0.8);
@@ -321,10 +342,12 @@ button {
   height: auto;
   filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.45));
 }
-.card__logo--strada { width: clamp(96px, 42cqi, 170px); }
-.card__logo--machi { width: clamp(118px, 58cqi, 230px); }
-.card__logo--sureyya { width: clamp(136px, 76cqi, 290px); }
-.card__logo--family { width: clamp(64px, 26cqi, 96px); border-radius: 10px; filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.45)); }
+/* Logolar genişliğe değil yüksekliğe göre: dört marka gözle eşit ağırlıkta */
+.card__logo { width: auto; max-width: 100%; }
+.card__logo--strada { height: clamp(24px, 9.5cqi, 34px); }
+.card__logo--machi { height: clamp(22px, 8.5cqi, 30px); }
+.card__logo--sureyya { height: clamp(26px, 10.5cqi, 38px); }
+.card__logo--family { height: clamp(46px, 17cqi, 62px); border-radius: 10px; filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.45)); }
 
 
 .card__body {
@@ -436,23 +459,32 @@ button {
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
   .deck {
     --body-h: clamp(136px, 17vh, 170px);
+    display: flex;
     gap: 14px;
     overflow: visible;
-    scroll-snap-type: none;
+    perspective: none;
+    touch-action: auto;
+    -webkit-user-select: auto;
+    user-select: auto;
     padding: 0 var(--gutter);
     align-items: stretch;
     height: clamp(520px, calc(100svh - 120px), 900px);
+    min-height: 0;
     flex: none;
   }
 
   .card {
     flex: 1 1 0;
+    grid-area: auto;
+    width: auto;
     height: auto;
     min-width: 0;
+    z-index: auto;
     transform: none;
     opacity: 1;
     transition: flex-grow var(--dur) var(--ease);
   }
+  .card:not(.is-active) .card__tilt { filter: none; }
   .deck.has-active .card { flex-grow: 1; }
   .deck.has-active .card.is-active { flex-grow: 2.3; }
 
@@ -479,11 +511,11 @@ button {
 /* Açılış: kartlar sırayla yükselir */
 @media (prefers-reduced-motion: no-preference) {
   .deck.is-intro .card__tilt {
-    animation: rise 1000ms var(--ease-out) both;
+    animation: rise 1000ms var(--ease-out) var(--intro-delay, 0ms) both;
   }
-  .deck.is-intro .card:nth-child(2) .card__tilt { animation-delay: 80ms; }
-  .deck.is-intro .card:nth-child(3) .card__tilt { animation-delay: 160ms; }
-  .deck.is-intro .card:nth-child(4) .card__tilt { animation-delay: 240ms; }
+  .deck.is-intro .card:nth-child(2) .card__tilt { animation-delay: calc(var(--intro-delay, 0ms) + 80ms); }
+  .deck.is-intro .card:nth-child(3) .card__tilt { animation-delay: calc(var(--intro-delay, 0ms) + 160ms); }
+  .deck.is-intro .card:nth-child(4) .card__tilt { animation-delay: calc(var(--intro-delay, 0ms) + 240ms); }
 }
 @keyframes rise {
   from { opacity: 0; transform: translateY(40px) scale(0.97); }
@@ -687,7 +719,8 @@ button {
   line-height: 1;
   letter-spacing: -0.02em;
 }
-.suite__title em { font-style: italic; color: var(--ivory-2); }
+.suite__title { color: var(--ivory); }
+.suite__title em { font-style: italic; color: var(--ivory); }
 
 .bento {
   display: grid;
@@ -816,7 +849,8 @@ a.tile:hover { transform: translateY(-4px); }
   line-height: 1.05;
   letter-spacing: -0.015em;
 }
-.tile__title em { font-style: italic; color: var(--ivory-2); }
+.tile__title { color: var(--ivory); }
+.tile__title em { font-style: italic; color: var(--ivory); }
 .tile__text {
   color: var(--muted);
   font-size: 16px;
@@ -944,6 +978,7 @@ a.tile:hover { transform: translateY(-4px); }
 }
 .contact > div:last-child { border-bottom: 0; }
 .contact dt {
+  color: var(--ivory);
   font-family: var(--display);
   font-size: 20px;
   line-height: 1.3;
@@ -963,6 +998,44 @@ a.tile:hover { transform: translateY(-4px); }
   transition: text-decoration-color 300ms ease;
 }
 .contact a:hover { text-decoration-color: currentColor; }
+
+/* ==========================================================================
+   Açılış: CafeCadde Family logosu küçükten büyüyerek (telefon, tablet)
+   ========================================================================== */
+
+.intro { display: none; }
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 1023px),
+       (prefers-reduced-motion: no-preference) and (hover: none) {
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(40% 30% at 50% 50%, rgba(205, 166, 109, 0.14), transparent 70%), var(--night);
+    pointer-events: none;
+    animation: intro-out 650ms var(--ease) 1500ms forwards;
+  }
+  .intro img {
+    width: 88px;
+    height: 88px;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px -20px rgba(205, 166, 109, 0.55);
+    animation: intro-logo 2150ms var(--ease-out) both;
+  }
+  .deck { --intro-delay: 1450ms; }
+}
+
+@keyframes intro-logo {
+  0% { opacity: 0; transform: scale(0.35); filter: blur(10px); }
+  35% { opacity: 1; filter: blur(0); }
+  70% { transform: scale(1.12); }
+  100% { opacity: 0; transform: scale(2.2); }
+}
+@keyframes intro-out {
+  to { opacity: 0; visibility: hidden; }
+}
 
 /* ==========================================================================
    Görünür olunca beliren öğeler
