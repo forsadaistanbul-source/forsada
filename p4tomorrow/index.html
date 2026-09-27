@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>P4Tomorrow — 360° Danışmanlık Merkezi</title>
+<meta name="description" content="P4Tomorrow, şirketlerin büyümesine, ölçeklenmesine ve operasyonel performansını en üst düzeye çıkarmasına yardımcı olan 360° danışmanlık merkezidir." />
+<meta name="theme-color" content="#1E1E1E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<!--
+  Tek dosya, harici bağımlılık yok (yalnızca Google Fonts).
+  Wix'e aktarım: bu dosyanın tamamı Wix "Embed Code → Embed HTML" (Kod Göm) öğesine
+  yapıştırılabilir; ya da renk/tipografi/metinler Wix Studio'da birebir yeniden kurulabilir.
+  Düzenlenecek iletişim bilgileri en alttaki <script> içindeki CONFIG nesnesindedir.
+-->
+<style>
+:root{
+  --pink:#FBC1D4;
+  --pink-deep:#F7A3BF;
+  --ink:#1E1E1E;
+  --ink-2:#2A2A2A;
+  --cream:#F4EFE9;
+  --muted:#8A8A8A;
+  --line:rgba(30,30,30,.14);
+  --line-dark:rgba(251,193,212,.18);
+  --radius:28px;
+  --gutter:clamp(16px,3vw,40px);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"Inter",system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.is-loading{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+img,svg,canvas{display:block}
+::selection{background:var(--pink);color:var(--ink)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--pink);color:var(--ink);padding:10px 16px;border-radius:99px;z-index:1000}
+.skip:focus{left:8px}
+:focus-visible{outline:2px solid var(--pink);outline-offset:4px;border-radius:6px}
+
+.display{font-family:var(--display);font-weight:900;font-stretch:112%;text-transform:uppercase;letter-spacing:-.035em;line-height:.86;margin:0}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.wrap{padding-inline:var(--gutter);max-width:1600px;margin-inline:auto}
+
+/* ---------- Loader ---------- */
+.loader{position:fixed;inset:0;z-index:900;background:var(--pink);color:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:var(--gutter);transition:transform 1.1s var(--ease) .1s}
+.loader.is-done{transform:translateY(-101%)}
+.loader__brand{font-family:var(--display);font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.loader__count{font-family:var(--display);font-weight:900;font-stretch:125%;font-size:clamp(96px,22vw,340px);line-height:.8;letter-spacing:-.05em;align-self:flex-end;font-variant-numeric:tabular-nums}
+.loader__bar{height:3px;background:rgba(30,30,30,.15);position:relative;overflow:hidden;margin-top:16px}
+.loader__bar i{position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+
+/* ---------- Cursor ---------- */
+.cursor{position:fixed;left:0;top:0;z-index:950;pointer-events:none;display:none}
+@media (hover:hover) and (pointer:fine){.cursor{display:block}}
+.cursor__dot{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--pink);mix-blend-mode:difference}
+.cursor__ring{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:1.5px solid var(--pink);display:grid;place-items:center;transition:width .45s var(--ease),height .45s var(--ease),margin .45s var(--ease),background .3s,border-color .3s;mix-blend-mode:difference}
+.cursor__label{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);opacity:0;transition:opacity .2s}
+.cursor.is-hover .cursor__ring{width:72px;height:72px;margin:-36px 0 0 -36px;background:var(--pink)}
+.cursor.is-label .cursor__ring{width:104px;height:104px;margin:-52px 0 0 -52px;background:var(--pink);mix-blend-mode:normal}
+.cursor.is-label .cursor__label{opacity:1}
+.cursor.is-label .cursor__dot{opacity:0}
+
+/* ---------- Header ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:500;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px var(--gutter);transition:transform .6s var(--ease)}
+.nav.is-hidden{transform:translateY(-110%)}
+.nav__pill{display:flex;align-items:center;gap:6px;background:rgba(30,30,30,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line-dark);border-radius:99px;padding:6px}
+.nav__logo{font-family:var(--display);font-weight:900;font-stretch:115%;font-size:20px;letter-spacing:-.02em;text-transform:uppercase;padding:8px 16px;white-space:nowrap}
+.nav__logo b{color:var(--pink)}
+.nav__links{display:flex;gap:2px}
+.nav__links a{font-family:var(--display);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.04em;padding:10px 16px;border-radius:99px;transition:background .3s,color .3s}
+.nav__links a:hover{background:var(--pink);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--display);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.03em;padding:16px 26px;border-radius:99px;background:var(--pink);color:var(--ink);position:relative;overflow:hidden;isolation:isolate;will-change:transform}
+.btn::before{content:"";position:absolute;inset:0;background:var(--cream);border-radius:inherit;transform:translateY(101%);transition:transform .5s var(--ease);z-index:-1}
+.btn:hover::before{transform:none}
+.btn__arrow{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--pink);display:grid;place-items:center;transition:transform .5s var(--ease)}
+.btn:hover .btn__arrow{transform:rotate(-45deg)}
+.btn--ghost{background:transparent;color:var(--cream);border:1.5px solid var(--line-dark)}
+.btn--ghost::before{background:var(--pink)}
+.btn--ghost:hover{color:var(--ink)}
+.btn--dark{background:var(--ink);color:var(--pink)}
+.btn--dark .btn__arrow{background:var(--pink);color:var(--ink)}
+.btn--dark:hover{color:var(--ink)}
+.nav .btn{padding:12px 14px 12px 22px;font-size:13px}
+.nav__toggle{display:none;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:.04em;padding:12px 20px;border-radius:99px;background:var(--pink);color:var(--ink)}
+
+.menu{position:fixed;inset:0;z-index:450;background:var(--pink);color:var(--ink);clip-path:circle(0 at calc(100% - 60px) 40px);transition:clip-path .9s var(--ease);display:flex;flex-direction:column;justify-content:flex-end;padding:100px var(--gutter) 32px}
+.menu.is-open{clip-path:circle(150% at calc(100% - 60px) 40px)}
+.menu a{font-family:var(--display);font-weight:900;font-stretch:115%;text-transform:uppercase;font-size:clamp(44px,12vw,96px);line-height:.95;letter-spacing:-.03em;display:block;border-bottom:1.5px solid var(--line);padding:10px 0}
+.menu small{display:block;margin-top:24px;font-weight:600}
+
+@media (max-width:960px){
+  .nav__links,.nav .btn{display:none}
+  .nav__toggle{display:inline-block}
+}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px var(--gutter) 40px;overflow:hidden}
+.hero__canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero__glow{position:absolute;width:70vmax;height:70vmax;right:-20vmax;top:-20vmax;border-radius:50%;background:radial-gradient(closest-side,rgba(251,193,212,.22),transparent);z-index:0;pointer-events:none}
+.hero__inner{position:relative;z-index:1;max-width:1600px;width:100%;margin-inline:auto}
+.hero__meta{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(24px,4vw,48px)}
+.hero__meta p{max-width:440px;position:relative;z-index:3;margin:0;color:rgba(244,239,233,.78);font-size:clamp(16px,1.4vw,19px)}
+.hero__title{font-size:clamp(58px,13.6vw,250px)}
+.hero__title .line{display:block;overflow:hidden;padding:.13em 0 .04em;margin-top:-.13em;white-space:nowrap}
+.hero__title .line--pink{color:var(--pink)}
+.hero__title .line--outline{color:transparent;-webkit-text-stroke:2px var(--cream)}
+.char{display:inline-block;transform:translateY(105%);transition:transform 1.1s var(--ease)}
+.is-ready .char{transform:none}
+.hero__bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:clamp(28px,4vw,56px);padding-top:24px;border-top:1px solid var(--line-dark)}
+.hero__ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero__scroll{display:flex;align-items:center;gap:14px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.12em}
+.hero__scroll span{width:30px;height:48px;border:1.5px solid var(--line-dark);border-radius:99px;position:relative}
+.hero__scroll span::after{content:"";position:absolute;left:50%;top:10px;width:4px;height:10px;margin-left:-2px;border-radius:4px;background:var(--pink);animation:scrollDot 1.8s var(--ease) infinite}
+@keyframes scrollDot{0%{transform:translateY(0);opacity:1}70%{transform:translateY(16px);opacity:0}100%{opacity:0}}
+.badge{position:absolute;right:calc(var(--gutter) + 2vw);top:52%;width:clamp(110px,11vw,150px);aspect-ratio:1;z-index:2}
+.badge svg{width:100%;height:100%;animation:spin 18s linear infinite}
+.badge__core{position:absolute;inset:32%;border-radius:50%;background:var(--pink);color:var(--ink);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:clamp(16px,1.6vw,22px)}
+@media (max-width:900px){.badge{display:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reveal-up{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.is-ready .reveal-up{opacity:1;transform:none}
+
+/* ---------- Marquee ---------- */
+.marquees{overflow:hidden;padding:40px 0 70px;margin-bottom:-40px;position:relative;z-index:3}
+.marquee{background:var(--pink);color:var(--ink);overflow:hidden;transform:rotate(-2deg);margin:0 -40px;position:relative;z-index:3;border-block:2px solid var(--ink)}
+.marquee--alt{background:var(--ink);color:var(--pink);transform:rotate(2deg);margin-top:-30px;z-index:2;border-color:var(--pink)}
+.marquee__track{display:flex;width:max-content;animation:marquee 32s linear infinite}
+.marquee--alt .marquee__track{animation-direction:reverse;animation-duration:40s}
+.marquee__item{font-family:var(--display);font-weight:900;font-stretch:120%;text-transform:uppercase;font-size:clamp(28px,4.4vw,64px);letter-spacing:-.02em;padding:14px 0;display:flex;align-items:center;gap:36px;padding-right:36px;white-space:nowrap}
+.marquee__item svg{width:.7em;height:.7em;flex:none}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- Statement ---------- */
+.statement{background:var(--pink);color:var(--ink);padding:clamp(120px,14vw,200px) 0 clamp(80px,10vw,140px);position:relative}
+.statement__grid{display:grid;grid-template-columns:1fr 3fr;gap:40px;align-items:start}
+.statement__grid .eyebrow{margin-top:.8em}
+.statement__text{font-family:var(--display);font-weight:800;font-stretch:105%;font-size:clamp(30px,4.3vw,72px);line-height:1.02;letter-spacing:-.03em;margin:0}
+.statement__text .w{opacity:.16;transition:opacity .35s}
+.statement__text .w.on{opacity:1}
+.statement__text em{font-style:normal;background:var(--ink);color:var(--pink);padding:0 .16em;border-radius:.18em}
+.statement__foot{display:flex;gap:16px;margin-top:48px;flex-wrap:wrap}
+@media (max-width:800px){.statement__grid{grid-template-columns:1fr}}
+
+/* ---------- Services (stacking cards) ---------- */
+.services{padding:clamp(90px,12vw,160px) 0 40px;background:var(--ink)}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:clamp(40px,6vw,80px)}
+.section-head .display{font-size:clamp(56px,11vw,190px)}
+.section-head p{max-width:420px;margin:0;color:rgba(244,239,233,.72)}
+.stack{position:relative}
+.card{position:sticky;top:calc(96px + var(--i) * 18px);min-height:min(78vh,640px);border-radius:var(--radius);padding:clamp(24px,3.4vw,52px);display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto 1fr auto;gap:24px 40px;margin-bottom:clamp(40px,8vh,90px);overflow:hidden;transform-origin:50% 0;will-change:transform}
+.card:nth-child(3n+1){background:var(--pink);color:var(--ink)}
+.card:nth-child(3n+2){background:var(--cream);color:var(--ink)}
+.card:nth-child(3n+3){background:var(--ink-2);color:var(--cream);border:1px solid var(--line-dark)}
+.card__num{font-family:var(--display);font-weight:900;font-size:clamp(18px,1.6vw,24px);grid-column:1;grid-row:1}
+.card__title{grid-column:2/4;grid-row:1;font-size:clamp(40px,6.8vw,112px);line-height:.96}
+.card__body{grid-column:2;grid-row:3;max-width:620px}
+.card__body p{margin:0 0 20px;font-size:clamp(16px,1.3vw,19px);opacity:.85}
+.tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.tags li{border:1.5px solid currentColor;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600;letter-spacing:.01em;opacity:.9}
+.card__art{grid-column:3;grid-row:2/4;align-self:end;width:clamp(120px,18vw,260px);aspect-ratio:1}
+.card__art svg{width:100%;height:100%;overflow:visible}
+.card:hover .card__art svg{animation:wobble 3s var(--ease) infinite}
+@keyframes wobble{50%{transform:rotate(12deg) scale(1.05)}}
+@media (max-width:800px){
+  .card{grid-template-columns:1fr;grid-template-rows:auto;min-height:0}
+  .card__num,.card__title,.card__body,.card__art{grid-column:1;grid-row:auto}
+  .card__art{width:110px;position:absolute;right:20px;top:20px;opacity:.9}
+  .card__title{padding-right:110px}
+}
+
+/* ---------- Numbers ---------- */
+.numbers{padding-block:clamp(60px,9vw,120px);border-top:1px solid var(--line-dark)}
+.numbers__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.num{padding:24px clamp(16px,2.4vw,36px);border-left:1px solid var(--line-dark)}
+.num:first-child{border-left:0;padding-left:0}
+.num__value{font-family:var(--display);font-weight:900;font-stretch:120%;font-size:clamp(72px,10vw,170px);line-height:.9;letter-spacing:-.05em;color:var(--pink)}
+.num__label{margin-top:16px;max-width:280px;color:rgba(244,239,233,.75)}
+@media (max-width:760px){.numbers__grid{grid-template-columns:1fr}.num{border-left:0;border-top:1px solid var(--line-dark);padding-left:0}.num:first-child{border-top:0}}
+
+/* ---------- Process (horizontal scroll) ---------- */
+.process{background:var(--cream);color:var(--ink);position:relative}
+.process__pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.process__head{padding:0 var(--gutter);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(24px,4vh,48px)}
+.process__head .display{font-size:clamp(52px,9vw,150px)}
+.process__progress{width:min(280px,30vw);height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.process__progress i{display:block;height:100%;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+.process__track{display:flex;gap:clamp(16px,2vw,28px);padding:0 var(--gutter);will-change:transform}
+.step{flex:none;width:min(560px,78vw);min-height:min(56vh,480px);background:var(--ink);color:var(--cream);border-radius:var(--radius);padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.step:nth-child(even){background:var(--pink);color:var(--ink)}
+.step__n{font-family:var(--display);font-weight:900;font-stretch:125%;font-size:clamp(90px,12vw,200px);line-height:.8;letter-spacing:-.06em;opacity:.95}
+.step h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,3vw,46px);line-height:.95;letter-spacing:-.02em;margin:0 0 14px}
+.step p{margin:0;opacity:.8}
+.step--end{background:transparent!important;color:var(--ink)!important;border:2px dashed var(--line);justify-content:center;align-items:flex-start;gap:24px}
+.step--end h3{font-size:clamp(34px,4vw,60px)}
+@media (max-width:760px), (prefers-reduced-motion:reduce){
+  .process{height:auto!important}
+  .process__pin{position:relative;height:auto;padding:90px 0}
+  .process__track{flex-direction:column;transform:none!important}
+  .step{width:100%;min-height:320px}
+  .process__progress{display:none}
+}
+
+/* ---------- FAQ ---------- */
+.faq{background:var(--pink);color:var(--ink);padding:clamp(90px,12vw,160px) 0}
+.faq__grid{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(32px,6vw,100px)}
+.faq .display{font-size:clamp(56px,8vw,140px)}
+.faq__item{border-top:2px solid var(--ink)}
+.faq__item:last-child{border-bottom:2px solid var(--ink)}
+.faq__q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;padding:26px 0;font-family:var(--display);font-weight:800;font-size:clamp(20px,2vw,28px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.1}
+.faq__icon{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--pink);display:grid;place-items:center;transition:transform .5s var(--ease)}
+.faq__item.is-open .faq__icon{transform:rotate(135deg)}
+.faq__a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease)}
+.faq__item.is-open .faq__a{grid-template-rows:1fr}
+.faq__a>div{overflow:hidden}
+.faq__a p{margin:0 0 28px;max-width:640px;font-size:18px}
+@media (max-width:860px){.faq__grid{grid-template-columns:1fr}}
+
+/* ---------- Footer / CTA ---------- */
+.cta{padding:clamp(100px,14vw,200px) 0 32px;position:relative;overflow:hidden}
+.cta__kicker{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;margin-bottom:32px}
+.cta__big{display:block;font-size:clamp(52px,12.5vw,240px);line-height:.92;color:var(--cream);transition:color .4s}
+.cta__big .char{transform:none;transition:transform .6s var(--ease),color .3s}
+.cta__big:hover{color:var(--pink)}
+.cta__big:hover .char{transform:translateY(-.06em) rotate(-3deg)}
+.cta__big:hover .char:nth-child(even){transform:translateY(.05em) rotate(3deg)}
+.cta__row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:clamp(60px,8vw,110px);padding-top:32px;border-top:1px solid var(--line-dark)}
+.cta__row h4{font-family:var(--display);text-transform:uppercase;font-size:13px;letter-spacing:.14em;color:var(--muted);margin:0 0 12px;font-weight:700}
+.cta__row a,.cta__row span{display:block;font-weight:500;margin-bottom:6px}
+.cta__row a{background:linear-gradient(var(--pink),var(--pink)) left bottom/0 1.5px no-repeat;transition:background-size .4s var(--ease),color .3s;width:fit-content}
+.cta__row a:hover{background-size:100% 1.5px;color:var(--pink)}
+.legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;color:var(--muted);font-size:14px}
+.totop{display:inline-flex;align-items:center;gap:8px}
+@media (max-width:760px){.cta__row{grid-template-columns:1fr 1fr}}
+
+/* ---------- Scroll reveal ---------- */
+[data-reveal]{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s)}
+[data-reveal].in{opacity:1;transform:none}
+
+/* ---------- Grain ---------- */
+.grain{position:fixed;inset:-50%;z-index:800;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-2%,-4%)}80%{transform:translate(4%,2%)}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .char,[data-reveal],.reveal-up{transform:none!important;opacity:1!important}
+  .statement__text .w{opacity:1}
+  .card{position:relative;top:0}
+}
+</style>
+</head>
+<body class="is-loading">
+<a class="skip" href="#hizmetler">İçeriğe geç</a>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader__brand">P4Tomorrow — 360° Danışmanlık</div>
+  <div>
+    <div class="loader__count"><span data-count>0</span>%</div>
+    <div class="loader__bar"><i></i></div>
+  </div>
+</div>
+
+<div class="cursor" aria-hidden="true"><div class="cursor__ring"><span class="cursor__label">Keşfet</span></div><div class="cursor__dot"></div></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav__pill">
+    <a class="nav__logo" href="#top" aria-label="P4Tomorrow ana sayfa">P4<b>T</b>omorrow</a>
+    <nav class="nav__links" aria-label="Ana menü">
+      <a href="#hizmetler">Hizmetler</a>
+      <a href="#yaklasim">Yaklaşım</a>
+      <a href="#surec">Süreç</a>
+      <a href="#sss">SSS</a>
+    </nav>
+  </div>
+  <a class="btn" href="#iletisim" data-magnetic>Görüşme planla <span class="btn__arrow">→</span></a>
+  <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu">Menü</button>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true" inert>
+  <nav aria-label="Mobil menü">
+    <a href="#hizmetler">Hizmetler</a>
+    <a href="#yaklasim">Yaklaşım</a>
+    <a href="#surec">Süreç</a>
+    <a href="#sss">SSS</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+  <small>360° danışmanlık merkezi · İstanbul</small>
+</div>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" aria-label="Giriş">
+    <canvas class="hero__canvas" aria-hidden="true"></canvas>
+    <div class="hero__glow" aria-hidden="true"></div>
+
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+        <text fill="#FBC1D4" font-family="Archivo" font-weight="800" font-size="17" letter-spacing="5"><textPath href="#circ">BÜYÜ · ÖLÇEKLEN · PERFORMANS · YARIN ·</textPath></text></svg>
+      <div class="badge__core">360°</div>
+    </div>
+
+    <div class="hero__inner">
+      <div class="hero__meta">
+        <span class="eyebrow reveal-up" style="color:var(--pink);transition-delay:.5s">360° Danışmanlık Merkezi</span>
+        <p class="reveal-up" style="transition-delay:.6s">Şirketlerin büyümesine, ölçeklenmesine ve operasyonel performansını en üst düzeye çıkarmasına yardım ediyoruz. Stratejiden sahadaki uygulamaya kadar tek ekip, tek muhatap.</p>
+      </div>
+      <h1 class="display hero__title">
+        <span class="line" data-split>Bugünden</span>
+        <span class="line line--pink" data-split>Yarına</span>
+        <span class="line line--outline" data-split>Büyüyün.</span>
+      </h1>
+      <div class="hero__bottom">
+        <div class="hero__ctas reveal-up" style="transition-delay:.9s">
+          <a class="btn" href="#iletisim" data-magnetic>Ücretsiz ön görüşme <span class="btn__arrow">→</span></a>
+          <a class="btn btn--ghost" href="#hizmetler" data-magnetic>Hizmetlerimiz</a>
+        </div>
+        <a class="hero__scroll reveal-up" href="#yaklasim" style="transition-delay:1s"><span></span>Kaydır</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquees" aria-hidden="true">
+    <div class="marquee"><div class="marquee__track" data-marquee>
+      <div class="marquee__item">Strateji <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg> Operasyon <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg> Finans <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg> Dijital <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg> İnsan <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg> Büyüme <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></div>
+    </div></div>
+    <div class="marquee marquee--alt"><div class="marquee__track" data-marquee>
+      <div class="marquee__item">Büyü ● Ölçeklen ● Performansını maksimize et ● </div>
+    </div></div>
+  </div>
+
+  <!-- STATEMENT -->
+  <section class="statement" id="yaklasim">
+    <div class="wrap statement__grid">
+      <span class="eyebrow" data-reveal>Yaklaşımımız</span>
+      <div>
+        <p class="statement__text" data-words>Büyüme tek bir departmanın işi değil. Strateji, operasyon, finans ve insan birlikte hareket etmediğinde en iyi plan bile kâğıtta kalır. Biz şirketinize <em>360°</em> bakıyor, darboğazları buluyor ve yarının şirketini bugünden birlikte kuruyoruz.</p>
+        <div class="statement__foot" data-reveal>
+          <a class="btn btn--dark" href="#hizmetler" data-magnetic>Nasıl çalışıyoruz <span class="btn__arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="hizmetler">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="display" data-reveal>Hizmet<span style="color:var(--pink)">ler</span></h2>
+        <p data-reveal style="--d:.1s">Her şirketin ihtiyacı farklı. Hizmetlerimizi tek tek ya da uçtan uca bir dönüşüm programı olarak sunuyoruz.</p>
+      </div>
+
+      <div class="stack">
+        <article class="card" style="--i:0" data-cursor="Keşfet">
+          <span class="card__num">01</span>
+          <h3 class="display card__title">Strateji &amp; Büyüme</h3>
+          <div class="card__body">
+            <p>Pazarınızı, rakiplerinizi ve iç yetkinliklerinizi analiz ederek ölçülebilir hedeflere bağlı, uygulanabilir bir büyüme yol haritası çıkarıyoruz.</p>
+            <ul class="tags"><li>Büyüme stratejisi</li><li>Pazar analizi</li><li>İş modeli</li><li>Yeni pazarlara açılım</li></ul>
+          </div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M10 90 L40 55 L58 70 L90 20" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M68 20 H90 V42" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </article>
+
+        <article class="card" style="--i:1" data-cursor="Keşfet">
+          <span class="card__num">02</span>
+          <h3 class="display card__title">Operasyonel Mükemmellik</h3>
+          <div class="card__body">
+            <p>Süreçlerinizi uçtan uca haritalıyor, israfı ve darboğazları ortadan kaldırıyor; verimliliği ve kaliteyi kalıcı olarak artıran bir işletim modeli kuruyoruz.</p>
+            <ul class="tags"><li>Süreç iyileştirme</li><li>Yalın yönetim</li><li>Tedarik zinciri</li><li>KPI &amp; performans</li></ul>
+          </div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18" fill="none" stroke="currentColor" stroke-width="8"/><g stroke="currentColor" stroke-width="10" stroke-linecap="round"><path d="M50 8v12M50 80v12M8 50h12M80 50h12M20 20l8 8M72 72l8 8M20 80l8-8M72 28l8-8"/></g></svg></div>
+        </article>
+
+        <article class="card" style="--i:2" data-cursor="Keşfet">
+          <span class="card__num">03</span>
+          <h3 class="display card__title">Finans &amp; Yatırım</h3>
+          <div class="card__body">
+            <p>Karlılık analizi, bütçeleme ve nakit akışı yönetimiyle finansal kontrolü güçlendiriyor; şirketinizi yatırım ve ortaklık süreçlerine hazırlıyoruz.</p>
+            <ul class="tags"><li>Finansal planlama</li><li>Maliyet optimizasyonu</li><li>Yatırıma hazırlık</li><li>Raporlama</li></ul>
+          </div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><rect x="10" y="60" width="18" height="30" rx="4"/><rect x="41" y="38" width="18" height="52" rx="4"/><rect x="72" y="12" width="18" height="78" rx="4"/></svg></div>
+        </article>
+
+        <article class="card" style="--i:3" data-cursor="Keşfet">
+          <span class="card__num">04</span>
+          <h3 class="display card__title">Dijital Dönüşüm</h3>
+          <div class="card__body">
+            <p>Doğru teknolojiyi doğru sürece yerleştiriyoruz: otomasyon, veri odaklı karar alma ve dijital kanallarla şirketinizi ölçeklenebilir hâle getiriyoruz.</p>
+            <ul class="tags"><li>Süreç otomasyonu</li><li>Veri &amp; analitik</li><li>ERP / CRM</li><li>Yapay zekâ uygulamaları</li></ul>
+          </div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="M34 30 L12 50 L34 70M66 30 L88 50 L66 70M56 20 L44 80"/></svg></div>
+        </article>
+
+        <article class="card" style="--i:4" data-cursor="Keşfet">
+          <span class="card__num">05</span>
+          <h3 class="display card__title">Organizasyon &amp; İnsan</h3>
+          <div class="card__body">
+            <p>Büyümeyi taşıyacak organizasyon yapısını, rolleri ve liderlik kültürünü tasarlıyor; ekiplerinizin değişimi sahiplenmesini sağlıyoruz.</p>
+            <ul class="tags"><li>Organizasyon tasarımı</li><li>Liderlik gelişimi</li><li>Değişim yönetimi</li><li>Yetenek stratejisi</li></ul>
+          </div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><circle cx="30" cy="34" r="14"/><circle cx="70" cy="34" r="14"/><path d="M4 90c0-16 12-28 26-28s26 12 26 28zM44 90c0-16 12-28 26-28s26 12 26 28z"/></svg></div>
+        </article>
+
+        <article class="card" style="--i:5" data-cursor="Keşfet">
+          <span class="card__num">06</span>
+          <h3 class="display card__title">Marka &amp; Pazarlama</h3>
+          <div class="card__body">
+            <p>Değerinizi açık ve güvenilir bir hikâyeye dönüştürüyor; konumlandırma, mesaj ve satış kanallarını büyüme hedeflerinize bağlıyoruz.</p>
+            <ul class="tags"><li>Konumlandırma</li><li>Marka stratejisi</li><li>Go-to-market</li><li>Satış süreçleri</li></ul>
+          </div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 4l12 34h36L69 60l11 36-30-22-30 22 11-36L2 38h36z"/></svg></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="wrap numbers">
+      <div class="numbers__grid">
+        <div class="num" data-reveal><div class="num__value"><span data-to="360">0</span>°</div><div class="num__label">Şirketinize tek bir açıdan değil, her açıdan bakan bütünsel danışmanlık.</div></div>
+        <div class="num" data-reveal style="--d:.1s"><div class="num__value" data-to="6">0</div><div class="num__label">Birbirini tamamlayan uzmanlık alanı, tek bir yol haritasında.</div></div>
+        <div class="num" data-reveal style="--d:.2s"><div class="num__value" data-to="1">0</div><div class="num__label">Muhatap. Stratejiden uygulamaya kadar aynı ekip yanınızda.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="surec">
+    <div class="process__pin">
+      <div class="process__head">
+        <h2 class="display">Süreç</h2>
+        <div class="process__progress" aria-hidden="true"><i></i></div>
+      </div>
+      <div class="process__track">
+        <div class="step"><div class="step__n">01</div><div><h3>Keşif</h3><p>Ekiplerinizle görüşüyor, verilerinizi inceliyor ve şirketin bugünkü resmini 360° çıkarıyoruz.</p></div></div>
+        <div class="step"><div class="step__n">02</div><div><h3>Teşhis</h3><p>Büyümeyi yavaşlatan darboğazları ve en hızlı değer yaratacak fırsatları önceliklendiriyoruz.</p></div></div>
+        <div class="step"><div class="step__n">03</div><div><h3>Yol Haritası</h3><p>Hedefleri, sorumluları ve ölçülebilir KPI'ları belli, uygulanabilir bir plan hazırlıyoruz.</p></div></div>
+        <div class="step"><div class="step__n">04</div><div><h3>Uygulama</h3><p>Planı sizinle birlikte sahaya taşıyor, ilk sonuçları hızlıca görünür kılıyoruz.</p></div></div>
+        <div class="step"><div class="step__n">05</div><div><h3>Ölçek &amp; Sürdür</h3><p>Sonuçları ölçüyor, işe yarayanı büyütüyor ve kazanımları kalıcı hâle getiriyoruz.</p></div></div>
+        <div class="step step--end"><h3>Sıradaki adım sizin.</h3><a class="btn btn--dark" href="#iletisim" data-magnetic>Hadi başlayalım <span class="btn__arrow">→</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="sss">
+    <div class="wrap faq__grid">
+      <div>
+        <span class="eyebrow" data-reveal>Merak edilenler</span>
+        <h2 class="display" data-reveal style="margin-top:20px">Sık<br />sorulan<br />sorular</h2>
+      </div>
+      <div class="faq__list">
+        <div class="faq__item is-open">
+          <button class="faq__q" aria-expanded="true">360° danışmanlık ne demek? <span class="faq__icon" aria-hidden="true">+</span></button>
+          <div class="faq__a"><div><p>Şirketinizi yalnızca tek bir alandan değil; strateji, operasyon, finans, teknoloji, insan ve pazarlama boyutlarıyla birlikte ele almak demek. Böylece bir alandaki iyileştirme diğerini bozmaz, hepsi aynı hedefe hizmet eder.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">Hangi ölçekteki şirketlerle çalışıyorsunuz? <span class="faq__icon" aria-hidden="true">+</span></button>
+          <div class="faq__a"><div><p>Büyüme ve ölçeklenme eşiğindeki KOBİ'lerden kurumsal şirketlere kadar; hızla büyüyen, yapısını güçlendirmek ya da operasyonel performansını artırmak isteyen her şirketle.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">Bir proje ne kadar sürer? <span class="faq__icon" aria-hidden="true">+</span></button>
+          <div class="faq__a"><div><p>Kapsama göre değişir. Odaklı bir teşhis çalışması birkaç hafta sürerken uçtan uca dönüşüm programları aylara yayılabilir. İlk görüşmede ihtiyacınıza uygun takvimi birlikte belirliyoruz.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">Yalnızca rapor mu veriyorsunuz? <span class="faq__icon" aria-hidden="true">+</span></button>
+          <div class="faq__a"><div><p>Hayır. Planı sizinle birlikte uyguluyor, sonuçları ölçüyor ve ekiplerinizin kazanımları sürdürebilmesi için yanınızda kalıyoruz.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" aria-expanded="false">İlk adım nedir? <span class="faq__icon" aria-hidden="true">+</span></button>
+          <div class="faq__a"><div><p>Kısa ve ücretsiz bir ön görüşme. Hedeflerinizi ve önünüzdeki engelleri dinliyor, size nasıl değer katabileceğimizi açıkça konuşuyoruz.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- CTA / FOOTER -->
+<footer class="cta" id="iletisim">
+  <div class="wrap">
+    <div class="cta__kicker">
+      <span class="eyebrow" style="color:var(--pink)" data-reveal>Yarın bugün başlar</span>
+      <a class="btn" data-contact="mail" href="#" data-magnetic data-reveal>Görüşme planla <span class="btn__arrow">→</span></a>
+    </div>
+    <a class="display cta__big" data-contact="mail" href="#" data-split-static data-cursor="Yaz">Hadi<br />Konuşalım</a>
+
+    <div class="cta__row">
+      <div><h4>E-posta</h4><a data-contact="mail" href="#"></a></div>
+      <div><h4>Telefon</h4><a data-contact="phone" href="#"></a></div>
+      <div><h4>Ofis</h4><span data-contact="address"></span></div>
+      <div><h4>Sosyal</h4><a data-contact="linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a><a data-contact="instagram" href="#" target="_blank" rel="noopener">Instagram</a></div>
+    </div>
+
+    <div class="legal">
+      <span>© <span data-year></span> P4Tomorrow. Tüm hakları saklıdır.</span>
+      <a class="totop" href="#top">Başa dön ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== Düzenlenecek iletişim bilgileri ===== */
+const CONFIG = {
+  email: "info@p4tomorrow.com",        // TODO: gerçek e-posta
+  phone: "+90 5XX XXX XX XX",          // TODO: gerçek telefon
+  address: "İstanbul, Türkiye",        // TODO: açık adres
+  linkedin: "https://www.linkedin.com/",   // TODO: şirket LinkedIn sayfası
+  instagram: "https://www.instagram.com/"  // TODO: şirket Instagram hesabı
+};
+
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* Contact fill */
+  $$("[data-contact]").forEach(el => {
+    const k = el.dataset.contact;
+    if (k === "mail") { el.href = "mailto:" + CONFIG.email; if (!el.textContent.trim()) el.textContent = CONFIG.email; }
+    if (k === "phone") { el.href = "tel:" + CONFIG.phone.replace(/\s/g, ""); el.textContent = CONFIG.phone; }
+    if (k === "address") el.textContent = CONFIG.address;
+    if (k === "linkedin") el.href = CONFIG.linkedin;
+    if (k === "instagram") el.href = CONFIG.instagram;
+  });
+  $("[data-year]").textContent = new Date().getFullYear();
+
+  /* Split text into chars */
+  const split = (el, stagger, base) => {
+    const text = el.textContent;
+    el.setAttribute("aria-label", text);
+    el.textContent = "";
+    [...text].forEach((c, i) => {
+      const s = document.createElement("span");
+      s.className = "char";
+      s.setAttribute("aria-hidden", "true");
+      s.textContent = c === " " ? " " : c;
+      if (stagger) s.style.transitionDelay = (base + i * stagger).toFixed(3) + "s";
+      el.appendChild(s);
+    });
+  };
+  $$("[data-split]").forEach((el, li) => split(el, 0.035, 0.15 + li * 0.12));
+  const big = $("[data-split-static]");
+  if (big) {
+    const words = ["Hadi", "Konuşalım"];
+    big.setAttribute("aria-label", words.join(" "));
+    big.innerHTML = "";
+    words.forEach((w, wi) => {
+      const line = document.createElement("span");
+      line.style.display = "block"; line.style.whiteSpace = "nowrap";
+      [...w].forEach(c => { const s = document.createElement("span"); s.className = "char"; s.setAttribute("aria-hidden", "true"); s.textContent = c; line.appendChild(s); });
+      big.appendChild(line);
+    });
+  }
+
+  /* Loader */
+  const loader = $(".loader");
+  const countEl = $("[data-count]");
+  const bar = $(".loader__bar i");
+  const finish = () => {
+    loader.classList.add("is-done");
+    document.body.classList.remove("is-loading");
+    requestAnimationFrame(() => document.body.classList.add("is-ready"));
+  };
+  if (reduce) { countEl.textContent = 100; finish(); }
+  else {
+    const t0 = performance.now(), dur = 1500;
+    const tick = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      countEl.textContent = Math.round(e * 100);
+      bar.style.transform = `scaleX(${e})`;
+      p < 1 ? requestAnimationFrame(tick) : setTimeout(finish, 150);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  /* Marquee: duplicate content for seamless loop */
+  $$("[data-marquee]").forEach(t => {
+    const item = t.firstElementChild;
+    for (let i = 0; i < 3; i++) t.appendChild(item.cloneNode(true));
+  });
+
+  /* Mobile menu */
+  const toggle = $(".nav__toggle"), menu = $("#menu");
+  const setMenu = open => {
+    menu.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", open);
+    toggle.textContent = open ? "Kapat" : "Menü";
+    menu.toggleAttribute("inert", !open);
+    menu.setAttribute("aria-hidden", !open);
+  };
+  toggle.addEventListener("click", () => setMenu(!menu.classList.contains("is-open")));
+  $$("#menu a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+
+  /* Hide nav on scroll down */
+  const nav = $(".nav");
+  let lastY = 0;
+
+  /* Scroll reveal */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold: 0.15 });
+  $$("[data-reveal]").forEach(el => io.observe(el));
+
+  /* Counters */
+  const cio = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      cio.unobserve(en.target);
+      const el = en.target, to = +el.dataset.to;
+      if (reduce) { el.textContent = to; return; }
+      const t0 = performance.now(), dur = 1600;
+      const step = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        el.textContent = Math.round((1 - Math.pow(1 - p, 4)) * to);
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.5 });
+  $$("[data-to]").forEach(el => cio.observe(el));
+
+  /* Statement: word-by-word highlight */
+  const stmt = $("[data-words]");
+  const words = [];
+  if (stmt) {
+    const walk = node => {
+      [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) frag.appendChild(document.createTextNode(part));
+            else { const s = document.createElement("span"); s.className = "w"; s.textContent = part; frag.appendChild(s); words.push(s); }
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) {
+          if (n.tagName === "EM") { n.classList.add("w"); words.push(n); }
+          else walk(n);
+        }
+      });
+    };
+    walk(stmt);
+  }
+
+  /* Stacking cards: scale down as the next one covers */
+  const cards = $$(".card");
+
+  /* Horizontal process */
+  const process = $(".process"), track = $(".process__track"), pin = $(".process__pin"), prog = $(".process__progress i");
+  const horizontal = () => !reduce && innerWidth > 760;
+  const sizeProcess = () => {
+    if (!horizontal()) { process.style.height = ""; track.style.transform = ""; return; }
+    const dist = track.scrollWidth - innerWidth;
+    process.style.height = (pin.offsetHeight + Math.max(0, dist)) + "px";
+  };
+
+  const onScroll = () => {
+    const y = scrollY, vh = innerHeight;
+    // nav
+    nav.classList.toggle("is-hidden", y > lastY && y > 400 && !menu.classList.contains("is-open"));
+    lastY = y;
+    // words
+    if (words.length && !reduce) {
+      const r = stmt.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
+      const n = Math.round(p * words.length);
+      words.forEach((w, i) => w.classList.toggle("on", i < n));
+    }
+    // cards
+    if (!reduce) cards.forEach((c, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      const nr = next.getBoundingClientRect(), cr = c.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, 1 - (nr.top - cr.top) / cr.height));
+      c.style.transform = `scale(${1 - p * 0.06})`;
+      c.style.filter = `brightness(${1 - p * 0.25})`;
+    });
+    // process
+    if (horizontal()) {
+      const r = process.getBoundingClientRect();
+      const total = process.offsetHeight - pin.offsetHeight;
+      const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
+      track.style.transform = `translate3d(${-p * (track.scrollWidth - innerWidth)}px,0,0)`;
+      prog.style.transform = `scaleX(${p})`;
+    }
+  };
+  let ticking = false;
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
+  addEventListener("resize", () => { sizeProcess(); onScroll(); });
+  addEventListener("load", () => { sizeProcess(); onScroll(); });
+  sizeProcess(); onScroll();
+
+  /* FAQ accordion */
+  $$(".faq__item").forEach(item => {
+    const q = $(".faq__q", item);
+    q.addEventListener("click", () => {
+      const open = !item.classList.contains("is-open");
+      $$(".faq__item").forEach(o => { o.classList.remove("is-open"); $(".faq__q", o).setAttribute("aria-expanded", "false"); });
+      item.classList.toggle("is-open", open);
+      q.setAttribute("aria-expanded", open);
+    });
+  });
+
+  /* Custom cursor + magnetic buttons */
+  if (finePointer && !reduce) {
+    const cur = $(".cursor"), label = $(".cursor__label");
+    let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my;
+    addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+    const loop = () => {
+      cx += (mx - cx) * 0.2; cy += (my - cy) * 0.2;
+      cur.style.transform = `translate3d(${cx}px,${cy}px,0)`;
+      requestAnimationFrame(loop);
+    };
+    loop();
+    document.addEventListener("mouseover", e => {
+      const lab = e.target.closest("[data-cursor]");
+      const link = e.target.closest("a,button");
+      cur.classList.toggle("is-label", !!lab);
+      if (lab) label.textContent = lab.dataset.cursor;
+      cur.classList.toggle("is-hover", !lab && !!link);
+    });
+    $$("[data-magnetic]").forEach(el => {
+      el.addEventListener("mousemove", e => {
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
+        el.style.transform = `translate(${x * 0.25}px,${y * 0.35}px)`;
+      });
+      el.addEventListener("mouseleave", () => {
+        el.style.transition = "transform .6s cubic-bezier(.16,1,.3,1)";
+        el.style.transform = "";
+        setTimeout(() => (el.style.transition = ""), 600);
+      });
+    });
+  }
+
+  /* Hero: 3D particle torus-knot on canvas */
+  const cv = $(".hero__canvas"), ctx = cv.getContext("2d");
+  let W, H, DPR, visible = true;
+  const pts = [];
+  const N = innerWidth < 700 ? 900 : 1800;
+  for (let i = 0; i < N; i++) {
+    const t = (i / N) * Math.PI * 2 * 1, p = 2, q = 3;
+    const u = t;
+    const r = 1 + 0.42 * Math.cos(q * u);
+    // point on torus knot + random tube offset
+    const bx = r * Math.cos(p * u), by = r * Math.sin(p * u), bz = 0.42 * Math.sin(q * u);
+    const a = Math.random() * Math.PI * 2, rad = 0.12 + Math.random() * 0.06;
+    pts.push([bx + rad * Math.cos(a) * Math.cos(p * u), by + rad * Math.cos(a) * Math.sin(p * u), bz + rad * Math.sin(a)]);
+  }
+  const resize = () => {
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * DPR; cv.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  };
+  resize(); addEventListener("resize", resize);
+  let tx = 0, ty = 0, rx = 0, ry = 0, rot = 0;
+  addEventListener("mousemove", e => { tx = (e.clientY / innerHeight - .5) * 0.8; ty = (e.clientX / innerWidth - .5) * 0.8; }, { passive: true });
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(cv);
+  const draw = () => {
+    requestAnimationFrame(draw);
+    if (!visible) return;
+    rot += reduce ? 0 : 0.0035;
+    rx += (tx - rx) * 0.05; ry += (ty - ry) * 0.05;
+    ctx.clearRect(0, 0, W, H);
+    const s = Math.min(W, H) * (W < 700 ? 0.34 : 0.3);
+    const ox = W < 700 ? W * 0.5 : W * 0.68, oy = H * (W < 700 ? 0.34 : 0.42);
+    const ca = Math.cos(rot + ry), sa = Math.sin(rot + ry), cb = Math.cos(0.9 + rx), sb = Math.sin(0.9 + rx);
+    const sy = scrollY * 0.0015;
+    for (let i = 0; i < pts.length; i++) {
+      let [x, y, z] = pts[i];
+      let x1 = x * ca - z * sa, z1 = x * sa + z * ca;
+      let y1 = y * cb - z1 * sb, z2 = y * sb + z1 * cb;
+      const persp = 3.2 / (3.2 + z2 + sy);
+      const px = ox + x1 * s * persp, py = oy + y1 * s * persp;
+      const d = (z2 + 1.5) / 3;
+      ctx.globalAlpha = Math.max(0.12, 1 - d);
+      ctx.fillStyle = d < 0.45 ? "#FBC1D4" : "#F4EFE9";
+      const sz = Math.max(0.6, 2.4 * persp * (1.1 - d));
+      ctx.fillRect(px, py, sz, sz);
+    }
+    ctx.globalAlpha = 1;
+  };
+  draw();
+})();
+</script>
+</body>
+</html>
