@@ -222,27 +222,6 @@ function resetTilt(card) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Kayan isimler: kaydırma hızıyla hızlanır                            */
-/* ------------------------------------------------------------------ */
-
-function initRibbon(track) {
-  if (reducedMotion.matches || !track.getAnimations) return;
-  const anim = track.getAnimations()[0];
-  if (!anim) return;
-  let lastY = window.scrollY;
-  let rate = 1;
-  function tick() {
-    const y = window.scrollY;
-    const v = Math.min(Math.abs(y - lastY), 80);
-    lastY = y;
-    rate += (1 + v * 0.12 - rate) * 0.08;
-    anim.playbackRate = rate;
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-/* ------------------------------------------------------------------ */
 /* Görünür olunca beliren öğeler + 1994 sayacı                         */
 /* ------------------------------------------------------------------ */
 
@@ -314,23 +293,50 @@ function initSpotlights() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3B sahne: yaklaşınca yükle                                          */
+/* CafeCadde Family amblemi: kaydırmaya ve imlece hafifçe tepki verir  */
 /* ------------------------------------------------------------------ */
 
-function initWorld(section) {
-  const canvas = section.querySelector('[data-world-canvas]');
-  if (!canvas) return;
-  const io = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    io.disconnect();
-    import('./world.js')
-      .then(({ createWorld }) => createWorld(section, canvas, { reducedMotion }))
-      .catch((err) => {
-        section.classList.add('world--static');
-        console.warn('3B sahne başlatılamadı.', err);
-      });
-  }, { rootMargin: '600px 0px' });
-  io.observe(section);
+function initEmblem(section) {
+  const emblem = section.querySelector('[data-emblem]');
+  if (!emblem) return;
+  let target = 0;
+  let current = 0;
+  let mx = 0;
+  let my = 0;
+  let tmx = 0;
+  let tmy = 0;
+  let running = false;
+
+  function read() {
+    const r = section.getBoundingClientRect();
+    const total = r.height - window.innerHeight;
+    target = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0;
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+
+  function tick() {
+    const k = reducedMotion.matches ? 1 : 0.1;
+    current += (target - current) * k;
+    mx += (tmx - mx) * 0.06;
+    my += (tmy - my) * 0.06;
+    emblem.style.setProperty('--p', current.toFixed(4));
+    emblem.style.setProperty('--mx', mx.toFixed(3));
+    emblem.style.setProperty('--my', my.toFixed(3));
+    const settled = Math.abs(target - current) < 0.0005 && Math.abs(tmx - mx) < 0.002 && Math.abs(tmy - my) < 0.002;
+    if (settled) { running = false; return; }
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('scroll', read, { passive: true });
+  window.addEventListener('resize', read);
+  if (!reducedMotion.matches) {
+    window.addEventListener('pointermove', (e) => {
+      tmx = (e.clientX / window.innerWidth - 0.5) * 2;
+      tmy = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (!running) { running = true; requestAnimationFrame(tick); }
+    }, { passive: true });
+  }
+  read();
 }
 
 /* ------------------------------------------------------------------ */
@@ -338,12 +344,9 @@ function initWorld(section) {
 const deck = document.querySelector('[data-deck]');
 if (deck) initDeck(deck);
 
-const ribbon = document.querySelector('[data-ribbon]');
-if (ribbon) initRibbon(ribbon);
-
 initReveal();
 document.querySelectorAll('[data-count]').forEach(initCount);
 initSpotlights();
 
 const world = document.querySelector('[data-world]');
-if (world) initWorld(world);
+if (world) initEmblem(world);

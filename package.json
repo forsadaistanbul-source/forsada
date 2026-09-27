@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",
-    "@fontsource/bodoni-moda": "^5.3.0",
-    "three": "^0.186.1"
+    "@fontsource/bodoni-moda": "^5.3.0"
   }
 }

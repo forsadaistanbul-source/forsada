@@ -20,7 +20,7 @@
       <!-- ================================================================
            1. Dört kart
            ================================================================ -->
-      <section class="doors" aria-labelledby="doors-title">
+      <section class="doors" aria-label="Markalarımız">
         <div class="doors__glow" aria-hidden="true"></div>
 
         <header class="doors__head">
@@ -28,9 +28,6 @@
             <img src="/logo/family.webp" alt="" width="480" height="480" />
             <span>CafeCadde Family</span>
           </p>
-          <h1 class="doors__title" id="doors-title">
-            Dört kapı, <em>tek aile.</em>
-          </h1>
         </header>
 
         <div class="deck" id="markalar" data-deck>
@@ -49,7 +46,6 @@
               <span class="card__glare" aria-hidden="true"></span>
 
               <span class="card__top" aria-hidden="true">
-                <span class="card__num">01</span>
                 <span class="card__place">Suadiye</span>
               </span>
 
@@ -84,7 +80,6 @@
               <span class="card__glare" aria-hidden="true"></span>
 
               <span class="card__top" aria-hidden="true">
-                <span class="card__num">02</span>
                 <span class="card__place">Bağdat Caddesi</span>
               </span>
 
@@ -119,7 +114,6 @@
               <span class="card__glare" aria-hidden="true"></span>
 
               <span class="card__top" aria-hidden="true">
-                <span class="card__num">03</span>
                 <span class="card__place">Ataşehir</span>
               </span>
 
@@ -154,7 +148,6 @@
               <span class="card__glare" aria-hidden="true"></span>
 
               <span class="card__top" aria-hidden="true">
-                <span class="card__num">04</span>
                 <span class="card__place">1994'ten bu yana</span>
               </span>
 
@@ -187,27 +180,19 @@
       </section>
 
       <!-- ================================================================
-           2. Kayan isimler
-           ================================================================ -->
-      <div class="ribbon" aria-hidden="true">
-        <div class="ribbon__track" data-ribbon>
-          <span>Strada Suadiye</span><i></i><span>Machi Suadiye</span><i></i><span>Süreyya Lokanta</span><i></i><span>CafeCadde Family</span><i></i>
-          <span>Strada Suadiye</span><i></i><span>Machi Suadiye</span><i></i><span>Süreyya Lokanta</span><i></i><span>CafeCadde Family</span><i></i>
-        </div>
-      </div>
-
-      <!-- ================================================================
            3. 3B sahne + hikâye
            ================================================================ -->
       <section class="world" id="hikayemiz" aria-labelledby="hikaye-baslik" data-world>
         <div class="world__stage" aria-hidden="true">
-          <canvas class="world__canvas" data-world-canvas></canvas>
-          <div class="world__vignette"></div>
+          <div class="emblem" data-emblem>
+            <span class="emblem__halo"></span>
+            <span class="emblem__frame"></span>
+            <img class="emblem__mark" src="/logo/family-mark.webp" alt="" width="816" height="824" loading="lazy" />
+          </div>
         </div>
 
         <div class="world__chapters">
           <article class="chapter" data-chapter>
-            <p class="eyebrow" data-reveal>Hikayemiz</p>
             <h2 class="chapter__big" id="hikaye-baslik" data-reveal>
               <span class="chapter__year" data-count="1994">1994</span>
             </h2>
@@ -217,19 +202,10 @@
             </p>
           </article>
 
-          <article class="chapter chapter--right" data-chapter>
-            <p class="eyebrow" data-reveal>Üç dil, tek kelime</p>
-            <ul class="words" data-reveal>
-              <li><span class="words__term" style="--accent: #d55e00">Strada</span><span class="words__lang">İtalyanca · sokak</span></li>
-              <li><span class="words__term" style="--accent: #e5e5cc">Machi</span><span class="words__lang">Japonca · mahalle, sokak</span></li>
-              <li><span class="words__term" style="--accent: #b4ad7a">Cadde</span><span class="words__lang">Türkçe · cadde, sokak</span></li>
-            </ul>
-          </article>
-
           <article class="chapter chapter--center" data-chapter>
             <p class="eyebrow" data-reveal>CafeCadde Family</p>
             <p class="chapter__statement" data-reveal>
-              Dört halka,<br /><em>aynı eksende.</em>
+              Özel deneyimler sunan bir aile işletmesi <em>ve restoran grubu.</em>
             </p>
           </article>
         </div>
@@ -241,7 +217,6 @@
       <section class="suite" id="rezervasyon" aria-labelledby="rezervasyon-baslik">
         <div class="wrap">
           <header class="suite__head">
-            <p class="eyebrow" data-reveal>Rezervasyon</p>
             <h2 class="suite__title" id="rezervasyon-baslik" data-reveal>Masanızı <em>ayırtın.</em></h2>
           </header>
 
@@ -256,7 +231,7 @@
             <li data-reveal>
               <a class="tile tile--reserve" href="tel:+902164641000" style="--accent: #e5e5cc" data-spot>
                 <img class="tile__logo tile__logo--machi" src="/logo/machi.webp" alt="Machi Suadiye" width="900" height="208" loading="lazy" />
-                <span class="tile__how">Telefonla · 0216 464 10 00</span>
+                <span class="visually-hidden">Telefonla rezervasyon: 0216 464 10 00</span>
                 <span class="tile__arrow" aria-hidden="true">↗</span>
               </a>
             </li>
@@ -278,10 +253,10 @@
                 <p class="tile__text">Lezzetli buluşmalar, cazip avantajlar.</p>
                 <div class="stores">
                   <a class="store" href="https://apps.apple.com/tr/app/cafecadde-family/id1498778325" target="_blank" rel="noopener">
-                    <span class="store__small">İndirin</span><span class="store__big">App Store</span>
+                    <svg class="store__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span class="store__text"><span class="store__small">İndirin</span><span class="store__big">App Store</span></span>
                   </a>
                   <a class="store" href="https://play.google.com/store/apps/details?id=com.bolpuan.cafecadde&amp;hl" target="_blank" rel="noopener">
-                    <span class="store__small">İndirin</span><span class="store__big">Google Play</span>
+                    <svg class="store__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FBBC04" d="M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594z"/><path fill="#4285F4" d="M1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924z"/><path fill="#34A853" d="M13.544 10.989l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973z"/><path fill="#EA4335" d="M13.544 13.056l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z"/></svg><span class="store__text"><span class="store__small">İndirin</span><span class="store__big">Google Play</span></span>
                   </a>
                 </div>
               </div>
@@ -315,7 +290,7 @@
                   <dd><a href="https://www.instagram.com/strada.suadiye/" target="_blank" rel="noopener">@strada.suadiye</a></dd>
                 </div>
                 <div>
-                  <dt>Genel</dt>
+                  <dt>Rezervasyon</dt>
                   <dd><a href="tel:+902164641000">0216 464 10 00</a></dd>
                   <dd><a href="mailto:iletisim@cafecadde.com.tr">iletisim@cafecadde.com.tr</a></dd>
                 </div>
