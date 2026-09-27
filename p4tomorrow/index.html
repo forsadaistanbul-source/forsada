@@ -506,8 +506,8 @@ img,svg,canvas{display:block}
 <script>
 /* ===== Düzenlenecek iletişim bilgileri ===== */
 const CONFIG = {
-  email: "info@p4tomorrow.com",        // TODO: gerçek e-posta
-  phone: "+90 5XX XXX XX XX",          // TODO: gerçek telefon
+  email: "info@p4tomorrow.com",
+  phone: "0850 242 94 04",
   address: "İstanbul, Türkiye",        // TODO: açık adres
   linkedin: "https://www.linkedin.com/",   // TODO: şirket LinkedIn sayfası
   instagram: "https://www.instagram.com/"  // TODO: şirket Instagram hesabı
@@ -523,7 +523,7 @@ const CONFIG = {
   $$("[data-contact]").forEach(el => {
     const k = el.dataset.contact;
     if (k === "mail") { el.href = "mailto:" + CONFIG.email; if (!el.textContent.trim()) el.textContent = CONFIG.email; }
-    if (k === "phone") { el.href = "tel:" + CONFIG.phone.replace(/\s/g, ""); el.textContent = CONFIG.phone; }
+    if (k === "phone") { el.href = "tel:+90" + CONFIG.phone.replace(/\s/g, "").replace(/^0/, ""); el.textContent = CONFIG.phone; }
     if (k === "address") el.textContent = CONFIG.address;
     if (k === "linkedin") el.href = CONFIG.linkedin;
     if (k === "instagram") el.href = CONFIG.instagram;
