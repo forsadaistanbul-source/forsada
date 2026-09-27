@@ -361,7 +361,21 @@ function initPendingLinks() {
   });
 }
 
+/* ------------------------------------------------------------------ */
+/* Marka kartları: fotoğraf yoksa logo ortada kalır                    */
+/* ------------------------------------------------------------------ */
+
+function initBrandPhotos() {
+  document.querySelectorAll('.brand-card__img').forEach((img) => {
+    const markEmpty = () => img.closest('.brand-card__photo').classList.add('is-empty');
+    // The module can run after a missing image has already failed.
+    if (img.complete && img.naturalWidth === 0) markEmpty();
+    else img.addEventListener('error', markEmpty, { once: true });
+  });
+}
+
 const heroCanvas = document.querySelector('.hero canvas');
 if (heroCanvas) initHero(heroCanvas);
 initCountUp();
 initPendingLinks();
+initBrandPhotos();
