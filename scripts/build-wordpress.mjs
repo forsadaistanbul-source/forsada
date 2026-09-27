@@ -21,7 +21,8 @@ import postcss from 'postcss';
 const ROOT_DIR = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const OUT = path.join(ROOT_DIR, 'wordpress');
 const ASSET_DIR_NAME = 'cafecadde-family';
-const ASSET_BASE = withSlash(process.env.ASSET_BASE || `/wp-content/uploads/${ASSET_DIR_NAME}/`);
+// Varsayılan: img/, logo/, fonts/ klasörleri doğrudan wp-content/uploads/ altında
+const ASSET_BASE = withSlash(process.env.ASSET_BASE || '/wp-content/uploads/');
 const P = 'ccf-';
 
 const read = (f) => fs.readFileSync(path.join(ROOT_DIR, f), 'utf8');
@@ -131,8 +132,8 @@ if (fontFiles.length < 6) throw new Error(`Beklenen font dosyaları bulunamadı 
 
 // Gömülü sürüme özel küçük eklemeler
 const embedCss = `
-/* WordPress içinde: sayfanın geri kalanından bağımsız tam genişlik ve koyu zemin */
-.${P}root { position: relative; display: block; width: 100%; }
+/* WordPress içinde: temanın sütunundan bağımsız tam genişlik (JS, kaydırma çubuğu payını da düzeltir) */
+.${P}root { position: relative; display: block; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); }
 .${P}root img { height: auto; }
 .${P}root .${P}card__photo { height: 100%; max-width: none; }
 .${P}root a { box-shadow: none; }
@@ -208,9 +209,9 @@ fs.writeFileSync(
 </style>
 </head>
 <body>
-<div class="wpb_row"><div class="wpb_column"><div class="wpb_wrapper">
+<div class="container" style="max-width:1300px;margin:0 auto;padding:0 70px"><div class="wpb_row"><div class="wpb_column" style="padding:0 25px"><div class="wpb_wrapper">
 ${preview}
-</div></div></div>
+</div></div></div></div>
 </body>
 </html>
 `

@@ -7,8 +7,11 @@ const LEAVE_DELAY_MS = 160;    // alandan çıkınca eşit düzene dönüş
 const AUTOPLAY_MS = 4200;      // şerit modunda kartlar arası süre
 const RESUME_AFTER_MS = 7000;  // kullanıcı dokunduktan sonra otomatik kaydırmanın yeniden başlaması
 
-// Sayfa tek başına çalışırken <html>, WordPress içine gömülüyken sarmalayıcı öğe
-const ROOT = document.querySelector('[data-ccf-root]') || document.documentElement;
+// Sayfa tek başına çalışırken <html>, WordPress içine gömülüyken betikten hemen önceki sarmalayıcı.
+// Aynı kod sayfaya iki kez eklenirse her kopya yalnızca kendi alanını yönetir.
+const OWN_ROOT = document.currentScript?.previousElementSibling;
+const ROOT = OWN_ROOT?.matches?.('[data-ccf-root]') ? OWN_ROOT : document.documentElement;
+const EMBEDDED = ROOT !== document.documentElement;
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const desktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
@@ -21,7 +24,7 @@ function initDeck(deck) {
   const cards = [...deck.querySelectorAll('[data-card]')];
   const triggers = cards.map((c) => c.querySelector('[data-trigger]'));
   const bodies = cards.map((c) => c.querySelector('[data-body]'));
-  const nav = document.querySelector('[data-deck-nav]');
+  const nav = ROOT.querySelector('[data-deck-nav]');
   const dots = nav ? [...nav.querySelectorAll('[data-go]')] : [];
   let active = -1;
 
@@ -238,7 +241,7 @@ function initReveal() {
       io.unobserve(entry.target);
     });
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-  document.querySelectorAll('[data-reveal]').forEach((el, i, all) => {
+  ROOT.querySelectorAll('[data-reveal]').forEach((el, i, all) => {
     // Aynı kapsayıcıdaki öğeler sırayla gelsin
     const siblings = [...el.parentElement.querySelectorAll(':scope > [data-reveal]')];
     el.style.setProperty('--d', `${siblings.indexOf(el) * 110}ms`);
@@ -270,7 +273,7 @@ function initCount(el) {
 /* ------------------------------------------------------------------ */
 
 function initSpotlights() {
-  document.querySelectorAll('[data-spot]').forEach((tile) => {
+  ROOT.querySelectorAll('[data-spot]').forEach((tile) => {
     tile.addEventListener('pointermove', (e) => {
       const r = tile.getBoundingClientRect();
       tile.style.setProperty('--mx', `${e.clientX - r.left}px`);
@@ -278,7 +281,7 @@ function initSpotlights() {
     });
   });
 
-  const scene = document.querySelector('[data-phone]');
+  const scene = ROOT.querySelector('[data-phone]');
   const tile = scene?.closest('[data-spot]');
   if (!scene || !tile || reducedMotion.matches) return;
   const phone = scene.firstElementChild;
@@ -344,12 +347,35 @@ function initEmblem(section) {
 
 /* ------------------------------------------------------------------ */
 
-const deck = document.querySelector('[data-deck]');
+/* ------------------------------------------------------------------ */
+/* WordPress içinde: temanın içerik sütunundan taşıp ekranı tam kapla   */
+/* ------------------------------------------------------------------ */
+
+function fitToViewport() {
+  const apply = () => {
+    ROOT.style.marginLeft = '0px';
+    ROOT.style.width = '';
+    const left = ROOT.getBoundingClientRect().left;
+    ROOT.style.width = `${document.documentElement.clientWidth}px`;
+    ROOT.style.marginLeft = `${-left}px`;
+  };
+  apply();
+  let raf = 0;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(apply);
+  });
+  window.addEventListener('load', apply);
+}
+
+if (EMBEDDED) fitToViewport();
+
+const deck = ROOT.querySelector('[data-deck]');
 if (deck) initDeck(deck);
 
 initReveal();
-document.querySelectorAll('[data-count]').forEach(initCount);
+ROOT.querySelectorAll('[data-count]').forEach(initCount);
 initSpotlights();
 
-const world = document.querySelector('[data-world]');
+const world = ROOT.querySelector('[data-world]');
 if (world) initEmblem(world);

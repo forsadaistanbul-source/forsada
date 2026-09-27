@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-<div class="wpb_row"><div class="wpb_column"><div class="wpb_wrapper">
+<div class="container" style="max-width:1300px;margin:0 auto;padding:0 70px"><div class="wpb_row"><div class="wpb_column" style="padding:0 25px"><div class="wpb_wrapper">
 <!-- CafeCadde Family ana giriş — WPBakery Raw HTML -->
 <style>
 @font-face { font-family: 'Bodoni Moda'; font-style: normal; font-display: swap; font-weight: 400; src: url(./cafecadde-family/fonts/bodoni-moda-latin-ext-400-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
@@ -1025,8 +1025,8 @@
 }
 
 
-/* WordPress içinde: sayfanın geri kalanından bağımsız tam genişlik ve koyu zemin */
-.ccf-root { position: relative; display: block; width: 100%; }
+/* WordPress içinde: temanın sütunundan bağımsız tam genişlik (JS, kaydırma çubuğu payını da düzeltir) */
+.ccf-root { position: relative; display: block; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); }
 .ccf-root img { height: auto; }
 .ccf-root .ccf-card__photo { height: 100%; max-width: none; }
 .ccf-root a { box-shadow: none; }
@@ -1316,8 +1316,11 @@ const LEAVE_DELAY_MS = 160;    // alandan çıkınca eşit düzene dönüş
 const AUTOPLAY_MS = 4200;      // şerit modunda kartlar arası süre
 const RESUME_AFTER_MS = 7000;  // kullanıcı dokunduktan sonra otomatik kaydırmanın yeniden başlaması
 
-// Sayfa tek başına çalışırken <html>, WordPress içine gömülüyken sarmalayıcı öğe
-const ROOT = document.querySelector('[data-ccf-root]') || document.documentElement;
+// Sayfa tek başına çalışırken <html>, WordPress içine gömülüyken betikten hemen önceki sarmalayıcı.
+// Aynı kod sayfaya iki kez eklenirse her kopya yalnızca kendi alanını yönetir.
+const OWN_ROOT = document.currentScript?.previousElementSibling;
+const ROOT = OWN_ROOT?.matches?.('[data-ccf-root]') ? OWN_ROOT : document.documentElement;
+const EMBEDDED = ROOT !== document.documentElement;
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const desktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
@@ -1330,7 +1333,7 @@ function initDeck(deck) {
   const cards = [...deck.querySelectorAll('[data-card]')];
   const triggers = cards.map((c) => c.querySelector('[data-trigger]'));
   const bodies = cards.map((c) => c.querySelector('[data-body]'));
-  const nav = document.querySelector('[data-deck-nav]');
+  const nav = ROOT.querySelector('[data-deck-nav]');
   const dots = nav ? [...nav.querySelectorAll('[data-go]')] : [];
   let active = -1;
 
@@ -1547,7 +1550,7 @@ function initReveal() {
       io.unobserve(entry.target);
     });
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-  document.querySelectorAll('[data-reveal]').forEach((el, i, all) => {
+  ROOT.querySelectorAll('[data-reveal]').forEach((el, i, all) => {
     // Aynı kapsayıcıdaki öğeler sırayla gelsin
     const siblings = [...el.parentElement.querySelectorAll(':scope > [data-reveal]')];
     el.style.setProperty('--d', `${siblings.indexOf(el) * 110}ms`);
@@ -1579,7 +1582,7 @@ function initCount(el) {
 /* ------------------------------------------------------------------ */
 
 function initSpotlights() {
-  document.querySelectorAll('[data-spot]').forEach((tile) => {
+  ROOT.querySelectorAll('[data-spot]').forEach((tile) => {
     tile.addEventListener('pointermove', (e) => {
       const r = tile.getBoundingClientRect();
       tile.style.setProperty('--mx', `${e.clientX - r.left}px`);
@@ -1587,7 +1590,7 @@ function initSpotlights() {
     });
   });
 
-  const scene = document.querySelector('[data-phone]');
+  const scene = ROOT.querySelector('[data-phone]');
   const tile = scene?.closest('[data-spot]');
   if (!scene || !tile || reducedMotion.matches) return;
   const phone = scene.firstElementChild;
@@ -1653,17 +1656,40 @@ function initEmblem(section) {
 
 /* ------------------------------------------------------------------ */
 
-const deck = document.querySelector('[data-deck]');
+/* ------------------------------------------------------------------ */
+/* WordPress içinde: temanın içerik sütunundan taşıp ekranı tam kapla   */
+/* ------------------------------------------------------------------ */
+
+function fitToViewport() {
+  const apply = () => {
+    ROOT.style.marginLeft = '0px';
+    ROOT.style.width = '';
+    const left = ROOT.getBoundingClientRect().left;
+    ROOT.style.width = `${document.documentElement.clientWidth}px`;
+    ROOT.style.marginLeft = `${-left}px`;
+  };
+  apply();
+  let raf = 0;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(apply);
+  });
+  window.addEventListener('load', apply);
+}
+
+if (EMBEDDED) fitToViewport();
+
+const deck = ROOT.querySelector('[data-deck]');
 if (deck) initDeck(deck);
 
 initReveal();
-document.querySelectorAll('[data-count]').forEach(initCount);
+ROOT.querySelectorAll('[data-count]').forEach(initCount);
 initSpotlights();
 
-const world = document.querySelector('[data-world]');
+const world = ROOT.querySelector('[data-world]');
 if (world) initEmblem(world);
 })();
 </script>
-</div></div></div>
+</div></div></div></div>
 </body>
 </html>
