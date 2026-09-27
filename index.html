@@ -23,6 +23,12 @@
 
     <header class="nav">
       <a class="nav__brand" href="#top">CafeCadde <em>Family</em></a>
+      <nav class="nav__links" aria-label="Ana menü">
+        <a href="#hikaye">Hikâyemiz</a>
+        <a href="#markalar">Restoranlar</a>
+        <a href="#uygulama">Uygulama</a>
+      </nav>
+      <a class="nav__cta" href="#markalar">Masa ayırtın</a>
       <button
         class="nav__toggle"
         type="button"
@@ -41,7 +47,10 @@
           <li style="--i: 2"><a class="menu__link" href="#machi"><span class="menu__num">03</span>Machi Suadiye</a></li>
           <li style="--i: 3"><a class="menu__link" href="#dubb"><span class="menu__num">04</span>Dubb Indian &amp; Chinese</a></li>
         </ol>
-        <a class="menu__link menu__link--app" href="#uygulama" style="--i: 4">Uygulama</a>
+        <div class="menu__secondary" style="--i: 4">
+          <a class="menu__link menu__link--small" href="#hikaye">Hikâyemiz</a>
+          <a class="menu__link menu__link--small" href="#uygulama">Uygulama</a>
+        </div>
         <p class="menu__foot" style="--i: 5">İstanbul · otuz yılı aşkın aile sofrası</p>
       </nav>
     </div>
@@ -56,7 +65,13 @@
             <span class="hero__title-line">CafeCadde</span>
             <span class="hero__title-line hero__title-line--italic">Family</span>
           </h1>
-          <p class="hero__tagline">İstanbul'da otuz yılı aşkın süredir, aynı ailenin kurduğu sofralar.</p>
+          <div class="hero__lower">
+            <p class="hero__tagline">İstanbul'da otuz yılı aşkın süredir, aynı ailenin kurduğu dört sofra.</p>
+            <div class="hero__actions">
+              <a class="btn btn--light" href="#markalar">Restoranlarımız</a>
+              <a class="btn btn--ghost-light" href="#uygulama">Uygulamayı indirin</a>
+            </div>
+          </div>
           <a class="hero__scroll" href="#hikaye">
             <span>Aşağı kaydır</span>
             <span class="hero__scroll-line" aria-hidden="true"></span>
@@ -64,127 +79,35 @@
         </div>
       </section>
 
-      <!-- 2. Miras -->
-      <section class="intro" id="hikaye">
-        <div class="container intro__grid">
-          <p class="eyebrow" data-reveal>Hikâyemiz</p>
-          <div class="intro__body">
-            <p class="intro__lead" data-reveal>
-              Otuz yılı aşkın süredir İstanbul'da, bir ailenin elinde büyüyen bir misafirperverlik geleneği.
-              <em>CafeCadde Family</em> bugün dört ayrı restoran markasını tek çatı altında buluşturuyor —
-              her birinin mutfağı ve semti farklı, sofraya bakışı aynı.
-            </p>
-            <a class="text-link" href="https://www.cafecadde.com.tr/cafecadde-family/" target="_blank" rel="noopener" data-reveal style="--d: 120ms">
-              cafecadde.com.tr <span aria-hidden="true">↗</span>
-            </a>
+      <!-- 2. Hikâye + rakamlar -->
+      <section class="intro" id="hikaye" aria-labelledby="hikaye-baslik">
+        <div class="container">
+          <div class="intro__grid">
+            <h2 class="eyebrow" id="hikaye-baslik" data-reveal>Hikâyemiz</h2>
+            <div class="intro__body">
+              <p class="intro__lead" data-reveal>
+                Otuz yılı aşkın süredir İstanbul'da, bir ailenin elinde büyüyen bir misafirperverlik geleneği.
+                <em>CafeCadde Family</em> bugün dört ayrı restoran markasını tek çatı altında buluşturuyor —
+                her birinin mutfağı ve semti farklı, sofraya bakışı aynı.
+              </p>
+              <a class="text-link" href="https://www.cafecadde.com.tr/cafecadde-family/" target="_blank" rel="noopener" data-reveal style="--d: 120ms">
+                cafecadde.com.tr <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span class="sr-only"> (yeni sekmede açılır)</span>
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <!-- 3. Markalar -->
-      <section class="brands" id="markalar" aria-labelledby="markalar-baslik">
-        <div class="container">
-          <header class="section-head">
-            <p class="eyebrow" data-reveal>Markalarımız</p>
-            <h2 class="section-title" id="markalar-baslik" data-reveal style="--d: 80ms">
-              Dört mutfak, <em>tek aile.</em>
-            </h2>
-          </header>
-
-          <ol class="brand-list">
-            <li class="brand" id="sureyya">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/sureyya.png" alt="Süreyya Lokanta logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>01</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Süreyya Lokanta</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Kalamış · Klasik lokanta kültürü</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Kalamış'ta, klasik İstanbul lokanta kültürünü yaşatan bir sofra.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn btn--solid" href="https://guest.rezervem.com.tr/sureyya-lokanta?source=webSite" target="_blank" rel="noopener">Rezervasyon</a>
-                  <a class="btn" href="https://sureyyalokanta.com.tr/" target="_blank" rel="noopener">Web sitesi</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="brand" id="strada">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/strada.png" alt="Strada Suadiye logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>02</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Strada Suadiye</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Bağdat Caddesi · İtalyan / Akdeniz, sushi bölümü</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Bağdat Caddesi üzerinde İtalyan ve Akdeniz mutfağı; yanında ayrı bir sushi bölümü.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn" href="#" data-pending="true" title="Bağlantı yakında eklenecek">Bizi Arayın</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="brand" id="machi">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/machi.png" alt="Machi Suadiye logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>03</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Machi Suadiye</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Suadiye · Nikkei mutfağı</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Suadiye'de Nikkei: Japon ve Peru mutfaklarının aynı tabakta buluştuğu yer.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn" href="https://machisuadiye.com/" target="_blank" rel="noopener">Web sitesi</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="brand" id="dubb">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/dubb.png" alt="Dubb Indian &amp; Chinese logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>04</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Dubb Indian &amp; Chinese</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Kadıköy · Hint ve Çin mutfağı</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Kadıköy'de Hint ve Çin mutfaklarını bir arada sunan sofra.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn" href="#" data-pending="true" title="Bağlantı yakında eklenecek">Bizi Arayın</a>
-                </div>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- 4. Rakamlar -->
-      <section class="stats" id="rakamlar" aria-labelledby="rakamlar-baslik">
-        <div class="container">
-          <header class="section-head">
-            <p class="eyebrow" data-reveal>Rakamlarla</p>
-            <h2 class="section-title" id="rakamlar-baslik" data-reveal style="--d: 80ms">
-              CafeCadde <em>Family</em>
-            </h2>
-          </header>
-          <dl class="stats__grid">
+          <dl class="stats" aria-label="Rakamlarla CafeCadde Family">
             <div class="stat" data-reveal>
               <dt class="stat__label">Yıl</dt>
-              <dd class="stat__value"><span data-count="30">30</span></dd>
-              <dd class="stat__note">İstanbul'da otuz yılı aşkın aile işletmesi geçmişi</dd>
+              <dd class="stat__value"><span data-count="30">30</span><span class="stat__plus" aria-hidden="true">+</span></dd>
+              <dd class="stat__note">İstanbul'da aile işletmesi geçmişi</dd>
             </div>
-            <div class="stat" data-reveal style="--d: 120ms">
+            <div class="stat" data-reveal style="--d: 100ms">
               <dt class="stat__label">Marka</dt>
               <dd class="stat__value"><span data-count="4">4</span></dd>
               <dd class="stat__note">Tek çatı altında dört restoran</dd>
             </div>
-            <div class="stat" data-reveal style="--d: 240ms">
+            <div class="stat" data-reveal style="--d: 200ms">
               <dt class="stat__label">Platform</dt>
               <dd class="stat__value"><span data-count="2">2</span></dd>
               <dd class="stat__note">App Store ve Google Play</dd>
@@ -193,7 +116,89 @@
         </div>
       </section>
 
-      <!-- 5. Uygulama -->
+      <!-- 3. Markalar -->
+      <section class="brands" id="markalar" aria-labelledby="markalar-baslik">
+        <div class="container">
+          <header class="section-head">
+            <p class="eyebrow" data-reveal>Restoranlarımız</p>
+            <h2 class="section-title" id="markalar-baslik" data-reveal style="--d: 80ms">
+              Dört mutfak, <em>tek aile.</em>
+            </h2>
+            <p class="section-lead" data-reveal style="--d: 140ms">
+              Bir restoran seçin; rezervasyon ve iletişim bilgileri kartında.
+            </p>
+          </header>
+
+          <ol class="brand-grid">
+            <li class="brand-card" id="sureyya" data-reveal style="--d: 0ms">
+              <div class="brand-card__top">
+                <img class="brand-card__logo" src="/brands/sureyya.png" alt="" loading="lazy" width="800" height="800" />
+                <span class="brand-card__num" aria-hidden="true">01</span>
+              </div>
+              <h3 class="brand-card__name">Süreyya Lokanta</h3>
+              <ul class="brand-card__tags" aria-label="Konum ve mutfak">
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Kalamış</li>
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M5 17a7 7 0 0 1 14 0M12 7v3M10 7h4"/></svg>Klasik lokanta</li>
+              </ul>
+              <p class="brand-card__desc">Kalamış'ta, klasik İstanbul lokanta kültürünü yaşatan bir sofra.</p>
+              <div class="brand-card__actions">
+                <a class="btn btn--solid" href="https://guest.rezervem.com.tr/sureyya-lokanta?source=webSite" target="_blank" rel="noopener">Rezervasyon<span class="sr-only"> (yeni sekmede açılır)</span></a>
+                <a class="btn" href="https://sureyyalokanta.com.tr/" target="_blank" rel="noopener">Web sitesi <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span class="sr-only"> (yeni sekmede açılır)</span></a>
+              </div>
+            </li>
+
+            <li class="brand-card" id="strada" data-reveal style="--d: 100ms">
+              <div class="brand-card__top">
+                <img class="brand-card__logo" src="/brands/strada.png" alt="" loading="lazy" width="800" height="800" />
+                <span class="brand-card__num" aria-hidden="true">02</span>
+              </div>
+              <h3 class="brand-card__name">Strada Suadiye</h3>
+              <ul class="brand-card__tags" aria-label="Konum ve mutfak">
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Bağdat Caddesi</li>
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M5 17a7 7 0 0 1 14 0M12 7v3M10 7h4"/></svg>İtalyan · Akdeniz · Sushi</li>
+              </ul>
+              <p class="brand-card__desc">Bağdat Caddesi üzerinde İtalyan ve Akdeniz mutfağı; yanında ayrı bir sushi bölümü.</p>
+              <div class="brand-card__actions">
+                <a class="btn" href="#" data-pending="true" title="Bağlantı yakında eklenecek">Bizi Arayın</a>
+              </div>
+            </li>
+
+            <li class="brand-card" id="machi" data-reveal style="--d: 0ms">
+              <div class="brand-card__top">
+                <img class="brand-card__logo" src="/brands/machi.png" alt="" loading="lazy" width="800" height="800" />
+                <span class="brand-card__num" aria-hidden="true">03</span>
+              </div>
+              <h3 class="brand-card__name">Machi Suadiye</h3>
+              <ul class="brand-card__tags" aria-label="Konum ve mutfak">
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Suadiye</li>
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M5 17a7 7 0 0 1 14 0M12 7v3M10 7h4"/></svg>Nikkei</li>
+              </ul>
+              <p class="brand-card__desc">Suadiye'de Nikkei: Japon ve Peru mutfaklarının aynı tabakta buluştuğu yer.</p>
+              <div class="brand-card__actions">
+                <a class="btn" href="https://machisuadiye.com/" target="_blank" rel="noopener">Web sitesi <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span class="sr-only"> (yeni sekmede açılır)</span></a>
+              </div>
+            </li>
+
+            <li class="brand-card" id="dubb" data-reveal style="--d: 100ms">
+              <div class="brand-card__top">
+                <img class="brand-card__logo" src="/brands/dubb.png" alt="" loading="lazy" width="800" height="800" />
+                <span class="brand-card__num" aria-hidden="true">04</span>
+              </div>
+              <h3 class="brand-card__name">Dubb Indian &amp; Chinese</h3>
+              <ul class="brand-card__tags" aria-label="Konum ve mutfak">
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Kadıköy</li>
+                <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17h18M5 17a7 7 0 0 1 14 0M12 7v3M10 7h4"/></svg>Hint · Çin</li>
+              </ul>
+              <p class="brand-card__desc">Kadıköy'de Hint ve Çin mutfaklarını bir arada sunan sofra.</p>
+              <div class="brand-card__actions">
+                <a class="btn" href="#" data-pending="true" title="Bağlantı yakında eklenecek">Bizi Arayın</a>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 4. Uygulama -->
       <section class="app" id="uygulama" aria-labelledby="uygulama-baslik">
         <div class="container app__grid">
           <div class="app__copy">
@@ -205,6 +210,11 @@
               CafeCadde Family uygulamasıyla sadakat puanları, özel kampanyalar ve öncelikli rezervasyon
               ayrıcalıkları tek yerde.
             </p>
+            <ul class="app__perks" data-reveal style="--d: 200ms">
+              <li>Dört restoranda geçerli sadakat puanı</li>
+              <li>Üyelere özel kampanyalar</li>
+              <li>Öncelikli rezervasyon</li>
+            </ul>
             <div class="app__buttons" data-reveal style="--d: 240ms">
               <a class="store-btn" href="https://apps.apple.com/tr/app/cafecadde-family/id1498778325" target="_blank" rel="noopener">
                 <span class="store-btn__small">İndirin</span>
@@ -240,7 +250,7 @@
       </section>
     </main>
 
-    <!-- 6. Footer -->
+    <!-- 5. Footer -->
     <footer class="footer">
       <div class="container">
         <p class="footer__mark">CafeCadde <em>Family</em></p>
@@ -291,6 +301,14 @@
         menu.addEventListener('click', function (e) {
           if (e.target.closest('a')) setMenu(false);
         });
+
+        /* Hero geçildiğinde nav dolu arka plana geçer */
+        var hero = document.querySelector('.hero');
+        if (hero && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            body.classList.toggle('nav-solid', !entries[0].isIntersecting);
+          }, { rootMargin: '-72px 0px 0px 0px' }).observe(hero);
+        }
 
         /* Scroll-reveal */
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
