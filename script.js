@@ -2,181 +2,348 @@ import '@fontsource/bodoni-moda/400.css';
 import '@fontsource/bodoni-moda/400-italic.css';
 import '@fontsource-variable/manrope';
 
-const HOVER_INTENT_MS = 80;   // imleç bu kadar durmadan panel açılmaz
-const LEAVE_DELAY_MS = 160;   // alandan çıkınca eşit düzene dönüş gecikmesi
+const HOVER_INTENT_MS = 80;    // imleç bu kadar durmadan kart açılmaz
+const LEAVE_DELAY_MS = 160;    // alandan çıkınca eşit düzene dönüş
+const AUTOPLAY_MS = 4200;      // şerit modunda kartlar arası süre
+const RESUME_AFTER_MS = 7000;  // kullanıcı dokunduktan sonra otomatik kaydırmanın yeniden başlaması
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-// Yan yana düzen + gerçek fare: üzerine gelince aç. Diğer her durumda dokununca aç.
-const hoverLayout = window.matchMedia('(min-width: 1024px) and (min-aspect-ratio: 5/4) and (hover: hover) and (pointer: fine)');
-const rowLayout = window.matchMedia('(min-width: 1024px) and (min-aspect-ratio: 5/4)');
+const desktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
 
 /* ------------------------------------------------------------------ */
-/* Dört panel                                                          */
+/* Kartlar                                                             */
 /* ------------------------------------------------------------------ */
 
-function initStage(stage) {
-  const panels = [...stage.querySelectorAll('[data-panel]')];
-  const triggers = panels.map((p) => p.querySelector('[data-trigger]'));
-  const bodies = panels.map((p) => p.querySelector('[data-body]'));
+function initDeck(deck) {
+  const cards = [...deck.querySelectorAll('[data-card]')];
+  const triggers = cards.map((c) => c.querySelector('[data-trigger]'));
+  const bodies = cards.map((c) => c.querySelector('[data-body]'));
+  const nav = document.querySelector('[data-deck-nav]');
+  const dots = nav ? [...nav.querySelectorAll('[data-go]')] : [];
   let active = -1;
-  let enterTimer = 0;
-  let leaveTimer = 0;
-  let pointerInside = false;
 
   function setActive(index) {
     if (index === active) return;
     active = index;
-    stage.classList.toggle('has-active', index > -1);
-    panels.forEach((panel, i) => {
+    deck.classList.toggle('has-active', index > -1);
+    cards.forEach((card, i) => {
       const on = i === index;
-      panel.classList.toggle('is-active', on);
+      card.classList.toggle('is-active', on);
       triggers[i].setAttribute('aria-expanded', String(on));
-      // Kapalı paneldeki bağlantı ne dokunuşla ne de Tab ile yakalanabilsin.
       bodies[i].toggleAttribute('inert', !on);
+      if (!on) resetTilt(card);
+    });
+    dots.forEach((d, i) => {
+      d.classList.toggle('is-current', i === index);
+      d.setAttribute('aria-current', i === index ? 'true' : 'false');
     });
   }
 
-  setActive(-1);
-  bodies.forEach((b) => b.setAttribute('inert', ''));
+  /* ---------- Masaüstü: üzerine gelince aç + 3B eğim ---------- */
 
-  // Fare: kısa bir niyet gecikmesiyle, böylece hızlı geçişlerde animasyonlar birikmez.
-  panels.forEach((panel, i) => {
-    panel.addEventListener('pointerenter', (e) => {
-      if (e.pointerType !== 'mouse' || !hoverLayout.matches) return;
+  let enterTimer = 0;
+  let leaveTimer = 0;
+  let pointerInside = false;
+
+  cards.forEach((card, i) => {
+    card.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse' || !desktop.matches) return;
       clearTimeout(leaveTimer);
       clearTimeout(enterTimer);
       enterTimer = setTimeout(() => setActive(i), active === -1 ? HOVER_INTENT_MS : HOVER_INTENT_MS * 1.5);
     });
+    card.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse' || !desktop.matches || reducedMotion.matches || i !== active) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--ry', `${(x - 0.5) * 6}deg`);
+      card.style.setProperty('--rx', `${(0.5 - y) * 5}deg`);
+      card.style.setProperty('--gx', `${x * 100}%`);
+      card.style.setProperty('--gy', `${y * 100}%`);
+      card.style.setProperty('--px', `${(0.5 - x) * 18}px`);
+      card.style.setProperty('--py', `${(0.5 - y) * 12}px`);
+    });
+    card.addEventListener('pointerleave', () => resetTilt(card));
   });
 
-  stage.addEventListener('pointerenter', (e) => {
+  deck.addEventListener('pointerenter', (e) => {
     if (e.pointerType === 'mouse') pointerInside = true;
   });
-  stage.addEventListener('pointerleave', (e) => {
-    if (e.pointerType !== 'mouse' || !hoverLayout.matches) return;
+  deck.addEventListener('pointerleave', (e) => {
+    if (e.pointerType !== 'mouse' || !desktop.matches) return;
     pointerInside = false;
     clearTimeout(enterTimer);
     clearTimeout(leaveTimer);
-    if (stage.contains(document.activeElement)) return; // klavye odağı içerideyse açık kalsın
+    if (deck.contains(document.activeElement)) return;
     leaveTimer = setTimeout(() => setActive(-1), LEAVE_DELAY_MS);
   });
 
-  // Dokunma ve tıklama: ilk dokunuş yalnızca paneli açar; yönlendirme bağlantıdadır.
-  triggers.forEach((trigger, i) => {
-    trigger.addEventListener('click', () => {
-      clearTimeout(enterTimer);
-      if (active !== i) setActive(i);
-    });
-  });
+  /* ---------- Şerit (telefon, tablet): otomatik kayan kartlar ---------- */
 
-  // Klavye: odak paneli açar; oklarla paneller arasında gezilir.
-  triggers.forEach((trigger, i) => {
-    trigger.addEventListener('focus', () => {
-      if (trigger.matches(':focus-visible')) setActive(i);
-    });
-    trigger.addEventListener('keydown', (e) => {
-      const horizontal = rowLayout.matches;
-      const next = horizontal ? 'ArrowRight' : 'ArrowDown';
-      const prev = horizontal ? 'ArrowLeft' : 'ArrowUp';
-      let target = -1;
-      if (e.key === next) target = (i + 1) % triggers.length;
-      else if (e.key === prev) target = (i - 1 + triggers.length) % triggers.length;
-      else if (e.key === 'Home') target = 0;
-      else if (e.key === 'End') target = triggers.length - 1;
-      else if (e.key === 'Escape') {
-        setActive(-1);
-        return;
-      }
-      if (target > -1) {
-        e.preventDefault();
-        triggers[target].focus();
-        setActive(target);
-      }
-    });
-  });
+  let autoplayTimer = 0;
+  let resumeTimer = 0;
+  let programmatic = false;
+  let deckVisible = true;
 
-  stage.addEventListener('focusout', (e) => {
-    if (stage.contains(e.relatedTarget)) return;
-    if (hoverLayout.matches && !pointerInside) setActive(-1);
-  });
-
-  // Yerleşim türü değişince (döndürme, pencere boyutu) temiz başla.
-  rowLayout.addEventListener('change', () => setActive(-1));
-
-  // Kısa açılış
-  if (!reducedMotion.matches) {
-    stage.classList.add('is-intro');
-    setTimeout(() => stage.classList.remove('is-intro'), 1200);
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/* Üst menü                                                            */
-/* ------------------------------------------------------------------ */
-
-function initNav(nav, stage) {
-  const toggle = nav.querySelector('[data-menu-toggle]');
-  const links = nav.querySelector('#site-menu');
-  const label = toggle.querySelector('span');
-
-  function setMenu(open) {
-    links.classList.toggle('is-open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    label.textContent = open ? label.dataset.labelClose : label.dataset.labelOpen;
+  function scrollToCard(i, smooth = true) {
+    const card = cards[i];
+    const left = card.offsetLeft - (deck.clientWidth - card.offsetWidth) / 2;
+    programmatic = true;
+    deck.scrollTo({ left, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'auto' });
+    setActive(i);
+    clearTimeout(scrollEndTimer);
+    scrollEndTimer = setTimeout(() => (programmatic = false), 900);
   }
 
-  toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
-  links.addEventListener('click', (e) => {
-    if (e.target.closest('a')) setMenu(false);
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-      setMenu(false);
-      toggle.focus();
-    }
-  });
+  function nearestCard() {
+    const center = deck.scrollLeft + deck.clientWidth / 2;
+    let best = 0;
+    let bestDist = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
 
-  // Paneller geride kalınca menü düz zemine geçer.
-  new IntersectionObserver(
-    ([entry]) => nav.classList.toggle('is-solid', !entry.isIntersecting),
-    { rootMargin: `-${nav.offsetHeight}px 0px 0px 0px` }
-  ).observe(stage);
-}
+  let scrollRaf = 0;
+  let scrollEndTimer = 0;
+  deck.addEventListener('scroll', () => {
+    if (desktop.matches) return;
+    cancelAnimationFrame(scrollRaf);
+    scrollRaf = requestAnimationFrame(() => {
+      if (!programmatic) setActive(nearestCard());
+    });
+  }, { passive: true });
 
-/* ------------------------------------------------------------------ */
-/* Rezervasyon                                                         */
-/* ------------------------------------------------------------------ */
+  function canAutoplay() {
+    return !desktop.matches && !reducedMotion.matches && deckVisible && !document.hidden;
+  }
 
-function initReservation(dialog) {
-  const openers = document.querySelectorAll('[data-open-reservation]');
-  const closer = dialog.querySelector('[data-close-reservation]');
-  let opener = null;
+  function schedule() {
+    clearTimeout(autoplayTimer);
+    nav?.classList.remove('is-playing');
+    if (!canAutoplay()) return;
+    // Animasyonu yeniden başlatmak için sınıfı bir kare sonra ekle
+    requestAnimationFrame(() => nav?.classList.add('is-playing'));
+    autoplayTimer = setTimeout(() => {
+      scrollToCard((active + 1) % cards.length);
+      schedule();
+    }, AUTOPLAY_MS);
+  }
 
-  openers.forEach((btn) =>
-    btn.addEventListener('click', () => {
-      opener = btn;
-      dialog.showModal();
-      document.documentElement.style.overflow = 'hidden';
+  function pauseForUser() {
+    clearTimeout(autoplayTimer);
+    clearTimeout(resumeTimer);
+    nav?.classList.remove('is-playing');
+    resumeTimer = setTimeout(schedule, RESUME_AFTER_MS);
+  }
+
+  ['pointerdown', 'touchstart', 'wheel'].forEach((type) =>
+    deck.addEventListener(type, () => { if (!desktop.matches) pauseForUser(); }, { passive: true })
+  );
+
+  new IntersectionObserver(([entry]) => {
+    deckVisible = entry.isIntersecting;
+    deckVisible ? schedule() : clearTimeout(autoplayTimer);
+  }, { threshold: 0.4 }).observe(deck);
+
+  document.addEventListener('visibilitychange', () => (document.hidden ? clearTimeout(autoplayTimer) : schedule()));
+
+  dots.forEach((dot, i) =>
+    dot.addEventListener('click', () => {
+      scrollToCard(i);
+      pauseForUser();
     })
   );
 
-  closer.addEventListener('click', () => dialog.close());
+  /* ---------- Dokunma, tıklama, klavye ---------- */
 
-  // Arka plana tıklayınca kapan
-  dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) dialog.close();
+  triggers.forEach((trigger, i) => {
+    // İlk dokunuş yalnızca kartı açar; yönlendirme "Mekanı Keşfet" bağlantısındadır.
+    trigger.addEventListener('click', () => {
+      clearTimeout(enterTimer);
+      if (desktop.matches) setActive(i);
+      else if (active !== i) { scrollToCard(i); pauseForUser(); }
+    });
+
+    trigger.addEventListener('focus', () => {
+      if (!trigger.matches(':focus-visible')) return;
+      if (desktop.matches) setActive(i);
+      else if (active !== i) scrollToCard(i);
+    });
+
+    trigger.addEventListener('keydown', (e) => {
+      let target = -1;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') target = (i + 1) % triggers.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') target = (i - 1 + triggers.length) % triggers.length;
+      else if (e.key === 'Home') target = 0;
+      else if (e.key === 'End') target = triggers.length - 1;
+      else if (e.key === 'Escape' && desktop.matches) { setActive(-1); return; }
+      if (target > -1) {
+        e.preventDefault();
+        triggers[target].focus({ preventScroll: true });
+        desktop.matches ? setActive(target) : scrollToCard(target);
+        if (!desktop.matches) pauseForUser();
+      }
+    });
   });
 
-  dialog.addEventListener('close', () => {
-    document.documentElement.style.overflow = '';
-    opener?.focus();
+  deck.addEventListener('focusout', (e) => {
+    if (deck.contains(e.relatedTarget)) return;
+    if (desktop.matches && !pointerInside) setActive(-1);
+  });
+
+  /* ---------- Başlangıç ve düzen değişimi ---------- */
+
+  function setupMode() {
+    clearTimeout(autoplayTimer);
+    active = -2; // zorla güncelle
+    if (desktop.matches) {
+      setActive(-1);
+    } else {
+      setActive(0);
+      scrollToCard(0, false);
+      schedule();
+    }
+  }
+  desktop.addEventListener('change', setupMode);
+  setupMode();
+
+  if (!reducedMotion.matches) {
+    deck.classList.add('is-intro');
+    setTimeout(() => deck.classList.remove('is-intro'), 1400);
+  }
+}
+
+function resetTilt(card) {
+  ['--rx', '--ry', '--px', '--py'].forEach((p) => card.style.removeProperty(p));
+}
+
+/* ------------------------------------------------------------------ */
+/* Kayan isimler: kaydırma hızıyla hızlanır                            */
+/* ------------------------------------------------------------------ */
+
+function initRibbon(track) {
+  if (reducedMotion.matches || !track.getAnimations) return;
+  const anim = track.getAnimations()[0];
+  if (!anim) return;
+  let lastY = window.scrollY;
+  let rate = 1;
+  function tick() {
+    const y = window.scrollY;
+    const v = Math.min(Math.abs(y - lastY), 80);
+    lastY = y;
+    rate += (1 + v * 0.12 - rate) * 0.08;
+    anim.playbackRate = rate;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ------------------------------------------------------------------ */
+/* Görünür olunca beliren öğeler + 1994 sayacı                         */
+/* ------------------------------------------------------------------ */
+
+function initReveal() {
+  if (reducedMotion.matches || !('IntersectionObserver' in window)) return;
+  document.documentElement.classList.add('reveal-ready');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+  document.querySelectorAll('[data-reveal]').forEach((el, i, all) => {
+    // Aynı kapsayıcıdaki öğeler sırayla gelsin
+    const siblings = [...el.parentElement.querySelectorAll(':scope > [data-reveal]')];
+    el.style.setProperty('--d', `${siblings.indexOf(el) * 110}ms`);
+    io.observe(el);
   });
 }
 
-const stage = document.querySelector('[data-stage]');
-const nav = document.querySelector('[data-nav]');
-const dialog = document.getElementById('rezervasyon');
+function initCount(el) {
+  if (reducedMotion.matches) return;
+  const target = Number(el.dataset.count);
+  const from = target - 60;
+  const io = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    io.disconnect();
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / 1800, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = String(Math.round(from + (target - from) * eased));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, { threshold: 0.5 });
+  io.observe(el);
+}
 
-if (stage) initStage(stage);
-if (nav && stage) initNav(nav, stage);
-if (dialog) initReservation(dialog);
+/* ------------------------------------------------------------------ */
+/* Karolar: imleci izleyen ışık; telefon: hafif 3B eğim                 */
+/* ------------------------------------------------------------------ */
+
+function initSpotlights() {
+  document.querySelectorAll('[data-spot]').forEach((tile) => {
+    tile.addEventListener('pointermove', (e) => {
+      const r = tile.getBoundingClientRect();
+      tile.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      tile.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+  });
+
+  const scene = document.querySelector('[data-phone]');
+  const tile = scene?.closest('.tile');
+  if (!scene || !tile || reducedMotion.matches) return;
+  const phone = scene.querySelector('.phone');
+  tile.addEventListener('pointermove', (e) => {
+    const r = tile.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    phone.style.setProperty('--ty', `${x * 24}deg`);
+    phone.style.setProperty('--tx', `${-y * 16}deg`);
+  });
+  tile.addEventListener('pointerleave', () => {
+    phone.style.removeProperty('--ty');
+    phone.style.removeProperty('--tx');
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* 3B sahne: yaklaşınca yükle                                          */
+/* ------------------------------------------------------------------ */
+
+function initWorld(section) {
+  const canvas = section.querySelector('[data-world-canvas]');
+  if (!canvas) return;
+  const io = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    io.disconnect();
+    import('./world.js')
+      .then(({ createWorld }) => createWorld(section, canvas, { reducedMotion }))
+      .catch((err) => {
+        section.classList.add('world--static');
+        console.warn('3B sahne başlatılamadı.', err);
+      });
+  }, { rootMargin: '600px 0px' });
+  io.observe(section);
+}
+
+/* ------------------------------------------------------------------ */
+
+const deck = document.querySelector('[data-deck]');
+if (deck) initDeck(deck);
+
+const ribbon = document.querySelector('[data-ribbon]');
+if (ribbon) initRibbon(ribbon);
+
+initReveal();
+document.querySelectorAll('[data-count]').forEach(initCount);
+initSpotlights();
+
+const world = document.querySelector('[data-world]');
+if (world) initWorld(world);
