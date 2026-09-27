@@ -2,309 +2,284 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CafeCadde Family — İstanbul'un aile sofrası</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>CafeCadde Family — Strada, Machi, Süreyya Lokanta</title>
     <meta
       name="description"
-      content="CafeCadde Family: İstanbul'da otuz yılı aşkın aile işletmesi geçmişi ve dört restoran markası — Süreyya Lokanta, Strada Suadiye, Machi Suadiye, Dubb Indian & Chinese."
+      content="CafeCadde Family; Strada Suadiye, Machi Suadiye ve Süreyya Lokanta'yı bir araya getiren, 1994'te Cafe Cadde ile başlayan aile işletmesi ve restoran grubu."
     />
-    <meta name="theme-color" content="#F3ECDF" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Manrope:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preload" href="/hero-day.jpg" as="image" crossorigin="anonymous" />
+    <meta name="theme-color" content="#171614" />
+    <link rel="icon" href="/logo/family.webp" type="image/webp" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#hikaye">İçeriğe geç</a>
+    <a class="skip-link" href="#markalar">Markalara geç</a>
 
-    <header class="nav">
-      <a class="nav__brand" href="#top">CafeCadde <em>Family</em></a>
-      <button
-        class="nav__toggle"
-        type="button"
-        aria-expanded="false"
-        aria-controls="menu"
-      >
-        <span class="nav__toggle-label" data-open="Menü" data-close="Kapat">Menü</span>
+    <header class="nav" data-nav>
+      <a class="nav__brand" href="#markalar" aria-label="CafeCadde Family, ana sayfa">
+        <img src="/logo/family.webp" alt="" width="480" height="480" />
+        <span>CafeCadde Family</span>
+      </a>
+
+      <nav class="nav__links" id="site-menu" aria-label="Ana menü">
+        <a href="#hikayemiz">Hikayemiz</a>
+        <a href="#markalar">Markalarımız</a>
+        <a href="#iletisim">İletişim</a>
+      </nav>
+
+      <button class="nav__reserve" type="button" aria-haspopup="dialog" aria-controls="rezervasyon" data-open-reservation>
+        Rezervasyon
+      </button>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+        <span data-label-open="Menü" data-label-close="Kapat">Menü</span>
       </button>
     </header>
 
-    <div class="menu" id="menu" aria-hidden="true" inert>
-      <nav class="menu__inner" aria-label="Site menüsü">
-        <ol class="menu__list">
-          <li style="--i: 0"><a class="menu__link" href="#sureyya"><span class="menu__num">01</span>Süreyya Lokanta</a></li>
-          <li style="--i: 1"><a class="menu__link" href="#strada"><span class="menu__num">02</span>Strada Suadiye</a></li>
-          <li style="--i: 2"><a class="menu__link" href="#machi"><span class="menu__num">03</span>Machi Suadiye</a></li>
-          <li style="--i: 3"><a class="menu__link" href="#dubb"><span class="menu__num">04</span>Dubb Indian &amp; Chinese</a></li>
-        </ol>
-        <a class="menu__link menu__link--app" href="#uygulama" style="--i: 4">Uygulama</a>
-        <p class="menu__foot" style="--i: 5">İstanbul · otuz yılı aşkın aile sofrası</p>
-      </nav>
-    </div>
+    <main>
+      <!-- Dört kapı -->
+      <section class="stage" id="markalar" aria-label="Markalarımız" data-stage>
+        <article
+          class="panel"
+          id="strada"
+          data-panel
+          style="--fx: 46%; --fy: 58%; --accent: #d55e00"
+        >
+          <img
+            class="panel__photo"
+            srcset="/img/strada-720.webp 720w, /img/strada-1280.webp 1280w, /img/strada-2000.webp 2000w"
+            sizes="(min-width: 1100px) and (orientation: landscape) 55vw, 100vw"
+            src="/img/strada-1280.webp"
+            alt="Strada Suadiye'nin ağaçlar ve sarmaşıklar arasındaki bahçe salonu"
+            width="2000" height="1334"
+            fetchpriority="high"
+          />
+          <span class="panel__shade" aria-hidden="true"></span>
+          <button class="panel__trigger" type="button" aria-expanded="false" aria-controls="strada-detay" data-trigger>
+            <img class="panel__logo panel__logo--strada" src="/logo/strada.webp" alt="Strada Suadiye" width="612" height="176" />
+            <span class="panel__place">Suadiye</span>
+          </button>
+          <div class="panel__body" id="strada-detay" data-body>
+            <p class="panel__desc">
+              Adını İtalyancada “sokak” anlamına gelen kelimeden alıyor. Kahvaltıdan akşam kadehine; taş fırın pizzalar,
+              ünlü çıtır ördek ve kendi sushi bölümü.
+            </p>
+            <a class="panel__link" href="https://stradasuadiye.com/" target="_blank" rel="noopener">
+              Mekanı Keşfet<span class="visually-hidden">: Strada Suadiye (yeni sekmede açılır)</span>
+            </a>
+          </div>
+        </article>
 
-    <main id="top">
-      <!-- 1. Hero -->
-      <section class="hero" aria-label="CafeCadde Family">
-        <canvas class="hero__canvas" aria-hidden="true"></canvas>
-        <div class="hero__scrim" aria-hidden="true"></div>
-        <div class="hero__overlay">
-          <h1 class="hero__title">
-            <span class="hero__title-line">CafeCadde</span>
-            <span class="hero__title-line hero__title-line--italic">Family</span>
-          </h1>
-          <p class="hero__tagline">İstanbul'da otuz yılı aşkın süredir, aynı ailenin kurduğu sofralar.</p>
-          <a class="hero__scroll" href="#hikaye">
-            <span>Aşağı kaydır</span>
-            <span class="hero__scroll-line" aria-hidden="true"></span>
-          </a>
+        <article
+          class="panel"
+          id="machi"
+          data-panel
+          style="--fx: 62%; --fy: 42%; --accent: #e5e5cc"
+        >
+          <img
+            class="panel__photo"
+            srcset="/img/machi-720.webp 720w, /img/machi-1280.webp 1280w, /img/machi-2000.webp 2000w"
+            sizes="(min-width: 1100px) and (orientation: landscape) 55vw, 100vw"
+            src="/img/machi-1280.webp"
+            alt="Machi Suadiye'nin loş ışıklı barı ve koyu ahşap masaları"
+            width="2000" height="2800"
+            fetchpriority="high"
+          />
+          <span class="panel__shade" aria-hidden="true"></span>
+          <button class="panel__trigger" type="button" aria-expanded="false" aria-controls="machi-detay" data-trigger>
+            <img class="panel__logo panel__logo--machi" src="/logo/machi.webp" alt="Machi Suadiye" width="900" height="208" />
+            <span class="panel__place">Bağdat Caddesi</span>
+          </button>
+          <div class="panel__body" id="machi-detay" data-body>
+            <p class="panel__desc">
+              Japonya'nın titizliği, Peru'nun canlı tatları: Nikkei mutfağı. Machi, Japoncada “mahalle” demek; şefin
+              yönettiği sushi atölyeleri de burada.
+            </p>
+            <a class="panel__link" href="https://www.machisuadiye.com/tr" target="_blank" rel="noopener">
+              Mekanı Keşfet<span class="visually-hidden">: Machi Suadiye (yeni sekmede açılır)</span>
+            </a>
+          </div>
+        </article>
+
+        <article
+          class="panel"
+          id="sureyya"
+          data-panel
+          style="--fx: 42%; --fy: 60%; --accent: #cda66d"
+        >
+          <img
+            class="panel__photo"
+            srcset="/img/sureyya-720.webp 720w, /img/sureyya-1280.webp 1280w, /img/sureyya-2000.webp 2000w"
+            sizes="(min-width: 1100px) and (orientation: landscape) 55vw, 100vw"
+            src="/img/sureyya-1280.webp"
+            alt="Süreyya Lokanta'nın mum ışığındaki uzun masaları ve Viyana sandalyeleri"
+            width="1708" height="2560"
+            fetchpriority="high"
+          />
+          <span class="panel__shade" aria-hidden="true"></span>
+          <button class="panel__trigger" type="button" aria-expanded="false" aria-controls="sureyya-detay" data-trigger>
+            <img class="panel__logo panel__logo--sureyya" src="/logo/sureyya.webp" alt="Süreyya Lokanta" width="900" height="184" />
+            <span class="panel__place">Ataşehir</span>
+          </button>
+          <div class="panel__body" id="sureyya-detay" data-body>
+            <p class="panel__desc">
+              Adını, Ankara'da bir lokantada tek başına yemek yediği için yadırganan Türkiye'nin ilk kadın avukatı
+              Süreyya'dan alıyor. Coğrafyamızın lezzetleri, bugünün şıklığıyla.
+            </p>
+            <a class="panel__link" href="https://sureyyalokanta.com.tr/" target="_blank" rel="noopener">
+              Mekanı Keşfet<span class="visually-hidden">: Süreyya Lokanta (yeni sekmede açılır)</span>
+            </a>
+          </div>
+        </article>
+
+        <article
+          class="panel"
+          id="cafecadde-family"
+          data-panel
+          style="--fx: 52%; --fy: 40%; --accent: #b4ad7a"
+        >
+          <img
+            class="panel__photo"
+            srcset="/img/family-720.webp 720w, /img/family-1280.webp 1280w, /img/family-2000.webp 2000w"
+            sizes="(min-width: 1100px) and (orientation: landscape) 55vw, 100vw"
+            src="/img/family-1280.webp"
+            alt="Beyaz örtülü bir masada servis edilmiş tabak"
+            width="1708" height="2560"
+            fetchpriority="high"
+          />
+          <span class="panel__shade" aria-hidden="true"></span>
+          <button class="panel__trigger" type="button" aria-expanded="false" aria-controls="family-detay" data-trigger>
+            <span class="panel__family">
+              <img class="panel__logo panel__logo--family" src="/logo/family.webp" alt="" width="480" height="480" />
+              <span class="panel__family-name">CafeCadde Family</span>
+            </span>
+            <span class="panel__place">1994'ten bu yana</span>
+          </button>
+          <div class="panel__body" id="family-detay" data-body>
+            <p class="panel__desc">
+              Hikâye 1994'te Bağdat Caddesi'ndeki Cafe Cadde'de başladı. O köşeden ayrıldık; Cafe Cadde'nin ruhu bugün
+              Strada, Machi ve Süreyya Lokanta'da sürüyor.
+            </p>
+            <a class="panel__link" href="https://www.instagram.com/cafecadde_official/" target="_blank" rel="noopener">
+              Instagram'da Keşfet<span class="visually-hidden">: CafeCadde Family (yeni sekmede açılır)</span>
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <!-- Hikayemiz -->
+      <section class="story" id="hikayemiz" aria-labelledby="hikayemiz-baslik">
+        <div class="wrap story__grid">
+          <h2 class="eyebrow" id="hikayemiz-baslik">Hikayemiz</h2>
+          <p class="story__lead">
+            Turanlı ailesinin 1994'te Bağdat Caddesi'nde Cafe Cadde ile başlayan yolculuğu, bugün üç restoranda devam ediyor.
+            İsimler bile akraba: <em>Strada</em> İtalyancada, <em>Machi</em> Japoncada,
+            <em>Cadde</em> Türkçede sokağı anlatır.
+          </p>
         </div>
       </section>
 
-      <!-- 2. Miras -->
-      <section class="intro" id="hikaye">
-        <div class="container intro__grid">
-          <p class="eyebrow" data-reveal>Hikâyemiz</p>
-          <div class="intro__body">
-            <p class="intro__lead" data-reveal>
-              Otuz yılı aşkın süredir İstanbul'da, bir ailenin elinde büyüyen bir misafirperverlik geleneği.
-              <em>CafeCadde Family</em> bugün dört ayrı restoran markasını tek çatı altında buluşturuyor —
-              her birinin mutfağı ve semti farklı, sofraya bakışı aynı.
-            </p>
-            <a class="text-link" href="https://www.cafecadde.com.tr/cafecadde-family/" target="_blank" rel="noopener" data-reveal style="--d: 120ms">
-              cafecadde.com.tr <span aria-hidden="true">↗</span>
+      <!-- Uygulama -->
+      <section class="app" id="uygulama" aria-labelledby="uygulama-baslik">
+        <div class="wrap app__grid">
+          <div>
+            <h2 class="eyebrow" id="uygulama-baslik">CafeCadde Family uygulaması</h2>
+            <p class="app__lead">Lezzetli buluşmalar, cazip avantajlar.</p>
+          </div>
+          <div class="app__stores">
+            <a class="store" href="https://apps.apple.com/tr/app/cafecadde-family/id1498778325" target="_blank" rel="noopener">
+              <span class="store__label">App Store'dan İndirin</span>
+              <span class="store__arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.bolpuan.cafecadde&amp;hl" target="_blank" rel="noopener">
+              <span class="store__label">Google Play'den İndirin</span>
+              <span class="store__arrow" aria-hidden="true">→</span>
             </a>
           </div>
         </div>
       </section>
 
-      <!-- 3. Markalar -->
-      <section class="brands" id="markalar" aria-labelledby="markalar-baslik">
-        <div class="container">
-          <header class="section-head">
-            <p class="eyebrow" data-reveal>Markalarımız</p>
-            <h2 class="section-title" id="markalar-baslik" data-reveal style="--d: 80ms">
-              Dört mutfak, <em>tek aile.</em>
-            </h2>
-          </header>
-
-          <ol class="brand-list">
-            <li class="brand" id="sureyya">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/sureyya.png" alt="Süreyya Lokanta logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>01</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Süreyya Lokanta</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Kalamış · Klasik lokanta kültürü</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Kalamış'ta, klasik İstanbul lokanta kültürünü yaşatan bir sofra.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn btn--solid" href="https://guest.rezervem.com.tr/sureyya-lokanta?source=webSite" target="_blank" rel="noopener">Rezervasyon</a>
-                  <a class="btn" href="https://sureyyalokanta.com.tr/" target="_blank" rel="noopener">Web sitesi</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="brand" id="strada">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/strada.png" alt="Strada Suadiye logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>02</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Strada Suadiye</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Bağdat Caddesi · İtalyan / Akdeniz, sushi bölümü</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Bağdat Caddesi üzerinde İtalyan ve Akdeniz mutfağı; yanında ayrı bir sushi bölümü.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn" href="#" data-pending="true" title="Bağlantı yakında eklenecek">Bizi Arayın</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="brand" id="machi">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/machi.png" alt="Machi Suadiye logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>03</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Machi Suadiye</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Suadiye · Nikkei mutfağı</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Suadiye'de Nikkei: Japon ve Peru mutfaklarının aynı tabakta buluştuğu yer.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn" href="https://machisuadiye.com/" target="_blank" rel="noopener">Web sitesi</a>
-                </div>
-              </div>
-            </li>
-
-            <li class="brand" id="dubb">
-              <figure class="brand__media" data-reveal>
-                <img src="/brands/dubb.png" alt="Dubb Indian &amp; Chinese logosu" loading="lazy" width="800" height="800" />
-              </figure>
-              <div class="brand__info">
-                <span class="brand__num" data-reveal>04</span>
-                <h3 class="brand__name" data-reveal style="--d: 80ms">Dubb Indian &amp; Chinese</h3>
-                <p class="brand__meta" data-reveal style="--d: 140ms">Kadıköy · Hint ve Çin mutfağı</p>
-                <p class="brand__desc" data-reveal style="--d: 200ms">
-                  Kadıköy'de Hint ve Çin mutfaklarını bir arada sunan sofra.
-                </p>
-                <div class="brand__actions" data-reveal style="--d: 260ms">
-                  <a class="btn" href="#" data-pending="true" title="Bağlantı yakında eklenecek">Bizi Arayın</a>
-                </div>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- 4. Rakamlar -->
-      <section class="stats" id="rakamlar" aria-labelledby="rakamlar-baslik">
-        <div class="container">
-          <header class="section-head">
-            <p class="eyebrow" data-reveal>Rakamlarla</p>
-            <h2 class="section-title" id="rakamlar-baslik" data-reveal style="--d: 80ms">
-              CafeCadde <em>Family</em>
-            </h2>
-          </header>
-          <dl class="stats__grid">
-            <div class="stat" data-reveal>
-              <dt class="stat__label">Yıl</dt>
-              <dd class="stat__value"><span data-count="30">30</span></dd>
-              <dd class="stat__note">İstanbul'da otuz yılı aşkın aile işletmesi geçmişi</dd>
+      <!-- İletişim -->
+      <section class="contact" id="iletisim" aria-labelledby="iletisim-baslik">
+        <div class="wrap">
+          <h2 class="eyebrow" id="iletisim-baslik">İletişim</h2>
+          <dl class="contact__list">
+            <div class="contact__row">
+              <dt>Strada Suadiye</dt>
+              <dd>
+                <a href="tel:+902164641000">0216 464 10 00</a>
+                <a href="mailto:strada@cafecadde.com.tr">strada@cafecadde.com.tr</a>
+                <a href="https://www.instagram.com/strada.suadiye/" target="_blank" rel="noopener">@strada.suadiye</a>
+              </dd>
             </div>
-            <div class="stat" data-reveal style="--d: 120ms">
-              <dt class="stat__label">Marka</dt>
-              <dd class="stat__value"><span data-count="4">4</span></dd>
-              <dd class="stat__note">Tek çatı altında dört restoran</dd>
+            <div class="contact__row">
+              <dt>Machi Suadiye</dt>
+              <dd>
+                <span>Bağdat Caddesi, Müzeyyen Sk. No:2, Suadiye, Kadıköy</span>
+                <a href="tel:+902164641000">0216 464 10 00</a>
+                <a href="https://www.instagram.com/machi.suadiye" target="_blank" rel="noopener">@machi.suadiye</a>
+              </dd>
             </div>
-            <div class="stat" data-reveal style="--d: 240ms">
-              <dt class="stat__label">Platform</dt>
-              <dd class="stat__value"><span data-count="2">2</span></dd>
-              <dd class="stat__note">App Store ve Google Play</dd>
+            <div class="contact__row">
+              <dt>Süreyya Lokanta</dt>
+              <dd>
+                <span>Varyap Meridian G Blok No:4, Barbaros Mah., Ataşehir</span>
+                <a href="tel:+902164641000">0216 464 10 00</a>
+                <a href="https://www.instagram.com/sureyya.lokanta/" target="_blank" rel="noopener">@sureyya.lokanta</a>
+              </dd>
+            </div>
+            <div class="contact__row">
+              <dt>CafeCadde Family</dt>
+              <dd>
+                <a href="mailto:iletisim@cafecadde.com.tr">iletisim@cafecadde.com.tr</a>
+                <a href="https://www.instagram.com/cafecadde_official/" target="_blank" rel="noopener">@cafecadde_official</a>
+              </dd>
             </div>
           </dl>
         </div>
       </section>
-
-      <!-- 5. Uygulama -->
-      <section class="app" id="uygulama" aria-labelledby="uygulama-baslik">
-        <div class="container app__grid">
-          <div class="app__copy">
-            <p class="eyebrow" data-reveal>Uygulama</p>
-            <h2 class="section-title" id="uygulama-baslik" data-reveal style="--d: 80ms">
-              Aile sofrası, <em>cebinizde.</em>
-            </h2>
-            <p class="app__text" data-reveal style="--d: 160ms">
-              CafeCadde Family uygulamasıyla sadakat puanları, özel kampanyalar ve öncelikli rezervasyon
-              ayrıcalıkları tek yerde.
-            </p>
-            <div class="app__buttons" data-reveal style="--d: 240ms">
-              <a class="store-btn" href="https://apps.apple.com/tr/app/cafecadde-family/id1498778325" target="_blank" rel="noopener">
-                <span class="store-btn__small">İndirin</span>
-                <span class="store-btn__big">App Store</span>
-              </a>
-              <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.bolpuan.cafecadde&amp;hl" target="_blank" rel="noopener">
-                <span class="store-btn__small">İndirin</span>
-                <span class="store-btn__big">Google Play</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="phone-wrap" data-reveal style="--d: 120ms" aria-hidden="true">
-            <div class="phone">
-              <div class="phone__notch"></div>
-              <div class="phone__screen">
-                <p class="phone__brand">CafeCadde <em>Family</em></p>
-                <div class="phone__card">
-                  <span class="phone__card-label">Sadakat puanı</span>
-                  <span class="phone__bar"><span></span></span>
-                </div>
-                <ul class="phone__rows">
-                  <li><i></i>Süreyya Lokanta</li>
-                  <li><i></i>Strada Suadiye</li>
-                  <li><i></i>Machi Suadiye</li>
-                  <li><i></i>Dubb</li>
-                </ul>
-                <span class="phone__cta">Rezervasyon</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
 
-    <!-- 6. Footer -->
     <footer class="footer">
-      <div class="container">
-        <p class="footer__mark">CafeCadde <em>Family</em></p>
-        <ul class="footer__links">
-          <li><a href="https://sureyyalokanta.com.tr/" target="_blank" rel="noopener">Süreyya Lokanta</a></li>
-          <li><a href="#" data-pending="true" title="Bağlantı yakında eklenecek">Strada Suadiye</a></li>
-          <li><a href="https://machisuadiye.com/" target="_blank" rel="noopener">Machi Suadiye</a></li>
-          <li><a href="#" data-pending="true" title="Bağlantı yakında eklenecek">Dubb Indian &amp; Chinese</a></li>
-        </ul>
-        <div class="footer__base">
-          <p>© CafeCadde Family 2026</p>
-          <a href="https://www.cafecadde.com.tr/cafecadde-family/" target="_blank" rel="noopener">cafecadde.com.tr</a>
-        </div>
+      <div class="wrap footer__row">
+        <p>© CafeCadde Family 2026. Tüm hakları saklıdır.</p>
+        <a href="https://www.cafecadde.com.tr/" target="_blank" rel="noopener">cafecadde.com.tr</a>
       </div>
     </footer>
 
+    <!-- Rezervasyon -->
+    <dialog class="reserve" id="rezervasyon" aria-labelledby="rezervasyon-baslik">
+      <div class="reserve__inner">
+        <div class="reserve__head">
+          <h2 id="rezervasyon-baslik">Rezervasyon</h2>
+          <button class="reserve__close" type="button" data-close-reservation>Kapat</button>
+        </div>
+        <p class="reserve__note">Masanızı ayırtmak istediğiniz restoranı seçin.</p>
+        <ul class="reserve__list">
+          <li>
+            <a class="reserve__option" href="https://guest.rezervem.com.tr/strada?source=webSite" target="_blank" rel="noopener">
+              <img src="/logo/strada.webp" alt="Strada Suadiye" width="612" height="176" class="reserve__logo reserve__logo--strada" />
+              <span class="reserve__how">Çevrimiçi rezervasyon</span>
+              <span class="reserve__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li>
+            <a class="reserve__option" href="tel:+902164641000">
+              <img src="/logo/machi.webp" alt="Machi Suadiye" width="900" height="208" class="reserve__logo" />
+              <span class="reserve__how">Telefonla · 0216 464 10 00</span>
+              <span class="reserve__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li>
+            <a class="reserve__option" href="https://guest.rezervem.com.tr/sureyya-lokanta?source=webSite" target="_blank" rel="noopener">
+              <img src="/logo/sureyya.webp" alt="Süreyya Lokanta" width="900" height="184" class="reserve__logo reserve__logo--sureyya" />
+              <span class="reserve__how">Çevrimiçi rezervasyon</span>
+              <span class="reserve__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </dialog>
+
     <script type="module" src="/script.js"></script>
-    <script>
-      (function () {
-        var root = document.documentElement;
-        var body = document.body;
-
-        /* Menü aç / kapa */
-        var toggle = document.querySelector('.nav__toggle');
-        var label = toggle.querySelector('.nav__toggle-label');
-        var menu = document.getElementById('menu');
-
-        function setMenu(open) {
-          toggle.setAttribute('aria-expanded', String(open));
-          label.textContent = open ? label.dataset.close : label.dataset.open;
-          menu.setAttribute('aria-hidden', String(!open));
-          if (open) menu.removeAttribute('inert'); else menu.setAttribute('inert', '');
-          body.classList.toggle('menu-open', open);
-          if (open) {
-            var first = menu.querySelector('a');
-            if (first) first.focus({ preventScroll: true });
-          }
-        }
-        toggle.addEventListener('click', function () {
-          setMenu(toggle.getAttribute('aria-expanded') !== 'true');
-        });
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-            setMenu(false);
-            toggle.focus();
-          }
-        });
-        menu.addEventListener('click', function (e) {
-          if (e.target.closest('a')) setMenu(false);
-        });
-
-        /* Scroll-reveal */
-        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduce || !('IntersectionObserver' in window)) return;
-        root.classList.add('reveal-ready');
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('is-visible');
-            io.unobserve(entry.target);
-          });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
-        document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
-      })();
-    </script>
   </body>
 </html>

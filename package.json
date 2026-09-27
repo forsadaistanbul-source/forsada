@@ -8,10 +8,11 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "three": "^0.186.1"
-  },
   "devDependencies": {
     "vite": "^7.3.6"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/bodoni-moda": "^5.3.0"
   }
 }
