@@ -22,7 +22,6 @@
   --fume:#57504C;          /* header & footer — Benjamin Moore Silhouette */
   --gold:#FDC743;          /* logo yıldızı, vurgu kelimeleri, rakamlar, imleç */
   --antique:#9E7B26;       /* açık zeminde süsleme çizgisi */
-  --plum:#4C2E48;          /* mürdüm: hizmet kartı, alıntı */
   --sea:#134F53;           /* deniz: hizmet kartı, uzmanlık şeridi */
   --ivory:#F3EEE6;         /* fildişi: sayfa zemini */
   --champagne:#E6DCCB;     /* şampanya: açık bölümler, kartlar, butonlar */
@@ -129,7 +128,7 @@ body.intro-run .nav__logo .logo{opacity:0}
 .menu.is-open{clip-path:circle(150% at calc(100% - 60px) 40px)}
 .menu a{font-family:var(--display);font-weight:900;font-stretch:115%;text-transform:uppercase;font-size:clamp(34px,9.5vw,72px);line-height:.95;letter-spacing:-.03em;display:block;border-bottom:1.5px solid var(--line);padding:10px 0}
 .menu a{transition:color .3s}
-.menu a:hover{color:var(--plum)}
+.menu a:hover{color:var(--sea)}
 .menu small{display:block;margin-top:24px;font-weight:600;color:var(--ink)}
 
 @media (max-width:960px){
@@ -190,7 +189,7 @@ body.intro-run .nav__logo .logo{opacity:0}
 .statement__text{font-family:var(--display);font-weight:800;font-stretch:105%;font-size:clamp(23px,3.3vw,54px);line-height:1.06;letter-spacing:-.03em;margin:0}
 .statement__text .w{opacity:.16;transition:opacity .35s}
 .statement__text .w.on{opacity:1}
-.statement__text em{font-style:normal;background:var(--plum);color:var(--accent);padding:0 .16em;border-radius:.18em}
+.statement__text em{font-style:normal;background:var(--sea);color:var(--accent);padding:0 .16em;border-radius:.18em}
 .statement__foot{display:flex;gap:16px;margin-top:48px;flex-wrap:wrap}
 @media (max-width:800px){.statement__grid{grid-template-columns:1fr}}
 
@@ -203,8 +202,9 @@ body.intro-run .nav__logo .logo{opacity:0}
 .card{position:sticky;top:calc(96px + var(--i) * 18px);min-height:min(78vh,640px);border-radius:var(--radius);padding:clamp(24px,3.4vw,52px);display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto 1fr auto;gap:24px 40px;margin-bottom:clamp(40px,8vh,90px);overflow:hidden;transform-origin:50% 0;will-change:transform}
 .card:nth-child(3n+1){background:var(--champagne);color:var(--onyx)}
 .card:nth-child(3n+2){background:var(--sea);color:var(--ivory)}
-.card:nth-child(3n+3){background:var(--plum);color:var(--ivory)}
-.card:nth-child(3n+2) .card__num,.card:nth-child(3n+3) .card__num,.card:nth-child(3n+2) .card__art,.card:nth-child(3n+3) .card__art{color:var(--gold)}
+.card:nth-child(3n+3){background:var(--antique);color:var(--onyx)}
+.card:nth-child(3n+2) .card__num,.card:nth-child(3n+2) .card__art{color:var(--gold)}
+.card:nth-child(3n+3) .card__num,.card:nth-child(3n+3) .card__art{color:var(--ivory)}
 .card:nth-child(3n+1) .card__num,.card:nth-child(3n+1) .card__art{color:var(--antique)}
 .card:nth-child(3n+1) .card__body p{color:var(--stone);opacity:1}
 .card__num{font-family:var(--display);font-weight:900;font-size:clamp(18px,1.6vw,24px);grid-column:1;grid-row:1}
@@ -268,7 +268,7 @@ body.intro-run .nav__logo .logo{opacity:0}
 .contact__lead{color:var(--stone);font-size:clamp(16px,1.2vw,18px);max-width:440px;margin:0 0 36px}
 .contact__direct{display:grid;gap:14px;border-top:2px solid var(--antique);padding-top:24px}
 .contact__direct a{overflow-wrap:anywhere;display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:var(--display);font-weight:800;font-size:clamp(16px,1.45vw,21px);letter-spacing:-.01em}
-.contact__direct a:hover{color:var(--plum)}
+.contact__direct a:hover{color:var(--sea)}
 .contact__direct a small{text-transform:uppercase;font-family:var(--body);font-weight:600;font-size:12px;letter-spacing:.12em;opacity:.6}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:26px 24px;background:var(--ink);color:var(--cream);border-radius:var(--radius);padding:clamp(24px,3.4vw,48px)}
 .field{display:flex;flex-direction:column;gap:8px;min-width:0}
@@ -885,19 +885,39 @@ const CONFIG = {
     });
   }
 
-  /* Hero: 3D particle torus-knot on canvas */
+  /* Hero: particles flow along a mirrored ("ters") 3D figure 4 */
   const cv = $(".hero__canvas"), ctx = cv.getContext("2d");
   let W, H, DPR, visible = true;
+  // One continuous stroke (screen coords, y down): crossbar → diagonal up → stem down
+  const PATH = [[-0.82, 0.36], [0.78, 0.36], [-0.34, -1.1], [-0.34, 1.12]];
+  const segs = [];
+  let total = 0;
+  for (let i = 0; i < PATH.length - 1; i++) {
+    const [x0, y0] = PATH[i], [x1, y1] = PATH[i + 1];
+    const len = Math.hypot(x1 - x0, y1 - y0);
+    segs.push({ x0, y0, dx: x1 - x0, dy: y1 - y0, nx: -(y1 - y0) / len, ny: (x1 - x0) / len, len, start: total });
+    total += len;
+  }
+  const along = f => {
+    const d = f * total;
+    let sg = segs[segs.length - 1];
+    for (const g of segs) if (d <= g.start + g.len) { sg = g; break; }
+    const k = (d - sg.start) / sg.len;
+    return [sg.x0 + sg.dx * k, sg.y0 + sg.dy * k, sg.nx, sg.ny];
+  };
+  const N = innerWidth < 700 ? 1500 : 3000;
   const pts = [];
-  const N = innerWidth < 700 ? 900 : 1800;
   for (let i = 0; i < N; i++) {
-    const t = (i / N) * Math.PI * 2 * 1, p = 2, q = 3;
-    const u = t;
-    const r = 1 + 0.42 * Math.cos(q * u);
-    // point on torus knot + random tube offset
-    const bx = r * Math.cos(p * u), by = r * Math.sin(p * u), bz = 0.42 * Math.sin(q * u);
-    const a = Math.random() * Math.PI * 2, rad = 0.12 + Math.random() * 0.06;
-    pts.push([bx + rad * Math.cos(a) * Math.cos(p * u), by + rad * Math.cos(a) * Math.sin(p * u), bz + rad * Math.sin(a)]);
+    const dust = Math.random() < 0.06;
+    const a = Math.random() * Math.PI * 2;
+    pts.push({
+      f: i / N,                                   // position along the stroke
+      a, r: 0.015 + Math.pow(Math.random(), 2) * 0.09,          // tube offset → extruded volume
+      spin: (Math.random() - .5) * 0.6,
+      dust, dx: (Math.random() - .5) * 3.2, dy: (Math.random() - .5) * 2.8, dz: (Math.random() - .5) * 1.6,
+      sx: (Math.random() - .5) * 6, sy: (Math.random() - .5) * 5, sz: (Math.random() - .5) * 4, // scattered start
+      lag: Math.random() * 0.35
+    });
   }
   const resize = () => {
     DPR = Math.min(devicePixelRatio || 1, 2);
@@ -906,34 +926,51 @@ const CONFIG = {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   };
   resize(); addEventListener("resize", resize);
-  let tx = 0, ty = 0, rx = 0, ry = 0, rot = 0;
-  addEventListener("mousemove", e => { tx = (e.clientY / innerHeight - .5) * 0.8; ty = (e.clientX / innerWidth - .5) * 0.8; }, { passive: true });
+  let tx = 0, ty = 0, rx = 0, ry = 0;
+  addEventListener("mousemove", e => { tx = (e.clientY / innerHeight - .5) * 0.6; ty = (e.clientX / innerWidth - .5) * 0.9; }, { passive: true });
   new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(cv);
-  const draw = () => {
+  const t0 = performance.now();
+  const ease = x => 1 - Math.pow(1 - x, 3);
+  const draw = now => {
     requestAnimationFrame(draw);
     if (!visible) return;
-    rot += reduce ? 0 : 0.0035;
+    const time = reduce ? 0 : (now - t0) / 1000;
+    const build = reduce ? 1 : Math.min(1, Math.max(0, (time - 1.7) / 2));
     rx += (tx - rx) * 0.05; ry += (ty - ry) * 0.05;
     ctx.clearRect(0, 0, W, H);
-    const s = Math.min(W, H) * (W < 700 ? 0.34 : 0.3);
-    const ox = W < 700 ? W * 0.5 : W * 0.68, oy = H * (W < 700 ? 0.34 : 0.42);
-    const ca = Math.cos(rot + ry), sa = Math.sin(rot + ry), cb = Math.cos(0.9 + rx), sb = Math.sin(0.9 + rx);
-    const sy = scrollY * 0.0015;
-    for (let i = 0; i < pts.length; i++) {
-      let [x, y, z] = pts[i];
-      let x1 = x * ca - z * sa, z1 = x * sa + z * ca;
-      let y1 = y * cb - z1 * sb, z2 = y * sb + z1 * cb;
+    const s = Math.min(W, H) * (W < 700 ? 0.26 : 0.3);
+    const ox = W < 700 ? W * 0.56 : W * 0.72, oy = H * (W < 700 ? 0.3 : 0.47);
+    const yaw = -0.22 + Math.sin(time * 0.35) * 0.32 + ry * 0.6, pitch = 0.08 + Math.sin(time * 0.23) * 0.06 + rx * 0.5;
+    const ca = Math.cos(yaw), sa = Math.sin(yaw), cb = Math.cos(pitch), sb = Math.sin(pitch);
+    const sy = scrollY * 0.0015, flow = time * 0.045;
+    for (let i = 0; i < N; i++) {
+      const p = pts[i];
+      let x, y, z;
+      if (p.dust) {
+        x = p.dx + Math.sin(time * 0.4 + p.a) * 0.08;
+        y = p.dy + Math.cos(time * 0.3 + p.a) * 0.08;
+        z = p.dz;
+      } else {
+        const [bx, by, nx, ny] = along((p.f + flow) % 1);
+        const ang = p.a + time * p.spin;
+        const off = p.r * Math.cos(ang);
+        x = bx + nx * off; y = by + ny * off; z = p.r * Math.sin(ang) * 2.2;
+      }
+      const k = ease(Math.min(1, Math.max(0, (build - p.lag) / (1 - p.lag))));
+      x = p.sx + (x - p.sx) * k; y = p.sy + (y - p.sy) * k; z = p.sz + (z - p.sz) * k;
+      const x1 = x * ca - z * sa, z1 = x * sa + z * ca;
+      const y1 = y * cb - z1 * sb, z2 = y * sb + z1 * cb;
       const persp = 3.2 / (3.2 + z2 + sy);
       const px = ox + x1 * s * persp, py = oy + y1 * s * persp;
-      const d = (z2 + 1.5) / 3;
-      ctx.globalAlpha = Math.max(0.12, 1 - d);
-      ctx.fillStyle = d < 0.45 ? "#FDC743" : "#E6DCCB";
-      const sz = Math.max(0.6, 2.4 * persp * (1.1 - d));
+      const d = (z2 + 1.2) / 2.4;
+      ctx.globalAlpha = Math.max(0.18, (p.dust ? 0.45 : 1) - d * 0.55) * (0.25 + 0.75 * k);
+      ctx.fillStyle = d < 0.5 ? "#FDC743" : "#E6DCCB";
+      const sz = Math.max(0.7, (p.dust ? 1.3 : 2) * persp * (1.2 - d * 0.5));
       ctx.fillRect(px, py, sz, sz);
     }
     ctx.globalAlpha = 1;
   };
-  draw();
+  requestAnimationFrame(draw);
 })();
 </script>
 </body>
