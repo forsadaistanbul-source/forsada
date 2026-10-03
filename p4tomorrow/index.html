@@ -131,7 +131,7 @@ body.intro-run .nav__logo .logo{opacity:0}
 .menu a:hover{color:var(--sea)}
 .menu small{display:block;margin-top:24px;font-weight:600;color:var(--ink)}
 
-@media (max-width:960px){
+@media (max-width:1180px){
   .nav__links,.nav .btn{display:none}
   .nav__toggle{display:inline-block}
 }
@@ -164,23 +164,25 @@ body.intro-run .nav__logo .logo{opacity:0}
 .reveal-up{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
 .is-ready .reveal-up{opacity:1;transform:none}
 
-/* ---------- Pillars ---------- */
-.pillars{background:var(--sea);color:var(--ivory);padding:clamp(48px,6vw,84px) 0}
+/* ---------- Work with us (pillars) ---------- */
+.pillars{background:var(--sea);color:var(--ivory);padding:clamp(56px,7vw,100px) 0}
 .pillars__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,3.4vw,44px)}
 .pillars__head .eyebrow{color:var(--gold)}
+.pillars__head h2{font-family:var(--display);font-weight:900;font-stretch:110%;text-transform:uppercase;font-size:clamp(26px,3vw,46px);line-height:1;letter-spacing:-.02em;margin:14px 0 0}
 .pillars__head p{margin:0;max-width:440px;color:rgba(243,238,230,.78)}
-.pillars__grid{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(243,238,230,.2)}
-.pillar{position:relative;display:flex;flex-direction:column;gap:14px;padding:26px clamp(14px,1.4vw,22px) 30px;border-right:1px solid rgba(243,238,230,.2);overflow:hidden;isolation:isolate;transition:color .45s var(--ease)}
+.pillars__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(243,238,230,.2)}
+.pillar{position:relative;display:flex;flex-direction:column;gap:16px;padding:30px clamp(16px,2vw,32px) 34px;border-right:1px solid rgba(243,238,230,.2);overflow:hidden;isolation:isolate;transition:color .45s var(--ease)}
 .pillar:last-child{border-right:0}
 .pillar::before{content:"";position:absolute;inset:0;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .55s var(--ease);z-index:-1}
-.pillar:hover{color:var(--night)}
+.pillar:hover{color:var(--onyx)}
 .pillar:hover::before{transform:none}
 .pillar__n{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.12em;color:var(--gold);transition:color .45s}
-.pillar:hover .pillar__n{color:var(--night)}
-.pillar__t{font-family:var(--display);font-weight:900;font-stretch:110%;text-transform:uppercase;font-size:clamp(18px,1.45vw,24px);line-height:1;letter-spacing:-.02em}
-.pillar__d{font-size:14px;line-height:1.45;opacity:.78}
-@media (max-width:1100px){.pillars__grid{grid-template-columns:repeat(3,1fr)}.pillar:nth-child(3n){border-right:0}.pillar{border-bottom:1px solid rgba(243,238,230,.2)}}
-@media (max-width:620px){.pillars__grid{grid-template-columns:1fr 1fr}.pillar:nth-child(3n){border-right:1px solid rgba(243,238,230,.2)}.pillar:nth-child(2n){border-right:0}}
+.pillar:hover .pillar__n{color:var(--onyx)}
+.pillar__t{font-family:var(--display);font-weight:900;font-stretch:110%;text-transform:uppercase;font-size:clamp(20px,1.8vw,30px);line-height:1;letter-spacing:-.02em}
+.pillar__d{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px;line-height:1.45;opacity:.85}
+.pillar__d li{padding-left:18px;position:relative}
+.pillar__d li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1.5px;background:currentColor;opacity:.7}
+@media (max-width:860px){.pillars__grid{grid-template-columns:minmax(0,1fr)}.pillar{border-right:0;border-bottom:1px solid rgba(243,238,230,.2)}}
 
 /* ---------- Statement ---------- */
 .statement{background:var(--champagne);color:var(--onyx);padding:clamp(120px,14vw,200px) 0 clamp(80px,10vw,140px);position:relative}
@@ -196,7 +198,8 @@ body.intro-run .nav__logo .logo{opacity:0}
 /* ---------- Services (stacking cards) ---------- */
 .services{padding:clamp(90px,12vw,160px) 0 40px;background:var(--ink)}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:clamp(40px,6vw,80px)}
-.section-head .display{font-size:clamp(42px,8.4vw,140px)}
+.section-head .display{font-size:clamp(26px,8.4vw,140px)}
+@media (max-width:700px){.section-head .display{font-size:8.2vw}}
 .section-head p{max-width:420px;margin:0;color:rgba(243,238,230,.72)}
 .stack{position:relative}
 .card{position:sticky;top:calc(96px + var(--i) * 18px);min-height:min(78vh,640px);border-radius:var(--radius);padding:clamp(24px,3.4vw,52px);display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto 1fr auto;gap:24px 40px;margin-bottom:clamp(40px,8vh,90px);overflow:hidden;transform-origin:50% 0;will-change:transform}
@@ -213,6 +216,9 @@ body.intro-run .nav__logo .logo{opacity:0}
 .card__body p{margin:0 0 20px;font-size:clamp(15px,1.15vw,17px);opacity:.85}
 .tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
 .tags li{border:1.5px solid currentColor;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600;letter-spacing:.01em;opacity:.9}
+.card__list{list-style:none;margin:0;padding:0;display:grid;gap:12px;font-size:clamp(15px,1.2vw,18px);line-height:1.45}
+.card__list li{padding:12px 0 0 26px;border-top:1px solid currentColor;border-top-color:color-mix(in srgb,currentColor 22%,transparent);position:relative}
+.card__list li::before{content:"✦";position:absolute;left:0;top:12px;font-size:.8em;opacity:.8}
 .card__art{grid-column:3;grid-row:2/4;align-self:end;width:clamp(120px,18vw,260px);aspect-ratio:1}
 .card__art svg{width:100%;height:100%;overflow:visible}
 .card:hover .card__art svg{animation:wobble 3s var(--ease) infinite}
@@ -238,7 +244,7 @@ body.intro-run .nav__logo .logo{opacity:0}
 .process{background:var(--cream);color:var(--onyx);position:relative}
 .process__pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:clamp(28px,5vh,56px)}
 .process__head{padding:0 var(--gutter);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(24px,4vh,48px)}
-.process__head .display{font-size:clamp(40px,7vw,112px)}
+.process__head .display{font-size:clamp(32px,5.2vw,88px)}
 .process__progress{width:min(280px,30vw);height:4px;background:var(--line);border-radius:4px;overflow:hidden}
 .process__progress i{display:block;height:100%;background:var(--antique);transform-origin:left;transform:scaleX(0)}
 .process__track{display:flex;gap:clamp(16px,2vw,28px);padding:0 var(--gutter);will-change:transform}
@@ -249,6 +255,7 @@ body.intro-run .nav__logo .logo{opacity:0}
 .step:nth-child(even) p{color:var(--stone);opacity:1}
 .step__n{font-family:var(--display);font-weight:900;font-stretch:125%;font-size:clamp(64px,8.6vw,140px);line-height:.8;letter-spacing:-.06em;opacity:.95}
 .step h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(22px,2.3vw,34px);line-height:.98;letter-spacing:-.02em;margin:0 0 12px}
+.step h3 small{display:block;font-size:.5em;letter-spacing:.06em;margin-top:8px;opacity:.75}
 .step p{margin:0;opacity:.8}
 .step--end{background:transparent!important;color:var(--onyx)!important;border:2px dashed var(--antique);justify-content:center;align-items:flex-start;gap:24px}
 .step--end h3{font-size:clamp(26px,3vw,44px)}
@@ -259,6 +266,42 @@ body.intro-run .nav__logo .logo{opacity:0}
   .step{width:100%;min-height:320px}
   .process__progress{display:none}
 }
+
+/* ---------- Principles & deliverables ---------- */
+.principles{background:var(--onyx);padding:clamp(90px,11vw,150px) 0}
+.principles .section-head p{color:rgba(243,238,230,.72)}
+.plist{list-style:none;margin:0;padding:0;border-top:1px solid rgba(243,238,230,.16)}
+.plist li{display:grid;grid-template-columns:70px minmax(0,1fr) minmax(0,1.4fr);gap:24px;align-items:baseline;padding:26px 0;border-bottom:1px solid rgba(243,238,230,.16);transition:padding .45s var(--ease)}
+.plist li:hover{padding-left:12px}
+.plist__n{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.12em;color:var(--gold)}
+.plist__t{font-family:var(--display);font-weight:900;font-stretch:110%;text-transform:uppercase;font-size:clamp(20px,1.9vw,30px);line-height:1.02;letter-spacing:-.02em}
+.plist__d{margin:0;color:rgba(243,238,230,.75)}
+.deliver{margin-top:clamp(70px,9vw,120px)}
+.deliver__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+.deliver__head h3{font-family:var(--display);font-weight:900;font-stretch:110%;text-transform:uppercase;font-size:clamp(30px,4vw,64px);line-height:.95;letter-spacing:-.03em;margin:14px 0 0}
+.deliver__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.pack{background:var(--champagne);color:var(--onyx);border-radius:22px;padding:26px 24px 28px;display:flex;flex-direction:column;gap:16px;transition:transform .5s var(--ease)}
+.pack:hover{transform:translateY(-6px)}
+.pack:nth-child(2){background:var(--sea);color:var(--ivory)}
+.pack:nth-child(3){background:var(--antique);color:var(--onyx)}
+.pack:nth-child(4){background:var(--ivory)}
+.pack__n{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.12em;opacity:.7}
+.pack h4{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(20px,1.7vw,26px);line-height:1;letter-spacing:-.02em;margin:0}
+.pack p{margin:0;font-size:15px;line-height:1.5;opacity:.85}
+.deliver__out{margin:clamp(36px,5vw,56px) 0 0;font-family:var(--display);font-weight:800;font-size:clamp(20px,2.3vw,36px);line-height:1.15;letter-spacing:-.02em;color:var(--gold);max-width:900px}
+@media (max-width:1000px){.deliver__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){.plist li{grid-template-columns:44px minmax(0,1fr);gap:10px 14px}.plist__d{grid-column:2}}
+@media (max-width:520px){.deliver__grid{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Language switch ---------- */
+.lang{display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:4px;border-radius:99px;background:rgba(21,18,15,.35)}
+.lang a{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.08em;padding:7px 10px;border-radius:99px;color:rgba(243,238,230,.7);transition:background .3s,color .3s}
+.lang a:hover{color:var(--ivory)}
+.lang a[aria-current="true"]{background:var(--gold);color:var(--onyx)}
+.menu .lang{background:rgba(21,18,15,.08);margin:28px 0 0}
+.menu .lang a{font-size:15px;padding:10px 16px;color:var(--stone);border:0;display:inline-block;line-height:1}
+.menu .lang a[aria-current="true"]{color:var(--onyx)}
+@media (max-width:400px){.nav__pill .lang{display:none}}
 
 /* ---------- Contact ---------- */
 .contact{background:var(--champagne);color:var(--onyx);padding:clamp(72px,8vw,120px) 0}
@@ -332,7 +375,7 @@ body.intro-run .nav__logo .logo{opacity:0}
 </style>
 </head>
 <body class="is-loading intro-run">
-<a class="skip" href="#hizmetler">İçeriğe geç</a>
+<a class="skip" href="#hizmetler" data-i18n="skip">İçeriğe geç</a>
 
 <div class="intro" aria-hidden="true">
   <div class="intro__panel intro__panel--top"></div>
@@ -340,7 +383,7 @@ body.intro-run .nav__logo .logo{opacity:0}
   <div class="intro__seam"></div>
   <div class="intro__stage">
     <div class="intro__mark"><div class="intro__logo logo"></div><span class="intro__scan"></span></div>
-    <p class="intro__tag">360° Danışmanlık Merkezi</p>
+    <p class="intro__tag" data-i18n="hub">360° Danışmanlık Merkezi</p>
   </div>
 </div>
 
@@ -349,86 +392,91 @@ body.intro-run .nav__logo .logo{opacity:0}
 
 <header class="nav">
   <div class="nav__pill">
-    <a class="nav__logo" href="#top" aria-label="P4Tomorrow ana sayfa"><span class="logo" aria-hidden="true"></span></a>
-    <nav class="nav__links" aria-label="Ana menü">
-      <a href="#hizmetler">Hizmetler</a>
-      <a href="#yaklasim">Yaklaşım</a>
-      <a href="#surec">Süreç</a>
-      <a href="#iletisim">İletişim</a>
+    <a class="nav__logo" href="#top" aria-label="P4Tomorrow"><span class="logo" aria-hidden="true"></span></a>
+    <nav class="nav__links" aria-label="Menu">
+      <a href="#hizmetler" data-i18n="nav.services">Hizmetler</a>
+      <a href="#hakkimizda" data-i18n="nav.about">Hakkımızda</a>
+      <a href="#surec" data-i18n="nav.how">Nasıl Çalışıyoruz</a>
+      <a href="#iletisim" data-i18n="nav.contact">İletişim</a>
     </nav>
+    <div class="lang" role="group" aria-label="Dil / Language"><a href="?lang=tr" data-lang="tr" hreflang="tr">TR</a><a href="?lang=en" data-lang="en" hreflang="en">EN</a></div>
   </div>
-  <a class="btn" href="#iletisim" data-magnetic>Görüşme planla <span class="btn__arrow">→</span></a>
+  <a class="btn" href="#iletisim" data-magnetic><span data-i18n="cta.meet">Hadi tanışalım</span> <span class="btn__arrow">→</span></a>
   <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu">Menü</button>
 </header>
 
 <div class="menu" id="menu" aria-hidden="true" inert>
-  <nav aria-label="Mobil menü">
-    <a href="#hizmetler">Hizmetler</a>
-    <a href="#yaklasim">Yaklaşım</a>
-    <a href="#surec">Süreç</a>
-    <a href="#iletisim">İletişim</a>
+  <nav aria-label="Menu">
+    <a href="#hizmetler" data-i18n="nav.services">Hizmetler</a>
+    <a href="#hakkimizda" data-i18n="nav.about">Hakkımızda</a>
+    <a href="#surec" data-i18n="nav.how">Nasıl Çalışıyoruz</a>
+    <a href="#iletisim" data-i18n="nav.contact">İletişim</a>
   </nav>
-  <small>360° danışmanlık merkezi · İstanbul</small>
+  <div class="lang" role="group" aria-label="Dil / Language"><a href="?lang=tr" data-lang="tr" hreflang="tr">Türkçe</a><a href="?lang=en" data-lang="en" hreflang="en">English</a></div>
+  <small data-i18n="menu.foot">360° danışmanlık merkezi · İstanbul</small>
 </div>
 
 <main id="top">
   <!-- HERO -->
-  <section class="hero" aria-label="Giriş">
+  <section class="hero">
     <canvas class="hero__canvas" aria-hidden="true"></canvas>
     <div class="hero__glow" aria-hidden="true"></div>
 
     <div class="badge" aria-hidden="true">
       <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
-        <text fill="#FDC743" font-family="Archivo" font-weight="800" font-size="17" letter-spacing="5"><textPath href="#circ">BÜYÜ · ÖLÇEKLEN · PERFORMANS · YARIN ·</textPath></text></svg>
+        <text fill="#FDC743" font-family="Archivo" font-weight="800" font-size="14" letter-spacing="3"><textPath href="#circ" textLength="486" lengthAdjust="spacing" data-i18n="badge">MARKALAŞMA · BÜYÜME · STRATEJİ · KREATİF ·</textPath></text></svg>
       <div class="badge__core">360°</div>
     </div>
 
     <div class="hero__inner">
       <div class="hero__meta">
-        <span class="eyebrow reveal-up" style="color:var(--accent);transition-delay:.5s">360° Danışmanlık Merkezi</span>
-        <p class="reveal-up" style="transition-delay:.6s">Şirketlerin büyümesine, ölçeklenmesine ve operasyonel performansını en üst düzeye çıkarmasına yardım ediyoruz. Stratejiden sahadaki uygulamaya kadar tek ekip, tek muhatap.</p>
+        <span class="eyebrow reveal-up" style="color:var(--accent);transition-delay:.5s" data-i18n="hero.eyebrow">Nedir bu P4Tomorrow?</span>
+        <p class="reveal-up" style="transition-delay:.6s" data-i18n="hero.lead">P4Tomorrow, şirketlerin büyümesine, ölçeklenmesine ve operasyonel performansını en üst düzeye çıkarmasına yardımcı olan 360° danışmanlık merkezidir.</p>
       </div>
       <h1 class="display hero__title">
-        <span class="line" data-split>Bugünden</span>
-        <span class="line line--accent" data-split>Yarına</span>
-        <span class="line line--outline" data-split>Büyüyün.</span>
+        <span class="line" data-split data-i18n="hero.l1">Yarını</span>
+        <span class="line line--accent" data-split data-i18n="hero.l2">Birlikte</span>
+        <span class="line line--outline" data-split data-i18n="hero.l3">Tasarlıyoruz.</span>
       </h1>
       <div class="hero__bottom">
         <div class="hero__ctas reveal-up" style="transition-delay:.9s">
-          <a class="btn" href="#iletisim" data-magnetic>Ücretsiz ön görüşme <span class="btn__arrow">→</span></a>
-          <a class="btn btn--ghost" href="#hizmetler" data-magnetic>Hizmetlerimiz</a>
+          <a class="btn" href="#iletisim" data-magnetic><span data-i18n="cta.appt">Randevu al</span> <span class="btn__arrow">→</span></a>
+          <a class="btn btn--ghost" href="#hizmetler" data-magnetic data-i18n="cta.services">Hizmetlerimiz</a>
         </div>
-        <a class="hero__scroll reveal-up" href="#yaklasim" style="transition-delay:1s"><span></span>Kaydır</a>
+        <a class="hero__scroll reveal-up" href="#calisalim" style="transition-delay:1s"><span></span><b data-i18n="hero.scroll" style="font-weight:inherit">Kaydır</b></a>
       </div>
     </div>
   </section>
 
-  <!-- PILLARS -->
-  <section class="pillars" aria-label="Uzmanlık alanları">
+  <!-- WORK WITH US -->
+  <section class="pillars" id="calisalim">
     <div class="wrap">
       <div class="pillars__head">
-        <span class="eyebrow" data-reveal>360° kapsam</span>
-        <p data-reveal>Altı uzmanlık alanı, tek bir yol haritası. Şirketinize her açıdan bakıyoruz.</p>
+        <div>
+          <span class="eyebrow" data-reveal data-i18n="work.eyebrow">Bizimle Çalışın</span>
+          <h2 data-reveal data-i18n="work.title">Yarın için planlarınızı birlikte oluşturalım.</h2>
+        </div>
+        <p data-reveal data-i18n="work.lead">Her projede üç yaklaşımı birlikte kullanıyoruz: veriyle ölçüyor, yenilikçi çözümlerle hızlanıyor, yaratıcılıkla farklılaşıyoruz.</p>
       </div>
       <div class="pillars__grid">
-        <a class="pillar" href="#hizmetler" data-reveal style="--d:0.00s"><span class="pillar__n">01</span><span class="pillar__t">Strateji</span><span class="pillar__d">Büyüme yol haritası ve iş modeli</span></a>
-        <a class="pillar" href="#hizmetler" data-reveal style="--d:0.06s"><span class="pillar__n">02</span><span class="pillar__t">Operasyon</span><span class="pillar__d">Süreç, verimlilik ve kalite</span></a>
-        <a class="pillar" href="#hizmetler" data-reveal style="--d:0.12s"><span class="pillar__n">03</span><span class="pillar__t">Finans</span><span class="pillar__d">Karlılık, bütçe ve yatırıma hazırlık</span></a>
-        <a class="pillar" href="#hizmetler" data-reveal style="--d:0.18s"><span class="pillar__n">04</span><span class="pillar__t">Dijital</span><span class="pillar__d">Otomasyon, veri ve teknoloji</span></a>
-        <a class="pillar" href="#hizmetler" data-reveal style="--d:0.24s"><span class="pillar__n">05</span><span class="pillar__t">İnsan</span><span class="pillar__d">Organizasyon, liderlik ve kültür</span></a>
-        <a class="pillar" href="#hizmetler" data-reveal style="--d:0.30s"><span class="pillar__n">06</span><span class="pillar__t">Marka</span><span class="pillar__d">Konumlandırma ve satış</span></a>
+        <div class="pillar" data-reveal><span class="pillar__n">01</span><span class="pillar__t" data-i18n="work.1.t">Veri Odaklı</span>
+          <ul class="pillar__d" data-i18n="work.1.l"><li>Ölçüm çerçevesi (North Star + KPI seti)</li><li>Dashboard &amp; canlı raporlar (GA4, Data Studio, CRM)</li><li>A/B testleri &amp; deney tasarımı</li><li>Segmentasyon &amp; kohort analizi</li></ul></div>
+        <div class="pillar" data-reveal style="--d:.08s"><span class="pillar__n">02</span><span class="pillar__t" data-i18n="work.2.t">İnovatif</span>
+          <ul class="pillar__d" data-i18n="work.2.l"><li>MVP → market fit hızlandırma</li><li>No-code/low-code çözümler</li><li>Yapay zekâ destekli otomasyonlar</li><li>Süreç inovasyonu ve ürünleşme</li></ul></div>
+        <div class="pillar" data-reveal style="--d:.16s"><span class="pillar__n">03</span><span class="pillar__t" data-i18n="work.3.t">Yaratıcı</span>
+          <ul class="pillar__d" data-i18n="work.3.l"><li>Marka hikâyesi &amp; dil kılavuzu</li><li>UI/UX ve içerik mimarisi</li><li>Farklılaşan değer önerileri</li><li>Kampanya fikirleri &amp; storytelling</li></ul></div>
       </div>
     </div>
   </section>
 
-  <!-- STATEMENT -->
-  <section class="statement" id="yaklasim">
+  <!-- ABOUT -->
+  <section class="statement" id="hakkimizda">
     <div class="wrap statement__grid">
-      <span class="eyebrow" data-reveal>Yaklaşımımız</span>
+      <span class="eyebrow" data-reveal data-i18n="about.eyebrow">Hakkımızda</span>
       <div>
-        <p class="statement__text" data-words>Büyüme tek bir departmanın işi değil. Strateji, operasyon, finans ve insan birlikte hareket etmediğinde en iyi plan bile kâğıtta kalır. Biz şirketinize <em>360°</em> bakıyor, darboğazları buluyor ve yarının şirketini bugünden birlikte kuruyoruz.</p>
+        <p class="statement__text" data-words data-i18n="about.text">Farklı disiplinlerde uzman danışmanları tek çatı altında buluşturan bir danışmanlık <em>HUB</em>’ıyız. Ölçülebilir sonuçlar, yaratıcı fikirler, yalın ve yüksek performanslı operasyonlar sunuyoruz. Veriyle başlar, iş sonucuyla biteriz.</p>
         <div class="statement__foot" data-reveal>
-          <a class="btn btn--dark" href="#hizmetler" data-magnetic>Nasıl çalışıyoruz <span class="btn__arrow">→</span></a>
+          <a class="btn btn--dark" href="#surec" data-magnetic><span data-i18n="about.btn">Nasıl çalışıyoruz</span> <span class="btn__arrow">→</span></a>
         </div>
       </div>
     </div>
@@ -438,96 +486,94 @@ body.intro-run .nav__logo .logo{opacity:0}
   <section class="services" id="hizmetler">
     <div class="wrap">
       <div class="section-head">
-        <h2 class="display" data-reveal>Hizmet<span style="color:var(--accent)">ler</span></h2>
-        <p data-reveal style="--d:.1s">Her şirketin ihtiyacı farklı. Hizmetlerimizi tek tek ya da uçtan uca bir dönüşüm programı olarak sunuyoruz.</p>
+        <h2 class="display" data-reveal data-i18n="services.title">Hizmet<span style="color:var(--accent)">lerimiz</span></h2>
+        <p data-reveal style="--d:.1s" data-i18n="services.lead">Markadan pazara, e-ticaretten operasyona; dört ana alanda uçtan uca destek.</p>
       </div>
 
       <div class="stack">
         <article class="card" style="--i:0" data-cursor="Keşfet">
           <span class="card__num">01</span>
-          <h3 class="display card__title">Strateji &amp; Büyüme</h3>
-          <div class="card__body">
-            <p>Pazarınızı, rakiplerinizi ve iç yetkinliklerinizi analiz ederek ölçülebilir hedeflere bağlı, uygulanabilir bir büyüme yol haritası çıkarıyoruz.</p>
-            <ul class="tags"><li>Büyüme stratejisi</li><li>Pazar analizi</li><li>İş modeli</li><li>Yeni pazarlara açılım</li></ul>
-          </div>
-          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M10 90 L40 55 L58 70 L90 20" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M68 20 H90 V42" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3 class="display card__title" data-i18n="s1.t">Marka Kimliği ve Stratejisi</h3>
+          <div class="card__body"><ul class="card__list" data-i18n="s1.l"><li>Marka konumlandırması, değer önerisi, farklılaşma</li><li>İsimlendirme, görsel/dil kimliği</li><li>Müşteri yolculuğu (CX), UX ilkeleri, içerik mimarisi</li></ul></div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 4l12 34h36L69 60l11 36-30-22-30 22 11-36L2 38h36z"/></svg></div>
         </article>
 
         <article class="card" style="--i:1" data-cursor="Keşfet">
           <span class="card__num">02</span>
-          <h3 class="display card__title">Operasyonel Mükemmellik</h3>
-          <div class="card__body">
-            <p>Süreçlerinizi uçtan uca haritalıyor, israfı ve darboğazları ortadan kaldırıyor; verimliliği ve kaliteyi kalıcı olarak artıran bir işletim modeli kuruyoruz.</p>
-            <ul class="tags"><li>Süreç iyileştirme</li><li>Yalın yönetim</li><li>Tedarik zinciri</li><li>KPI &amp; performans</li></ul>
-          </div>
-          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18" fill="none" stroke="currentColor" stroke-width="8"/><g stroke="currentColor" stroke-width="10" stroke-linecap="round"><path d="M50 8v12M50 80v12M8 50h12M80 50h12M20 20l8 8M72 72l8 8M20 80l8-8M72 28l8-8"/></g></svg></div>
+          <h3 class="display card__title" data-i18n="s2.t">Pazar Araştırması ve Analitiği</h3>
+          <div class="card__body"><ul class="card__list" data-i18n="s2.l"><li>Pazar büyüklüğü, segmentasyon, rekabet, fiyat</li><li>Müşteri içgörüleri (anket, mülakat, veri)</li><li>North Star &amp; KPI çerçevesi, dashboard tasarımı</li></ul></div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><rect x="10" y="60" width="18" height="30" rx="4"/><rect x="41" y="38" width="18" height="52" rx="4"/><rect x="72" y="12" width="18" height="78" rx="4"/></svg></div>
         </article>
 
         <article class="card" style="--i:2" data-cursor="Keşfet">
           <span class="card__num">03</span>
-          <h3 class="display card__title">Finans &amp; Yatırım</h3>
-          <div class="card__body">
-            <p>Karlılık analizi, bütçeleme ve nakit akışı yönetimiyle finansal kontrolü güçlendiriyor; şirketinizi yatırım ve ortaklık süreçlerine hazırlıyoruz.</p>
-            <ul class="tags"><li>Finansal planlama</li><li>Maliyet optimizasyonu</li><li>Yatırıma hazırlık</li><li>Raporlama</li></ul>
-          </div>
-          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><rect x="10" y="60" width="18" height="30" rx="4"/><rect x="41" y="38" width="18" height="52" rx="4"/><rect x="72" y="12" width="18" height="78" rx="4"/></svg></div>
+          <h3 class="display card__title" data-i18n="s3.t">E-ticaret ve Perakende Büyümesi</h3>
+          <div class="card__body"><ul class="card__list" data-i18n="s3.l"><li>Kanal stratejisi (perakende, e-ticaret, pazar yeri, B2B)</li><li>CRO, kampanya &amp; içerik takvimi</li><li>CRM, otomasyon ve kişiselleştirme</li></ul></div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M10 90 L40 55 L58 70 L90 20" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M68 20 H90 V42" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </article>
 
         <article class="card" style="--i:3" data-cursor="Keşfet">
           <span class="card__num">04</span>
-          <h3 class="display card__title">Dijital Dönüşüm</h3>
-          <div class="card__body">
-            <p>Doğru teknolojiyi doğru sürece yerleştiriyoruz: otomasyon, veri odaklı karar alma ve dijital kanallarla şirketinizi ölçeklenebilir hâle getiriyoruz.</p>
-            <ul class="tags"><li>Süreç otomasyonu</li><li>Veri &amp; analitik</li><li>ERP / CRM</li><li>Yapay zekâ uygulamaları</li></ul>
-          </div>
-          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="M34 30 L12 50 L34 70M66 30 L88 50 L66 70M56 20 L44 80"/></svg></div>
-        </article>
-
-        <article class="card" style="--i:4" data-cursor="Keşfet">
-          <span class="card__num">05</span>
-          <h3 class="display card__title">Organizasyon &amp; İnsan</h3>
-          <div class="card__body">
-            <p>Büyümeyi taşıyacak organizasyon yapısını, rolleri ve liderlik kültürünü tasarlıyor; ekiplerinizin değişimi sahiplenmesini sağlıyoruz.</p>
-            <ul class="tags"><li>Organizasyon tasarımı</li><li>Liderlik gelişimi</li><li>Değişim yönetimi</li><li>Yetenek stratejisi</li></ul>
-          </div>
-          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><circle cx="30" cy="34" r="14"/><circle cx="70" cy="34" r="14"/><path d="M4 90c0-16 12-28 26-28s26 12 26 28zM44 90c0-16 12-28 26-28s26 12 26 28z"/></svg></div>
-        </article>
-
-        <article class="card" style="--i:5" data-cursor="Keşfet">
-          <span class="card__num">06</span>
-          <h3 class="display card__title">Marka &amp; Pazarlama</h3>
-          <div class="card__body">
-            <p>Değerinizi açık ve güvenilir bir hikâyeye dönüştürüyor; konumlandırma, mesaj ve satış kanallarını büyüme hedeflerinize bağlıyoruz.</p>
-            <ul class="tags"><li>Konumlandırma</li><li>Marka stratejisi</li><li>Go-to-market</li><li>Satış süreçleri</li></ul>
-          </div>
-          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 4l12 34h36L69 60l11 36-30-22-30 22 11-36L2 38h36z"/></svg></div>
+          <h3 class="display card__title" data-i18n="s4.t">Operasyonel Verimlilik</h3>
+          <div class="card__body"><ul class="card__list" data-i18n="s4.l"><li>Süreç haritalama ve darboğaz analizi</li><li>Maliyet, tedarik ve stok optimizasyonu</li><li>Teknoloji seçimi, entegrasyon ve eğitim</li></ul></div>
+          <div class="card__art" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="18" fill="none" stroke="currentColor" stroke-width="8"/><g stroke="currentColor" stroke-width="10" stroke-linecap="round"><path d="M50 8v12M50 80v12M8 50h12M80 50h12M20 20l8 8M72 72l8 8M20 80l8-8M72 28l8-8"/></g></svg></div>
         </article>
       </div>
     </div>
 
     <div class="wrap numbers">
       <div class="numbers__grid">
-        <div class="num" data-reveal><div class="num__value"><span data-to="360">0</span>°</div><div class="num__label">Şirketinize tek bir açıdan değil, her açıdan bakan bütünsel danışmanlık.</div></div>
-        <div class="num" data-reveal style="--d:.1s"><div class="num__value" data-to="6">0</div><div class="num__label">Birbirini tamamlayan uzmanlık alanı, tek bir yol haritasında.</div></div>
-        <div class="num" data-reveal style="--d:.2s"><div class="num__value" data-to="1">0</div><div class="num__label">Muhatap. Stratejiden uygulamaya kadar aynı ekip yanınızda.</div></div>
+        <div class="num" data-reveal><div class="num__value"><span data-to="360">0</span>°</div><div class="num__label" data-i18n="num.1">Şirketinize tek bir açıdan değil, her açıdan bakan bütünsel danışmanlık.</div></div>
+        <div class="num" data-reveal style="--d:.1s"><div class="num__value" data-to="4">0</div><div class="num__label" data-i18n="num.2">Ana hizmet alanı: marka, pazar, e-ticaret ve operasyon.</div></div>
+        <div class="num" data-reveal style="--d:.2s"><div class="num__value" data-to="1">0</div><div class="num__label" data-i18n="num.3">Çatı: farklı disiplinlerden uzmanlar tek bir HUB’da.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- PROCESS -->
+  <!-- HOW WE WORK -->
   <section class="process" id="surec">
     <div class="process__pin">
       <div class="process__head">
-        <h2 class="display">Süreç</h2>
+        <h2 class="display" data-i18n="how.title">Nasıl Çalışıyoruz?</h2>
         <div class="process__progress" aria-hidden="true"><i></i></div>
       </div>
       <div class="process__track">
-        <div class="step"><div class="step__n">01</div><div><h3>Keşif</h3><p>Ekiplerinizle görüşüyor, verilerinizi inceliyor ve şirketin bugünkü resmini 360° çıkarıyoruz.</p></div></div>
-        <div class="step"><div class="step__n">02</div><div><h3>Teşhis</h3><p>Büyümeyi yavaşlatan darboğazları ve en hızlı değer yaratacak fırsatları önceliklendiriyoruz.</p></div></div>
-        <div class="step"><div class="step__n">03</div><div><h3>Yol Haritası</h3><p>Hedefleri, sorumluları ve ölçülebilir KPI'ları belli, uygulanabilir bir plan hazırlıyoruz.</p></div></div>
-        <div class="step"><div class="step__n">04</div><div><h3>Uygulama</h3><p>Planı sizinle birlikte sahaya taşıyor, ilk sonuçları hızlıca görünür kılıyoruz.</p></div></div>
-        <div class="step"><div class="step__n">05</div><div><h3>Ölçek &amp; Sürdür</h3><p>Sonuçları ölçüyor, işe yarayanı büyütüyor ve kazanımları kalıcı hâle getiriyoruz.</p></div></div>
-        <div class="step step--end"><h3>Sıradaki adım sizin.</h3><a class="btn btn--dark" href="#iletisim" data-magnetic>Hadi başlayalım <span class="btn__arrow">→</span></a></div>
+        <div class="step"><div class="step__n">01</div><div><h3 data-i18n="how.1.t">Keşif</h3><p data-i18n="how.1.d">Projeleri keşif oturumuyla açarız: hedeflerinizi, başarı ölçütlerinizi (North Star &amp; KPI), mevcut performansınızı, müşteri içgörülerini ve rekabet fotoğrafını netleştiririz.</p></div></div>
+        <div class="step"><div class="step__n">02</div><div><h3 data-i18n="how.2.t">Strateji Sprinti <small>2–4 hafta</small></h3><p data-i18n="how.2.d">Değer önerinizi ve konumlandırmanızı keskinleştirir, 90 gün / 6 ay yol haritasını çıkarırız. Ölçüm planı, test backlog’u ve kaynak planı bu aşamada netleşir.</p></div></div>
+        <div class="step"><div class="step__n">03</div><div><h3 data-i18n="how.3.t">Uygulama <small>MVP → Etki</small></h3><p data-i18n="how.3.d">MVP’leri, kampanyaları ve içerik/CRO aksiyonlarını hayata geçirir; CRM, otomasyon ve entegrasyonları devreye alırız. Amaç: en az kaynakla en hızlı iş etkisi.</p></div></div>
+        <div class="step"><div class="step__n">04</div><div><h3 data-i18n="how.4.t">Ölç &amp; Optimize Et <small>Sürekli döngü</small></h3><p data-i18n="how.4.d">GA4/CRM dashboard’ları, A/B testleri, kohort ve segment analizleriyle öğrenimi görünür kılar; dönüşüm oranı ve birim kârlılık gibi metrikleri düzenli olarak optimize ederiz.</p></div></div>
+        <div class="step step--end"><h3 data-i18n="how.end">Sıradaki adım sizin.</h3><a class="btn btn--dark" href="#iletisim" data-magnetic><span data-i18n="cta.meet">Hadi tanışalım</span> <span class="btn__arrow">→</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES & DELIVERABLES -->
+  <section class="principles" id="prensipler">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="display" data-reveal data-i18n="pr.title">Prensip<span style="color:var(--accent)">lerimiz</span></h2>
+        <p data-reveal style="--d:.1s" data-i18n="pr.lead">Ekiplerinizle omuz omuza, şeffaf ve hızlı öğrenen bir çalışma biçimi.</p>
+      </div>
+      <ol class="plist">
+        <li data-reveal><span class="plist__n">01</span><span class="plist__t" data-i18n="pr.1.t">Ortak Üretim</span><p class="plist__d" data-i18n="pr.1.d">Ekiplerinizle omuz omuza çalışırız; bilgi kurum içinde kalır, bağımlılık yaratmayız.</p></li>
+        <li data-reveal><span class="plist__n">02</span><span class="plist__t" data-i18n="pr.2.t">Şeffaflık</span><p class="plist__d" data-i18n="pr.2.d">Yol haritası, teslimatlar ve metrikler paylaşımlı panolarda her an görünürdür.</p></li>
+        <li data-reveal><span class="plist__n">03</span><span class="plist__t" data-i18n="pr.3.t">Hızlı Test – Hızlı Öğrenme</span><p class="plist__d" data-i18n="pr.3.d">Varsayımlar yerine deney; kısa döngüler, net hipotezler ve karar kapıları.</p></li>
+        <li data-reveal><span class="plist__n">04</span><span class="plist__t" data-i18n="pr.4.t">Kalıcı Kapasite</span><p class="plist__d" data-i18n="pr.4.d">Playbook’lar, eğitimler ve devretme (handover) ile iç yetkinliği güçlendiririz.</p></li>
+        <li data-reveal><span class="plist__n">05</span><span class="plist__t" data-i18n="pr.5.t">Öncelik = Etki × Kolaylık</span><p class="plist__d" data-i18n="pr.5.d">En yüksek iş etkisi ve uygulanabilirliği olan işleri öne alırız.</p></li>
+      </ol>
+
+      <div class="deliver">
+        <div class="deliver__head">
+          <div><span class="eyebrow" style="color:var(--accent)" data-reveal data-i18n="dl.eyebrow">Örnek teslimatlar</span>
+          <h3 data-reveal data-i18n="dl.title">Teslimatlar</h3></div>
+        </div>
+        <div class="deliver__grid">
+          <div class="pack" data-reveal><span class="pack__n">01</span><h4 data-i18n="dl.1.t">Strateji Paketi</h4><p data-i18n="dl.1.d">Değer önerisi, konumlandırma, mesaj haritası, 90 gün / 6 ay yol haritası</p></div>
+          <div class="pack" data-reveal style="--d:.06s"><span class="pack__n">02</span><h4 data-i18n="dl.2.t">Ölçüm Paketi</h4><p data-i18n="dl.2.d">KPI çerçevesi, olay/etiket şeması, dashboard tasarımları</p></div>
+          <div class="pack" data-reveal style="--d:.12s"><span class="pack__n">03</span><h4 data-i18n="dl.3.t">Büyüme Paketi</h4><p data-i18n="dl.3.d">CRO backlog’u, A/B test planı, kampanya &amp; içerik takvimi</p></div>
+          <div class="pack" data-reveal style="--d:.18s"><span class="pack__n">04</span><h4 data-i18n="dl.4.t">Operasyon Paketi</h4><p data-i18n="dl.4.d">Süreç haritaları, RACI/SLA/OKR, otomasyon akışları ve eğitim setleri</p></div>
+        </div>
+        <p class="deliver__out" data-reveal data-i18n="dl.out">Sonuç: veriyle yönlenen, hızlı öğrenen ve ölçülebilir iş çıktıları üreten bir büyüme sistemi.</p>
       </div>
     </div>
   </section>
@@ -536,66 +582,64 @@ body.intro-run .nav__logo .logo{opacity:0}
   <section class="contact" id="iletisim">
     <div class="wrap contact__grid">
       <div>
-        <span class="eyebrow" data-reveal>İletişim</span>
-        <h2 class="display" data-reveal>Yarını<br />birlikte<br />planlayalım</h2>
-        <p class="contact__lead" data-reveal>Hedeflerinizi ve önünüzdeki engelleri kısaca anlatın; ekibimiz en geç bir iş günü içinde size dönüş yapsın.</p>
+        <span class="eyebrow" data-reveal data-i18n="nav.contact">İletişim</span>
+        <h2 class="display" data-reveal data-i18n="ct.title">Hadi<br />tanışalım!</h2>
+        <p class="contact__lead" data-reveal data-i18n="ct.lead">Yarın için planlarınızı birlikte oluşturalım. Formu doldurun, ekibimiz size dönüş yapsın.</p>
         <div class="contact__direct" data-reveal>
-          <a data-contact="mail" href="#"><span data-contact-text="mail"></span><small>E-posta</small></a>
-          <a data-contact="phone" href="#"><span data-contact-text="phone"></span><small>Telefon</small></a>
+          <a data-contact="mail" href="#"><span data-contact-text="mail"></span><small data-i18n="f.email">E-posta</small></a>
+          <a data-contact="phone" href="#"><span data-contact-text="phone"></span><small data-i18n="f.phone">Telefon</small></a>
         </div>
       </div>
 
       <form class="form" id="contact-form" novalidate data-reveal style="--d:.1s">
-        <div class="field"><label for="f-first">Ad <b>*</b></label><input id="f-first" name="first_name" autocomplete="given-name" required /></div>
-        <div class="field"><label for="f-last">Soyad <b>*</b></label><input id="f-last" name="last_name" autocomplete="family-name" required /></div>
-        <div class="field"><label for="f-email">E-posta <b>*</b></label><input id="f-email" name="email" type="email" autocomplete="email" required /></div>
-        <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="telefon" type="tel" autocomplete="tel" /></div>
-        <div class="field"><label for="f-company">Şirket</label><input id="f-company" name="company" autocomplete="organization" /></div>
-        <div class="field"><label for="f-service">İlgilendiğiniz hizmet</label>
+        <div class="field"><label for="f-first"><span data-i18n="f.first">Ad</span> <b>*</b></label><input id="f-first" name="first_name" autocomplete="given-name" required /></div>
+        <div class="field"><label for="f-last"><span data-i18n="f.last">Soyad</span> <b>*</b></label><input id="f-last" name="last_name" autocomplete="family-name" required /></div>
+        <div class="field"><label for="f-email"><span data-i18n="f.email">E-posta</span> <b>*</b></label><input id="f-email" name="email" type="email" autocomplete="email" required /></div>
+        <div class="field"><label for="f-phone" data-i18n="f.phone">Telefon</label><input id="f-phone" name="telefon" type="tel" autocomplete="tel" /></div>
+        <div class="field"><label for="f-company" data-i18n="f.company">Şirket</label><input id="f-company" name="company" autocomplete="organization" /></div>
+        <div class="field"><label for="f-service" data-i18n="f.service">İlgilendiğiniz hizmet</label>
           <select id="f-service" name="hizmet">
-              <option value="">Seçiniz</option>
-              <option>Strateji &amp; Büyüme</option>
-              <option>Operasyonel Mükemmellik</option>
-              <option>Finans &amp; Yatırım</option>
-              <option>Dijital Dönüşüm</option>
-              <option>Organizasyon &amp; İnsan</option>
-              <option>Marka &amp; Pazarlama</option>
-              <option>Henüz emin değilim</option>
+              <option value="" data-i18n="f.pick">Seçiniz</option>
+              <option data-i18n="s1.t">Marka Kimliği ve Stratejisi</option>
+              <option data-i18n="s2.t">Pazar Araştırması ve Analitiği</option>
+              <option data-i18n="s3.t">E-ticaret ve Perakende Büyümesi</option>
+              <option data-i18n="s4.t">Operasyonel Verimlilik</option>
+              <option data-i18n="f.other">Diğer / Henüz emin değilim</option>
           </select></div>
-        <div class="field field--full"><label for="f-msg">Mesajınız <b>*</b></label><textarea id="f-msg" name="mesaj" rows="4" required></textarea></div>
-        <div class="hp" aria-hidden="true"><label>Web sitesi<input name="website" tabindex="-1" autocomplete="off" /></label></div>
-        <label class="consent"><input type="checkbox" name="kvkk" required /><span>Kişisel verilerimin bu talep kapsamında benimle iletişime geçilmesi amacıyla işlenmesini kabul ediyorum. <b style="color:var(--accent)">*</b></span></label>
+        <div class="field field--full"><label for="f-msg"><span data-i18n="f.msg">Mesajınız</span> <b>*</b></label><textarea id="f-msg" name="mesaj" rows="4" required></textarea></div>
+        <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <label class="consent"><input type="checkbox" name="kvkk" required /><span><span data-i18n="f.consent">Kişisel verilerimin bu talep kapsamında benimle iletişime geçilmesi amacıyla işlenmesini kabul ediyorum.</span> <b style="color:var(--accent)">*</b></span></label>
         <div class="form__foot">
           <p class="form__status" role="status" aria-live="polite"></p>
-          <button class="btn" type="submit" data-magnetic>Gönder <span class="btn__arrow">→</span></button>
+          <button class="btn" type="submit" data-magnetic><span data-i18n="f.send">Gönder</span> <span class="btn__arrow">→</span></button>
         </div>
       </form>
     </div>
   </section>
 </main>
 
-<!-- CTA / FOOTER -->
+<!-- FOOTER -->
 <footer class="cta">
   <div class="wrap">
     <div class="cta__kicker">
-      <span class="eyebrow" style="color:var(--accent)" data-reveal>Yarın bugün başlar</span>
-      <a class="btn" href="#iletisim" data-magnetic data-reveal>Görüşme planla <span class="btn__arrow">→</span></a>
+      <span class="eyebrow" style="color:var(--accent)" data-reveal data-i18n="ft.kicker">Yarın bugün başlar</span>
+      <a class="btn" href="#iletisim" data-magnetic data-reveal><span data-i18n="cta.appt">Randevu al</span> <span class="btn__arrow">→</span></a>
     </div>
     <a class="display cta__big" href="#top" data-split-static data-cursor="Başa">Plan for<br />Tomorrow</a>
 
     <div class="cta__row">
-      <div><h4>E-posta</h4><a data-contact="mail" href="#"></a></div>
-      <div><h4>Telefon</h4><a data-contact="phone" href="#"></a></div>
-      <div><h4>Ofis</h4><span data-contact="address"></span></div>
-      <div><h4>Sosyal</h4><a data-contact="linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a><a data-contact="instagram" href="#" target="_blank" rel="noopener">Instagram</a></div>
+      <div><h4 data-i18n="f.email">E-posta</h4><a data-contact="mail" href="#"></a></div>
+      <div><h4 data-i18n="f.phone">Telefon</h4><a data-contact="phone" href="#"></a></div>
+      <div><h4 data-i18n="ft.addr">Adres</h4><span data-contact="address"></span></div>
+      <div><h4 data-i18n="ft.social">Sosyal medya</h4><a data-contact="linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a></div>
     </div>
 
     <div class="legal">
       <span class="logo cta__logo" role="img" aria-label="P4Tomorrow"></span>
     </div>
     <div class="legal" style="margin-top:0">
-      <span>© <span data-year></span> P4Tomorrow. Tüm hakları saklıdır.</span>
-      <a class="totop" href="#top">Başa dön ↑</a>
+      <span>© <span data-year></span> P4Tomorrow. <span data-i18n="ft.rights">Tüm hakları saklıdır.</span></span>
+      <a class="totop" href="#top" data-i18n="ft.top">Başa dön ↑</a>
     </div>
   </div>
 </footer>
@@ -604,14 +648,107 @@ body.intro-run .nav__logo .logo{opacity:0}
 /* ===== Düzenlenecek iletişim bilgileri ===== */
 const CONFIG = {
   email: "info@p4tomorrow.com",
-  phone: "0850 242 94 04",
-  address: "İstanbul, Türkiye",        // TODO: açık adres
-  linkedin: "https://www.linkedin.com/",   // TODO: şirket LinkedIn sayfası
-  instagram: "https://www.instagram.com/", // TODO: şirket Instagram hesabı
+  phone: "+90 850 242 94 04",
+  address: { tr: "İstanbul, Türkiye", en: "Istanbul, Turkey" },
+  linkedin: "https://www.linkedin.com/company/p4tomorrow-plan-for-tomorrow/",
   // Wix Forms (headless site "P4Tomorrow — 360° Danışmanlık Merkezi")
   wixClientId: "b32acf04-f8e6-46c4-8892-6585b5f9f7c4",
   wixFormId: "4c467990-5626-4d12-bab5-b56df95075f6"
 };
+
+/* ===== İngilizce metinler (Türkçe metinler HTML içinde) ===== */
+const I18N_EN = {
+  "skip": "Skip to content",
+  "hub": "360° Consulting Hub",
+  "nav.services": "Services", "nav.about": "About", "nav.how": "How We Work", "nav.contact": "Contact",
+  "cta.meet": "Let's meet", "cta.appt": "Make an appointment", "cta.services": "Our services",
+  "menu.foot": "360° consulting hub · Istanbul",
+  "badge": "BRANDING · GROWTH · STRATEGY · CREATIVE ·",
+  "hero.eyebrow": "What is P4Tomorrow?",
+  "hero.lead": "P4Tomorrow is a 360° consulting hub helping companies grow, scale and maximise operational performance.",
+  "hero.l1": "Creating", "hero.l2": "Tomorrow", "hero.l3": "Together.",
+  "hero.scroll": "Scroll",
+  "work.eyebrow": "Work With Us",
+  "work.title": "Let's create your plans for tomorrow together.",
+  "work.lead": "Every project combines three approaches: we measure with data, accelerate with innovation and stand out through creativity.",
+  "work.1.t": "Data-Driven",
+  "work.1.l": "<li>Measurement framework (North Star + KPI set)</li><li>Dashboard &amp; live reports (GA4, Data Studio, CRM)</li><li>A/B testing &amp; experimental design</li><li>Segmentation &amp; cohort analysis</li>",
+  "work.2.t": "Innovative",
+  "work.2.l": "<li>MVP → market fit acceleration</li><li>No-code/low-code solutions</li><li>AI-powered automations</li><li>Process innovation and productization</li>",
+  "work.3.t": "Creative",
+  "work.3.l": "<li>Brand story &amp; brand guide</li><li>UI/UX and content architecture</li><li>Differentiating value propositions</li><li>Campaign ideas &amp; storytelling</li>",
+  "about.eyebrow": "About Us",
+  "about.text": "We unite multi-disciplinary experts under one <em>hub</em>. We advise measurable outcomes, bring creative ideas and build lean, high-performance operations. We start with data and finish with business outcomes.",
+  "about.btn": "How we work",
+  "services.title": "Serv<span style=\"color:var(--accent)\">ices</span>",
+  "services.lead": "From brand to market, e-commerce to operations: end-to-end support across four core areas.",
+  "s1.t": "Brand Identity and Strategy",
+  "s1.l": "<li>Brand positioning, value proposition, differentiation</li><li>Naming, visual and verbal identity</li><li>Customer journey (CX), UX principles, content architecture</li>",
+  "s2.t": "Market Research and Analytics",
+  "s2.l": "<li>Market size, segmentation, competition, pricing</li><li>Customer insights (survey, interview, data)</li><li>North Star &amp; KPI framework, dashboard design</li>",
+  "s3.t": "E-commerce and Retail Growth",
+  "s3.l": "<li>Channel strategy (retail, e-commerce, marketplace, B2B)</li><li>CRO, campaign &amp; content calendar</li><li>CRM, automation and personalization</li>",
+  "s4.t": "Operational Efficiency",
+  "s4.l": "<li>Process mapping and bottleneck analysis</li><li>Cost, supply and inventory optimization</li><li>Technology selection, integration and training</li>",
+  "num.1": "A holistic consultancy that looks at your company from every angle, not just one.",
+  "num.2": "Core service areas: brand, market, e-commerce and operations.",
+  "num.3": "Hub: multi-disciplinary experts under one roof.",
+  "how.title": "How We Work",
+  "how.1.t": "Discovery",
+  "how.1.d": "Every project begins with a discovery session: we clarify your goals, success metrics (North Star &amp; KPIs), current performance, customer insights and the competitive landscape.",
+  "how.2.t": "Strategy Sprint <small>2–4 weeks</small>",
+  "how.2.d": "We sharpen your value proposition and positioning and build a 90-day / 6-month roadmap, defining the measurement plan, testing backlog and resource plan.",
+  "how.3.t": "Execution <small>MVP → Impact</small>",
+  "how.3.d": "We launch MVPs, campaigns and content/CRO actions, and implement CRM, automation flows and integrations. The aim: maximum business impact with minimal friction.",
+  "how.4.t": "Measure &amp; Optimize <small>Continuous loop</small>",
+  "how.4.d": "Using GA4/CRM dashboards, A/B tests and cohort/segment analyses, we make learning visible and regularly optimize metrics such as conversion rate and unit profitability.",
+  "how.end": "The next step is yours.",
+  "pr.title": "Princi<span style=\"color:var(--accent)\">ples</span>",
+  "pr.lead": "Shoulder to shoulder with your teams: a transparent, fast-learning way of working.",
+  "pr.1.t": "Co-Creation", "pr.1.d": "We work shoulder-to-shoulder with your teams; knowledge stays in-house — no dependency.",
+  "pr.2.t": "Transparency", "pr.2.d": "Roadmaps, deliverables and metrics remain visible in shared workspaces at all times.",
+  "pr.3.t": "Test Fast – Learn Fast", "pr.3.d": "Experiments over assumptions; short cycles, clear hypotheses, decisive stage gates.",
+  "pr.4.t": "Enduring Capability", "pr.4.d": "We strengthen internal capacity through playbooks, training and structured handovers.",
+  "pr.5.t": "Priority = Impact × Ease", "pr.5.d": "We prioritize initiatives with the highest business impact and feasibility.",
+  "dl.eyebrow": "Sample deliverables", "dl.title": "Deliverables",
+  "dl.1.t": "Strategy Pack", "dl.1.d": "Value proposition, positioning, messaging map, 90-day / 6-month roadmap",
+  "dl.2.t": "Measurement Pack", "dl.2.d": "KPI framework, event/tag schema, dashboard designs",
+  "dl.3.t": "Growth Pack", "dl.3.d": "CRO backlog, A/B testing plan, campaign &amp; content calendar",
+  "dl.4.t": "Operations Pack", "dl.4.d": "Process maps, RACI/SLA/OKR, automation flows, training assets",
+  "dl.out": "Outcome: a data-guided, fast-learning growth system that delivers measurable business results.",
+  "ct.title": "Let's<br />meet!",
+  "ct.lead": "Let's create your plans for tomorrow together. Fill in the form and our team will get back to you.",
+  "f.first": "First name", "f.last": "Last name", "f.email": "Email", "f.phone": "Phone", "f.company": "Company",
+  "f.service": "Service of interest", "f.pick": "Select", "f.other": "Other / Not sure yet",
+  "f.msg": "Your message", "f.send": "Send",
+  "f.consent": "I consent to my personal data being processed to contact me about this request.",
+  "ft.kicker": "Tomorrow starts today", "ft.addr": "Address", "ft.social": "Social media",
+  "ft.rights": "All rights reserved.", "ft.top": "Back to top ↑"
+};
+const MSG = {
+  tr: { invalid: "Lütfen yıldızlı alanları doldurun ve onay kutusunu işaretleyin.", sending: "Gönderiliyor…",
+        ok: "Teşekkürler! Mesajınız bize ulaştı, en kısa sürede dönüş yapacağız.",
+        fail: (mail, phone) => 'Mesaj şu an gönderilemedi. Lütfen ' + mail + ' ya da ' + phone + ' numarasını arayın.', mailLink: "e-posta ile iletin",
+        subject: "Web sitesi iletişim formu", menu: "Menü", close: "Kapat", explore: "Keşfet", top: "Başa",
+        title: "P4Tomorrow — 360° Danışmanlık Merkezi",
+        desc: "P4Tomorrow, şirketlerin büyümesine, ölçeklenmesine ve operasyonel performansını en üst düzeye çıkarmasına yardımcı olan 360° danışmanlık merkezidir." },
+  en: { invalid: "Please fill in the starred fields and tick the consent box.", sending: "Sending…",
+        ok: "Thank you! Your message has reached us; we'll get back to you shortly.",
+        fail: (mail, phone) => "Your message couldn't be sent right now. Please " + mail + " or call " + phone + ".", mailLink: "send it by email",
+        subject: "Website contact form", menu: "Menu", close: "Close", explore: "Explore", top: "Top",
+        title: "P4Tomorrow — 360° Consulting Hub",
+        desc: "P4Tomorrow is a 360° consulting hub helping companies grow, scale and maximise operational performance." }
+};
+const LANG = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  let v = q;
+  if (!v) { try { v = localStorage.getItem("p4t_lang"); } catch (e) {} }
+  if (!v) v = (navigator.language || "tr").toLowerCase().startsWith("tr") ? "tr" : "en";
+  v = v === "en" ? "en" : "tr";
+  try { localStorage.setItem("p4t_lang", v); } catch (e) {}
+  return v;
+})();
+const T = MSG[LANG];
 
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -619,14 +756,32 @@ const CONFIG = {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  /* Language: apply English copy, wire the switcher */
+  document.documentElement.lang = LANG;
+  document.title = T.title;
+  const md = $('meta[name="description"]'); if (md) md.setAttribute("content", T.desc);
+  if (LANG === "en") $$("[data-i18n]").forEach(el => { const v = I18N_EN[el.dataset.i18n]; if (v != null) el.innerHTML = v; });
+  $$("[data-cursor]").forEach(el => { el.dataset.cursor = el.dataset.cursor === "Başa" ? T.top : T.explore; });
+  $$(".lang a").forEach(a => {
+    a.setAttribute("aria-current", a.dataset.lang === LANG ? "true" : "false");
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      if (a.dataset.lang === LANG) return;
+      try { localStorage.setItem("p4t_lang", a.dataset.lang); sessionStorage.setItem("p4t_skip_intro", "1"); } catch (err) {}
+      const u = new URL(location.href); u.searchParams.set("lang", a.dataset.lang);
+      location.replace(u.pathname + u.search + location.hash);
+    });
+  });
+  let skipIntro = false;
+  try { skipIntro = sessionStorage.getItem("p4t_skip_intro") === "1"; sessionStorage.removeItem("p4t_skip_intro"); } catch (e) {}
+
   /* Contact fill */
   $$("[data-contact]").forEach(el => {
     const k = el.dataset.contact;
     if (k === "mail") { el.href = "mailto:" + CONFIG.email; if (!el.textContent.trim()) el.textContent = CONFIG.email; }
-    if (k === "phone") { el.href = "tel:+90" + CONFIG.phone.replace(/\s/g, "").replace(/^0/, ""); if (!el.children.length) el.textContent = CONFIG.phone; }
-    if (k === "address") el.textContent = CONFIG.address;
+    if (k === "phone") { el.href = "tel:" + CONFIG.phone.replace(/\s/g, ""); if (!el.children.length) el.textContent = CONFIG.phone; }
+    if (k === "address") el.textContent = CONFIG.address[LANG];
     if (k === "linkedin") el.href = CONFIG.linkedin;
-    if (k === "instagram") el.href = CONFIG.instagram;
   });
   $$("[data-contact-text]").forEach(el => { el.textContent = el.dataset.contactText === "mail" ? CONFIG.email : CONFIG.phone; });
   $("[data-year]").textContent = new Date().getFullYear();
@@ -646,6 +801,16 @@ const CONFIG = {
     });
   };
   $$("[data-split]").forEach((el, li) => split(el, 0.035, 0.15 + li * 0.12));
+  /* Fit the hero title so its longest line never overflows (TR lines are longer) */
+  const heroTitle = $(".hero__title");
+  const fitHero = () => {
+    heroTitle.style.fontSize = "";
+    const avail = heroTitle.clientWidth;
+    const widest = Math.max(...$$(".line", heroTitle).map(l => l.scrollWidth));
+    if (widest > avail) heroTitle.style.fontSize = (parseFloat(getComputedStyle(heroTitle).fontSize) * avail / widest * 0.98) + "px";
+  };
+  fitHero(); addEventListener("resize", fitHero);
+  if (document.fonts) document.fonts.ready.then(fitHero);
   const big = $("[data-split-static]");
   if (big) {
     const words = ["Plan for", "Tomorrow"];
@@ -667,7 +832,7 @@ const CONFIG = {
     document.body.classList.remove("is-loading");
     requestAnimationFrame(() => document.body.classList.add("is-ready"));
   };
-  if (reduce) { intro.classList.add("is-gone"); document.body.classList.remove("intro-run"); ready(); }
+  if (reduce || skipIntro) { intro.classList.add("is-gone"); document.body.classList.remove("intro-run"); ready(); }
   else {
     const wait = ms => new Promise(r => setTimeout(r, ms));
     (async () => {
@@ -693,10 +858,11 @@ const CONFIG = {
   const setMenu = open => {
     menu.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", open);
-    toggle.textContent = open ? "Kapat" : "Menü";
+    toggle.textContent = open ? T.close : T.menu;
     menu.toggleAttribute("inert", !open);
     menu.setAttribute("aria-hidden", !open);
   };
+  toggle.textContent = T.menu;
   toggle.addEventListener("click", () => setMenu(!menu.classList.contains("is-open")));
   $$("#menu a").forEach(a => a.addEventListener("click", () => setMenu(false)));
   addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
@@ -824,7 +990,7 @@ const CONFIG = {
     if (form.website.value) return; // bot
     if (!form.checkValidity()) {
       form.reportValidity();
-      setStatus("Lütfen yıldızlı alanları doldurun ve onay kutusunu işaretleyin.", "is-err");
+      setStatus(T.invalid, "is-err");
       return;
     }
     const submissions = {};
@@ -834,7 +1000,7 @@ const CONFIG = {
     });
     const btn = $("button[type=submit]", form);
     btn.disabled = true;
-    setStatus("Gönderiliyor…");
+    setStatus(T.sending);
     try {
       const token = await wixToken();
       const r = await fetch("https://www.wixapis.com/form-submission-service/v4/submissions", {
@@ -844,10 +1010,10 @@ const CONFIG = {
       });
       if (!r.ok) throw new Error("submit " + r.status);
       form.reset();
-      setStatus("Teşekkürler! Mesajınız bize ulaştı, en kısa sürede dönüş yapacağız.", "is-ok");
+      setStatus(T.ok, "is-ok");
     } catch (err) {
       const body = encodeURIComponent(Object.entries(submissions).map(([k, v]) => k + ": " + v).join("\n"));
-      setStatus('Mesaj şu an gönderilemedi. Lütfen <a href="mailto:' + CONFIG.email + '?subject=' + encodeURIComponent("Web sitesi iletişim formu") + '&body=' + body + '">e-posta ile iletin</a> ya da ' + CONFIG.phone + ' numarasını arayın.', "is-err");
+      setStatus(T.fail('<a href="mailto:' + CONFIG.email + '?subject=' + encodeURIComponent(T.subject) + '&body=' + body + '">' + T.mailLink + '</a>', CONFIG.phone), "is-err");
     } finally {
       btn.disabled = false;
     }
